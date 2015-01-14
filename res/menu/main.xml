@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.ar.MainActivity" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    
+    <item android:id="@+id/switch_picture" android:title="@string/switch_picture"/>
+    
+    <item android:id="@+id/store_error" android:title="@string/store_error"/>
+    
+    <item android:id="@+id/show_rects" android:title="@string/show_rects"/>
+    
+    <item android:id="@+id/show_points" android:title="@string/show_points"/>
+
+</menu>
