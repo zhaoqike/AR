@@ -150,7 +150,7 @@ int PatternDetector::findKeyframe()
 {
 	return 0;
 }
-void PatternDetector::makeKeyFrame(const Mat& image, Rect& range, Size& oriSize, KeyFrame& keyframe)
+void PatternDetector::makeKeyFrame(const Mat& rangeImage, Rect& range, Size& oriSize, KeyFrame& keyframe)
 {
 
 
@@ -160,9 +160,10 @@ void PatternDetector::makeKeyFrame(const Mat& image, Rect& range, Size& oriSize,
 	float step = sqrtf(2.0f);
 
 	// Store original image in pattern structure
-	keyframe.size = Size(image.cols, image.rows);
-	keyframe.frame = image.clone();
-	getGray(image, keyframe.grayImg);
+	keyframe.size = Size(rangeImage.cols, rangeImage.rows);
+	keyframe.frame = rangeImage.clone();
+	keyframe.rect = range;
+	getGray(rangeImage, keyframe.grayImg);
 
 	// Build 2d and 3d contours (3d contour lie in XY plane since it's planar)
 	keyframe.points2d.resize(4);
@@ -211,10 +212,10 @@ void PatternDetector::makeKeyFrame(const Mat& image, Rect& range, Size& oriSize,
 	keyframe.center.y=(lth + lbh) / 2;
 	keyframe.center.z=0;
 
-	double scalew=(double)640/(double)keyframe.frame.cols;
-	double scaleh=(double)480/(double)keyframe.frame.rows;
+	double scalew=(double)screenWidth/(double)keyframe.frame.cols;
+	double scaleh=(double)screenHeight/(double)keyframe.frame.rows;
 	//double scale=(scalew+scaleh)/2;
-	double scale=getScale(keyframe.frame.cols,keyframe.frame.rows);
+	double scale = getWindowDivPictureScale(keyframe.frame.cols, keyframe.frame.rows);
 
 	//double scale = 1.0;
 
@@ -235,12 +236,39 @@ void PatternDetector::makeKeyFrame(const Mat& image, Rect& range, Size& oriSize,
 	}
 }
 
-double PatternDetector::getScale(int width,int height)
+double PatternDetector::getWindowDivPictureScale(int width, int height)
 {
-	double scalew=(double)640/(double)width;
-	double scaleh=(double)480/(double)height;
+	double scalew = (double)screenWidth / (double)width;
+	double scaleh = (double)screenHeight / (double)height;
 	double scale=(scalew+scaleh)/2;
 	return scale;
+}
+
+double PatternDetector::getPictureDivWindowScale(int width, int height)
+{
+	double scalew = (double)width / (double)screenWidth;
+	double scaleh = (double)height / (double)screenHeight;
+	double scale = (scalew + scaleh) / 2;
+	return scale;
+}
+
+int PatternDetector::getLayerNum(int width, int height)
+{
+	double scale = getPictureDivWindowScale(width, height);
+	/*int level = log(scale) / log(2);
+	return 2 * level;*/
+	int level = 1;
+	double dlevel = log(scale) / log(2);
+	if (dlevel < 1)
+	{
+		level = 1;
+	}
+	else
+	{
+		level = ceil(dlevel);
+	}
+	return 2 * level;
+
 }
 
 void PatternDetector::makeKeyFrame(const Mat& oriimage, Rect& range,KeyFrame& kf)
@@ -275,8 +303,11 @@ void PatternDetector::cutImage(Mat& image, int level, vector<Rect>& rectList)
 	}
 }
 
-void PatternDetector::makeKeyFrameList(const Mat& img, Layer& layer, int level)
+void PatternDetector::makeKeyFrameList(const Mat& img, Layer& layer, int lev)
 {
+	cout << "=====================================" << endl;
+	int level = lev;
+	cout << "layer: " << lev << " start" << endl;
 	Size oriSize = img.size();
 	int oriWidth = oriSize.width;
 	int oriHeight = oriSize.height;
@@ -296,10 +327,80 @@ void PatternDetector::makeKeyFrameList(const Mat& img, Layer& layer, int level)
 	int height = (double)oriSize.height / scale;
 	Size size(width, height);
 	int num = ceil(scale);
-	int startx = width / 2;
-	int endx = oriWidth - width / 2;
-	int starty = height / 2;
-	int endy = oriHeight - height / 2;
+	int startx = 0;
+	int endx = oriWidth - width;
+	int starty = 0;
+	int endy = oriHeight - height;
+
+	cout << "start end" << endl;
+	//cout << startx << "  " << endx << "  " << starty << "  " << endy << endl;
+	cout << "scale and num: " << scale << "  " << num << endl;
+	if (num == 1)
+	{
+		KeyFrame kf;
+		kf.rect = Rect(0, 0, oriWidth, oriHeight);
+		layer.keyframeList.push_back(kf);
+	}
+	else
+	{
+		vector<int> xList;
+		vector<int> yList;
+		double xRange = (double)(endx - startx) / (double)(num - 1);
+		double yRange = (double)(endy - starty) / (double)(num - 1);
+		cout << "range" << endl;
+		cout << xRange << "  " << yRange << endl;
+		for (int i = 0; i < num; i++)
+		{
+			xList.push_back(i*xRange);
+			yList.push_back(i*yRange);
+		}
+		/*for (int i = 0; i < num; i++)
+		{
+		cout << "list " << i << endl;
+		cout << xList[i] << "  " << yList[i] << endl;
+		}*/
+		for (int i = 0; i < num; i++)
+		{
+			for (int j = 0; j < num; j++)
+			{
+				KeyFrame kf;
+				kf.rect = Rect(xList[i], yList[j], width, height);
+				//cout << xList[i] - width / 2 << "  " << yList[j] - height / 2 << "  " << width << "  " << height << endl;
+				cout << kf.rect.x << "  " << kf.rect.y << "   " << kf.rect.x + kf.rect.width << "  " << kf.rect.y + kf.rect.height << endl;
+				if (kf.rect.x < 0)
+				{
+					cout << "layer: " << level << "  " << i << "  " << j << " xleft" << endl;
+					//cout << kf.rect.x << endl;
+					kf.rect.x = 0;
+				}
+				if (kf.rect.y < 0)
+				{
+					cout << "layer: " << level << "  " << i << "  " << j << " ytop" << endl;
+					//cout << kf.rect.y << endl;
+					kf.rect.y = 0;
+				}
+				if (kf.rect.x + kf.rect.width>oriWidth)
+				{
+					cout << "layer: " << level << "  " << i << "  " << j << " xright" << endl;
+					//cout << kf.rect.x + kf.rect.width << "  " << oriWidth << endl;
+					kf.rect.x -= kf.rect.x + kf.rect.width - oriWidth;
+				}
+				if (kf.rect.y + kf.rect.height > oriHeight)
+				{
+					cout << "layer: " << level << "  " << i << "  " << j << " ybottom" << endl;
+					//cout << kf.rect.y + kf.rect.height << "  " << oriHeight << endl;
+					kf.rect.y -= kf.rect.y + kf.rect.height - oriHeight;
+				}
+				layer.keyframeList.push_back(kf);
+			}
+		}
+	}
+	for (int i = 0; i < layer.keyframeList.size(); i++)
+	{
+		makeKeyFrame(img, layer.keyframeList[i].rect, layer.keyframeList[i]);
+	}
+	cout << "layer: " << lev << " end" << endl;
+	cout << "+++++++++++++++++++++++++++++++++++++++++" << endl;
 
 }
 void PatternDetector::makeKeyFrameList(const Mat& img, vector<KeyFrame>& keyFrameList)
@@ -339,7 +440,7 @@ void PatternDetector::makeKeyFrameList(const Mat& img, vector<KeyFrame>& keyFram
 		keyFrameList.push_back(kf);
 	}
 
-	double scale=getScale(img.cols,img.rows);
+	double scale=getPictureDivWindowScale(img.cols,img.rows);
 	int level=log(scale)/log(2);
 	vector<Rect> rectList1;
 	cutImage(ori,level,rectList1);
@@ -352,21 +453,98 @@ void PatternDetector::makeKeyFrameList(const Mat& img, vector<KeyFrame>& keyFram
 
 }
 
-void PatternDetector::makeLayerList()
+void PatternDetector::makeLayerList(const Mat& image, vector<Layer>& layerList, int layers)
 {
+	layerList.resize(layers);
+	for (int i = 0; i < layerList.size(); i++)
+	{
+		cout << "make layer list start: " << i << endl;
+		makeKeyFrameList(image, layerList[i], i);
+		cout << "make layer list end: " << i << endl;
+	}
+}
 
+void rectToVector(Rect& rect, vector<Point2f>& pointList)
+{
+	pointList.clear();
+	pointList.push_back(Point2f(rect.x, rect.y));
+	pointList.push_back(Point2f(rect.x, rect.y + rect.height));
+	pointList.push_back(Point2f(rect.x + rect.width, rect.y + rect.height));
+	pointList.push_back(Point2f(rect.x + rect.width, rect.y));
+}
+
+void draw2dContour(Mat& image, vector<Point2f>& points2d, Scalar color, int lineWidth)
+{
+	for (size_t i = 0; i < points2d.size(); i++)
+	{
+		line(image, points2d[i], points2d[(i + 1) % points2d.size()], color, lineWidth, CV_AA);
+	}
 }
 
 void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 {
 	if(isMultiScale)
 	{
+		/*int layerNum = getLayerNum(image.cols, image.rows);
+		makeLayerList(image, pattern.layerList, layerNum);
+
+		//to put all keyframes in a vector
+		pattern.keyframeList.clear();
+		for (int i = 0; i < pattern.layerList.size(); i++)
+		{
+			Layer& layer = pattern.layerList[i];
+			for (int j = 0; j < layer.keyframeList.size(); j++)
+			{
+				pattern.keyframeList.push_back(layer.keyframeList[j]);
+			}
+		}
+
+		for (int i = 0; i < pattern.layerList.size(); i++)
+		{
+			cout << "layer: " << i << " has " << pattern.layerList[i].keyframeList.size() << " keyframes";
+		}
+		cout << "all keyframe num is: " << pattern.keyframeList.size() << endl;
+
+
+		for (int i = 0; i < pattern.layerList.size(); i++)
+		{
+			Mat layerImg = image.clone();
+			//cout << "layer: " << i << endl;
+			Layer& layer = pattern.layerList[i];
+			for (int j = 0; j < layer.keyframeList.size(); j++)
+			{
+				//cout << "keyframe: " << j << endl;
+				KeyFrame& kf = layer.keyframeList[j];
+				vector<Point2f> pointList;
+				rectToVector(kf.rect, pointList);
+				//if (i == 4)
+					draw2dContour(layerImg, pointList, Scalar(200, 0, 0), 3);
+			}
+			string filename = "/sdcard/keyframes/contoursrect" + intToString(i) + ".jpg";
+			imwrite(filename, layerImg);
+
+			for (int j = 0; j < layer.keyframeList.size(); j++)
+			{
+				//cout << "keyframe: " << j << endl;
+				KeyFrame& kf = layer.keyframeList[j];
+				vector<Point2f> pointList=kf.points2d;
+				//if (i == 4)
+					draw2dContour(layerImg, pointList, Scalar(200, 0, 0), 3);
+			}
+			filename = "/sdcard/keyframes/contourspoint" + intToString(i) + ".jpg";
+			imwrite(filename, layerImg);
+		}*/
+
+
 		makeKeyFrameList(image,pattern.keyframeList);
 		pattern.keyframeIndex=0;
-		for (int i = 0; i < pattern.keyframeList.size(); i++)
+		for (int i = 0; i < pattern.layerList.size(); i++)
 		{
-			string filename = "/sdcard/keyframes/" + intToString(i) + ".jpg";
-			imwrite(filename, pattern.keyframeList[i].grayImg);
+			for (int j = 0; j < pattern.layerList[i].keyframeList.size(); j++)
+			{
+				string filename = "/sdcard/keyframes/" + intToString(i) + "__" + ".jpg";
+				imwrite(filename, pattern.layerList[i].keyframeList[j].grayImg);
+			}
 		}
 	}
 	//else
@@ -1680,18 +1858,21 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<int>& index
 			{
 				cout << "index size is 0, use original picture to match" << endl;
 				indexes.push_back(0);
+				cout << "after push" << endl;
 			}
-			int cols = m_pattern.descriptors.cols;
+			cout << "begin calc rows" << endl;
+			/*int cols = m_pattern.descriptors.cols;
 			int type = m_pattern.descriptors.type();
 			int rows = 0;
 			for (int i = 0; i < indexes.size(); i++)
 			{
 				rows += m_pattern.keyframeList[i].descriptors.rows;
-			}
+			}*/
 			cout<<"begin combine descriptors"<<endl;
 			Mat descriptors;
 			for(int i=0;i<indexes.size();i++)
 			{
+				cout << m_pattern.keyframeList.size() << "  " << indexes[i] << endl;
 				Mat& kfDescriptors = m_pattern.keyframeList[indexes[i]].descriptors;
 				cout<<"keyframe: "<<i<<endl;
 				cout<<kfDescriptors.size()<<endl;
@@ -1780,7 +1961,7 @@ bool PatternDetector::acceptTrackedPoint(int i) {
 }
 
 // handle the currently tracked points
-void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output) {
+/*void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output) {
 	cout<<"begin handle tracked points inner"<<endl;
 	// for all tracked points
 	for(int i= 0; i < points[1].size(); i++ ) {
@@ -1790,11 +1971,15 @@ void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output) {
 		//line(output, initial[i], points[1][i], Scalar(255,255,255));
 		circle(output, points[1][i], 3, Scalar(255,255,255),-1);
 	}
-}
+}*/
 
 // handle the currently tracked points
-void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output, Scalar& scalar) {
+void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output, Scalar scalar) {
 	cout<<"begin handle tracked points inner"<<endl;
+	if (isShowPoints == false)
+	{
+		return;
+	}
 	// for all tracked points
 	for(int i= 0; i < points[1].size(); i++ ) {
 		//cout<<"i: "<<i<<"  "<<points[0][i].x<<"  "<<points[0][i].y<<endl;

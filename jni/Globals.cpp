@@ -17,3 +17,6 @@ CameraCalibration calibration(526.58037684199849f, 524.65577209994706f, 318.4174
 
 Mesh *g_pMesh = NULL; // not necessary, but a nice CYA habit
 PMesh *g_pProgMesh = NULL;
+
+
+GLuint *gTexture = 0;

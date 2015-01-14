@@ -58,7 +58,8 @@ public:
   int width;
   int height;
 
-private:
+//private:
+public: 
   bool               m_isTextureInitialized;
   unsigned int       m_backgroundTextureId;
   CameraCalibration  m_calibration;

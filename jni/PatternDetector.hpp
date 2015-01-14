@@ -65,7 +65,9 @@ public:
 	int findKeyframe();
 
 
-	double getScale(int width,int height);
+	double getWindowDivPictureScale(int width, int height);
+	double getPictureDivWindowScale(int width, int height);
+	int getLayerNum(int width, int height);
 	void cutImage(Mat& image, int level, vector<Rect>& rectList);
 
 	/**
@@ -162,10 +164,10 @@ public:
 	// determine which tracked point should be accepted
 	bool acceptTrackedPoint(int i);
 	// handle the currently tracked points
-	void handleTrackedPoints( Mat &frame,  Mat &output);
-	void handleTrackedPoints( Mat &frame,  Mat &output, Scalar& scalar);
+	//void handleTrackedPoints( Mat &frame,  Mat &output);
+	void handleTrackedPoints( Mat &frame,  Mat &output, Scalar scalar=Scalar(255,0,0) );
 
-	void makeLayerList();
+	void makeLayerList(const Mat& image, vector<Layer>& layerList, int layers);
 
 
 

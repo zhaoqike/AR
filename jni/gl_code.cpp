@@ -50,6 +50,7 @@ using namespace std;
 #include "Timer.h"
 #include "Model/mesh.h"
 #include "Model/pmesh.h"
+#include "Globals.h"
 
 extern ARPipeline pipeline;
 extern ARDrawingContext drawingCtx;
@@ -68,7 +69,7 @@ extern PMesh *g_pProgMesh;
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 
 //初始化纹理数组
-GLuint *gTexture = 0;
+
 
 // 定义π
 const GLfloat PI = 3.1415f;
@@ -215,25 +216,25 @@ void resize(int width, int height)
 		height=1;
 	}
 
-	int xstart=(width-640)/2;
-	int ystart=(height-480)/2;
+	int xstart=(width-screenWidth)/2;
+	int ystart=(height-screenHeight)/2;
 	// 重置当前的视口
 	//glViewport(0, 0, width, height);
 	//glViewport(xstart, ystart, 640, 480);
 
 
 	//scale window to fit parent window
-	double scalew=(double)width/(double)640;
-	double scaleh=(double)height/(double)480;
+	double scalew=(double)width/(double)screenWidth;
+	double scaleh=(double)height/(double)screenHeight;
 	int dispw=width;
 	int disph=height;
 	if(scalew>scaleh)
 	{
-		dispw=(int)(scaleh*(double)640);
+		dispw=(int)(scaleh*(double)screenWidth);
 	}
 	else
 	{
-		disph=(int)(scalew*(double)480);
+		disph=(int)(scalew*(double)screenHeight);
 	}
 	int startx=(width-dispw)/2;
 	int starty=(height-disph)/2;
@@ -247,7 +248,7 @@ void resize(int width, int height)
 
 	// 设置视口的大小
 	//_gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
-	_gluPerspective(45.0f,(GLfloat)640/(GLfloat)480,0.1f,100.0f);
+	_gluPerspective(45.0f,(GLfloat)screenWidth/(GLfloat)screenHeight,0.1f,100.0f);
 
 	// 选择模型观察矩阵
 	glMatrixMode(GL_MODELVIEW);	

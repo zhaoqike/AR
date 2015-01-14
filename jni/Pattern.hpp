@@ -21,7 +21,7 @@ struct KeyFrame
 
 	vector<KeyPoint> keypoints;
 	Mat                   descriptors;
-
+	Rect rect;
 	vector<Point2f>  points2d;
 	vector<Point3f>  points3d;
 };
@@ -30,6 +30,18 @@ struct Layer
 {
 	int level;
 	vector<KeyFrame> keyframeList;
+};
+
+struct IndexInPattern
+{
+	int layerIndex;
+	int kfIndexInLayer;
+
+	IndexInPattern(int layerIdx, int kfIdxInLayer)
+	{
+		layerIndex = layerIdx;
+		kfIndexInLayer = kfIdxInLayer;
+	}
 };
 /**
  * Store the image data and computed descriptors of target pattern
@@ -49,6 +61,11 @@ struct Pattern
 	vector<KeyFrame> keyframeList;
 	vector<Layer> layerList;
 	int layerIndex;
+	int kfIndexInLayer;
+	
+	
+	
+	
 	int keyframeIndex;
 
 };

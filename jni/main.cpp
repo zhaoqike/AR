@@ -19,14 +19,16 @@
 #include "Model/pmesh.h"
 #include "Model/mesh.h"
 
+#include "Globals.h"
+
 
 using namespace std;
 using namespace cv;
 
 
 
-extern GLuint *gTexture;
-GLuint *gTexture = 0;
+//extern GLuint *gTexture;
+//GLuint *gTexture = 0;
 
 extern PMesh *g_pProgMesh;
 
@@ -74,6 +76,7 @@ void processSingleImage(Mat& patternImage, CameraCalibration& calibration, Mat& 
  * Returns true if processing loop should be stopped; otherwise - false.
  */
 bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx);
+bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx);
 
 int main(int argc, const char * argv[])
 {
@@ -216,12 +219,19 @@ void processSingleImage(Mat& patternImage, CameraCalibration& calibration, Mat& 
 	//ARDrawingContext drawingCtx("Markerless AR", frameSize, calibration);
     pipeline.init(patternImage, calibration);
     drawingCtx.init("Markerless AR", frameSize, calibration);
+	/*do
+	{
+		drawingCtx.updateBackground(patternImage);
+		drawingCtx.updateWindow();
+		// Read the keyboard input:
+		int keyCode = waitKey(5);
+	} while (true);*/
 
     bool shouldQuit = false;
     do
     {
-        shouldQuit = processFrame(image, pipeline, drawingCtx);
-    } while (!shouldQuit);
+        shouldQuit = processFramefuck(image, pipeline, drawingCtx);
+    } while (true);
 }
 
 bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
@@ -235,6 +245,9 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
     putText(img, "RANSAC threshold: " + ToString(pipeline.m_patternDetector.homographyReprojectionThreshold) + "( Use'-'/'+' to adjust)", Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0,200,0));
 
     // Set a new camera frame:
+	/*cout << "win1" << endl;
+	imshow("win", img);
+	waitKey(0);*/
     cout<<"begin update background"<<endl;
     drawingCtx.updateBackground(img);
 	//imshow("image",img);
@@ -249,6 +262,9 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
     // Request redraw of the window:
     drawingCtx.updateWindow();
 	cout << "end update window" << endl;
+	/*cout << "win3" << endl;
+	imshow("win3", drawingCtx.m_backgroundImage);
+	waitKey(0);*/
 
     // Read the keyboard input:
     int keyCode = waitKey(5);
@@ -275,6 +291,28 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
     }*/
 
     return shouldQuit;
+}
+
+bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
+{
+	// Clone image used for background (we will draw overlay on it)
+	cout << "begin clone" << endl;
+	Mat img = cameraFrame.clone();
+
+	drawingCtx.updateBackground(img);
+	Mat processImage = cameraFrame.clone();
+	//cvtColor(processImage, processImage, CV_BGR2GRAY);
+	pipeline.processFrame(processImage);
+	drawingCtx.isPatternPresent = true;
+	drawingCtx.updateWindow();
+
+
+	// Read the keyboard input:
+	int keyCode = waitKey(5);
+
+	bool shouldQuit = true;
+
+	return shouldQuit;
 }
 
 
