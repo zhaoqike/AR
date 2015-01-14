@@ -1,0 +1,8151 @@
+main begin process
+scalew scaleh scale: 1.06667  0.842105  0.954386
+detect time: 17.7536
+keypoints size: 8651
+retain best: 0.872031
+descriptor size: [32 x 151]
+scalew scaleh scale: 2.13333  1.68421  1.90877
+detect time: 9.17477
+keypoints size: 3165
+retain best: 0.499037
+descriptor size: [32 x 182]
+scalew scaleh scale: 2.13333  1.68421  1.90877
+detect time: 9.37682
+keypoints size: 3323
+retain best: 0.44259
+descriptor size: [32 x 176]
+scalew scaleh scale: 2.13333  1.68421  1.90877
+detect time: 11.8938
+keypoints size: 3967
+retain best: 0.434572
+descriptor size: [32 x 193]
+scalew scaleh scale: 2.13333  1.68421  1.90877
+detect time: 15.9535
+keypoints size: 6041
+retain best: 0.513148
+descriptor size: [32 x 186]
+rect list : 1
+0  0  600  570
+detect time: 20.0189
+keypoints size: 11042
+retain best: 1.09365
+descriptor size: [32 x 154]
+begin clone
+begin update background
+update background
+get gray: 0.674149
+0
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.3797
+keypoints size: 7820
+retain best: 0.765553
+descriptor size: [32 x 207]
+extract: 34.8899
+begin get matches
+begin match keyframes
+detect time: 15.7597
+keypoints size: 7820
+retain best: 0.791531
+descriptor size: [32 x 207]
+begin match
+begin match keyframe: 0
+after get match : 100
+begin refine matches with homography
+begin matches size: 100
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 18.7479
+matches size: 44
+end refine matches with homography
+after homography: 44
+homography: 18.8678
+1440begin match keyframe: 1
+after get match : 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.652
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 154.86
+061begin match keyframe: 2
+after get match : 68
+begin refine matches with homography
+begin matches size: 68
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.906
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.013
+062begin match keyframe: 3
+after get match : 97
+begin refine matches with homography
+begin matches size: 97
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.027
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.134
+063begin match keyframe: 4
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 161.043
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 161.151
+064calc match time: 654.646
+match count; 5
+ss: match condition: 1  44  0  6  0  6  0  6  0  6  
+before sort match5
+1  44  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+1  44  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 1
+0  
+matchIdxes size: 1
+0  
+estiIdxes size: 0
+
+end match keyframes
+0
+get indexes
+indexes size: 1
+0
+match indeses size: 1
+0
+esti indexes size: 0
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 100
+begin refine matches with homography
+begin matches size: 100
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 18.1722
+matches size: 44
+end refine matches with homography
+homography found is: 1  44
+homography: 18.2703
+matches size: 44
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 1
+find pattern uses : 746.742
+begin clone
+begin update background
+update background
+get gray: 0.942269
+207
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.7338
+keypoints size: 7744
+retain best: 0.676073
+descriptor size: [32 x 200]
+extract: 33.4986
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+33542
+-132440  -98898
+-243450  -342348
+29645  -312703
+finally area1
+156352
+156352
+after1
+begin calc area
+-33542
+-29645  -63187
+243450  180263
+132440  312703
+finally area1
+156352
+156352
+ori2
+begin area
+63888
+-133992
+-331752
+-312703
+finally area2
+156352
+156351
+after2
+begin area
+-19049
+178711
+376591
+312703
+finally area2
+156352
+156351
+begin calc area
+33542
+-132440  -98898
+-243450  -342348
+29645  -312703
+finally area1
+156352
+begin calc area
+-33294
+-29645  -62939
+241650  178711
+196080  374791
+-62530  312261
+finally area1
+156131
+keyframe 0
+156352
+inter area
+156131
+alpha
+1.32386
+ori1
+begin calc area
+14632
+-21420  -6788
+-44368  -51156
+8694  -42462
+finally area1
+21231
+21231
+after1
+begin calc area
+-14632
+-8694  -23326
+44368  21042
+21420  42462
+finally area1
+21231
+21231
+ori2
+begin area
+24506
+-7308
+-51273
+-42462
+finally area2
+21231
+21231
+after2
+begin area
+-8811
+35154
+66968
+42462
+finally area2
+21231
+21231
+begin calc area
+14632
+-21420  -6788
+-44368  -51156
+8694  -42462
+finally area1
+21231
+begin calc area
+-14632
+-8694  -23326
+44368  21042
+21420  42462
+finally area1
+21231
+keyframe 1
+21231
+inter area
+21231
+alpha
+1.04423
+ori1
+begin calc area
+15594
+-37788  -22194
+-47686  -69880
+15477  -54403
+finally area1
+27201.5
+27201.5
+after1
+begin calc area
+-15594
+-15477  -31071
+47686  16615
+37788  54403
+finally area1
+27201.5
+27201.5
+ori2
+begin area
+43965
+6374
+-64660
+-54403
+finally area2
+27201.5
+27201
+after2
+begin area
+-10257
+60777
+98368
+54403
+finally area2
+27201.5
+27201
+begin calc area
+15594
+-37788  -22194
+-47686  -69880
+15477  -54403
+finally area1
+27201.5
+begin calc area
+-15594
+-15477  -31071
+47686  16615
+37788  54403
+finally area1
+27201.5
+keyframe 2
+27201.5
+inter area
+27201.5
+alpha
+1.05667
+ori1
+begin calc area
+53550
+-46440  7110
+-122850  -115740
+25380  -90360
+finally area1
+45180
+45180
+after1
+begin calc area
+-53550
+-25380  -78930
+122850  43920
+46440  90360
+finally area1
+45180
+45180
+ori2
+begin area
+39208
+-47320
+-122174
+-90360
+finally area2
+45180
+45180
+after2
+begin area
+-31814
+43040
+129568
+90360
+finally area2
+45180
+45180
+begin calc area
+53550
+-46440  7110
+-122850  -115740
+25380  -90360
+finally area1
+45180
+begin calc area
+-52870
+-25380  -78250
+121290  43040
+84968  128008
+-37856  90152
+finally area1
+45076
+keyframe 3
+45180
+inter area
+45076
+alpha
+1.09161
+ori1
+begin calc area
+56776
+-101010  -44234
+-135900  -180134
+54649  -125485
+finally area1
+62742.5
+62742.5
+after1
+begin calc area
+-56776
+-54649  -111425
+135900  24475
+101010  125485
+finally area1
+62742.5
+62742.5
+ori2
+begin area
+74854
+-36296
+-163076
+-125485
+finally area2
+62742.5
+62742
+after2
+begin area
+-37591
+89189
+200339
+125485
+finally area2
+62742.5
+62742
+begin calc area
+56776
+-101010  -44234
+-135900  -180134
+54649  -125485
+finally area1
+62742.5
+begin calc area
+-56776
+-54649  -111425
+135900  24475
+101010  125485
+finally area1
+62742.5
+keyframe 4
+62742.5
+inter area
+62742.5
+alpha
+1.13071
+calc poly time: 2.3576
+before sort esti
+1.32386  0
+1.04423  1
+1.05667  2
+1.09161  3
+1.13071  4
+after sort esti1.32386  0
+1.13071  4
+1.09161  3
+1.05667  2
+1.04423  1
+esti sort duration0.119628
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+3
+match indeses size: 0
+esti indexes size: 3
+0
+4
+3
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 193]
+end combine descriptors
+[32 x 530]
+end matches with indexes
+end get matches: 156
+begin refine matches with homography
+begin matches size: 156
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.452
+matches size: 7
+end refine matches with homography
+homography found is: 0  7
+homography: 158.578
+matches size: 7
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 198.521
+begin clone
+begin update background
+update background
+get gray: 0.632776
+200
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.4913
+keypoints size: 7748
+retain best: 0.806284
+descriptor size: [32 x 200]
+extract: 33.8274
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+33542
+-132440  -98898
+-243450  -342348
+29645  -312703
+finally area1
+156352
+156352
+after1
+begin calc area
+-33542
+-29645  -63187
+243450  180263
+132440  312703
+finally area1
+156352
+156352
+ori2
+begin area
+63888
+-133992
+-331752
+-312703
+finally area2
+156352
+156351
+after2
+begin area
+-19049
+178711
+376591
+312703
+finally area2
+156352
+156351
+begin calc area
+33542
+-132440  -98898
+-243450  -342348
+29645  -312703
+finally area1
+156352
+begin calc area
+-33294
+-29645  -62939
+241650  178711
+196080  374791
+-62530  312261
+finally area1
+156131
+keyframe 0
+156352
+inter area
+156131
+alpha
+1.32386
+ori1
+begin calc area
+14632
+-21420  -6788
+-44368  -51156
+8694  -42462
+finally area1
+21231
+21231
+after1
+begin calc area
+-14632
+-8694  -23326
+44368  21042
+21420  42462
+finally area1
+21231
+21231
+ori2
+begin area
+24506
+-7308
+-51273
+-42462
+finally area2
+21231
+21231
+after2
+begin area
+-8811
+35154
+66968
+42462
+finally area2
+21231
+21231
+begin calc area
+14632
+-21420  -6788
+-44368  -51156
+8694  -42462
+finally area1
+21231
+begin calc area
+-14632
+-8694  -23326
+44368  21042
+21420  42462
+finally area1
+21231
+keyframe 1
+21231
+inter area
+21231
+alpha
+1.04423
+ori1
+begin calc area
+15594
+-37788  -22194
+-47686  -69880
+15477  -54403
+finally area1
+27201.5
+27201.5
+after1
+begin calc area
+-15594
+-15477  -31071
+47686  16615
+37788  54403
+finally area1
+27201.5
+27201.5
+ori2
+begin area
+43965
+6374
+-64660
+-54403
+finally area2
+27201.5
+27201
+after2
+begin area
+-10257
+60777
+98368
+54403
+finally area2
+27201.5
+27201
+begin calc area
+15594
+-37788  -22194
+-47686  -69880
+15477  -54403
+finally area1
+27201.5
+begin calc area
+-15594
+-15477  -31071
+47686  16615
+37788  54403
+finally area1
+27201.5
+keyframe 2
+27201.5
+inter area
+27201.5
+alpha
+1.05667
+ori1
+begin calc area
+53550
+-46440  7110
+-122850  -115740
+25380  -90360
+finally area1
+45180
+45180
+after1
+begin calc area
+-53550
+-25380  -78930
+122850  43920
+46440  90360
+finally area1
+45180
+45180
+ori2
+begin area
+39208
+-47320
+-122174
+-90360
+finally area2
+45180
+45180
+after2
+begin area
+-31814
+43040
+129568
+90360
+finally area2
+45180
+45180
+begin calc area
+53550
+-46440  7110
+-122850  -115740
+25380  -90360
+finally area1
+45180
+begin calc area
+-52870
+-25380  -78250
+121290  43040
+84968  128008
+-37856  90152
+finally area1
+45076
+keyframe 3
+45180
+inter area
+45076
+alpha
+1.09161
+ori1
+begin calc area
+56776
+-101010  -44234
+-135900  -180134
+54649  -125485
+finally area1
+62742.5
+62742.5
+after1
+begin calc area
+-56776
+-54649  -111425
+135900  24475
+101010  125485
+finally area1
+62742.5
+62742.5
+ori2
+begin area
+74854
+-36296
+-163076
+-125485
+finally area2
+62742.5
+62742
+after2
+begin area
+-37591
+89189
+200339
+125485
+finally area2
+62742.5
+62742
+begin calc area
+56776
+-101010  -44234
+-135900  -180134
+54649  -125485
+finally area1
+62742.5
+begin calc area
+-56776
+-54649  -111425
+135900  24475
+101010  125485
+finally area1
+62742.5
+keyframe 4
+62742.5
+inter area
+62742.5
+alpha
+1.13071
+calc poly time: 2.33643
+before sort esti
+1.32386  0
+1.04423  1
+1.05667  2
+1.09161  3
+1.13071  4
+after sort esti1.32386  0
+1.13071  4
+1.09161  3
+1.05667  2
+1.04423  1
+esti sort duration0.121231
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+3
+match indeses size: 0
+esti indexes size: 3
+0
+4
+3
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 193]
+end combine descriptors
+[32 x 530]
+end matches with indexes
+end get matches: 157
+begin refine matches with homography
+begin matches size: 157
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.287
+matches size: 11
+end refine matches with homography
+homography found is: 1  11
+homography: 158.406
+matches size: 11
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 1
+find pattern uses : 200.105
+begin clone
+begin update background
+update background
+get gray: 0.65683
+200
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.7973
+keypoints size: 7929
+retain best: 0.98781
+descriptor size: [32 x 200]
+extract: 34.3194
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+42312
+-130592  -88280
+-231168  -319448
+21518  -297930
+finally area1
+148965
+148965
+after1
+begin calc area
+-21518
+231168  209650
+130592  340242
+-42312  297930
+finally area1
+148965
+148965
+ori2
+begin area
+67226
+-114854
+-332110
+-297930
+finally area2
+148965
+148965
+after2
+begin area
+217256
+399336
+332110
+297930
+finally area2
+148965
+148965
+begin calc area
+42312
+-130592  -88280
+-231168  -319448
+21518  -297930
+finally area1
+148965
+begin calc area
+-21518
+231168  209650
+130592  340242
+-42312  297930
+finally area1
+148965
+keyframe 0
+148965
+inter area
+148965
+alpha
+1.31034
+ori1
+begin calc area
+18040
+-22080  -4040
+-43120  -47160
+8280  -38880
+finally area1
+19440
+19440
+after1
+begin calc area
+-8280
+43120  34840
+22080  56920
+-18040  38880
+finally area1
+19440
+19440
+ori2
+begin area
+27358
+-6462
+-53682
+-38880
+finally area2
+19440
+19440
+after2
+begin area
+47220
+81040
+53682
+38880
+finally area2
+19440
+19440
+begin calc area
+18040
+-22080  -4040
+-43120  -47160
+8280  -38880
+finally area1
+19440
+begin calc area
+-8280
+43120  34840
+22080  56920
+-18040  38880
+finally area1
+19440
+keyframe 1
+19440
+inter area
+19440
+alpha
+1.0405
+ori1
+begin calc area
+17496
+-40572  -23076
+-49086  -72162
+12006  -60156
+finally area1
+30078
+30078
+after1
+begin calc area
+-12006
+49086  37080
+40572  77652
+-17496  60156
+finally area1
+30078
+30078
+ori2
+begin area
+47220
+508
+-79698
+-60156
+finally area2
+30078
+30078
+after2
+begin area
+80206
+126918
+79698
+60156
+finally area2
+30078
+30078
+begin calc area
+17496
+-40572  -23076
+-49086  -72162
+12006  -60156
+finally area1
+30078
+begin calc area
+-12006
+49086  37080
+40572  77652
+-17496  60156
+finally area1
+30078
+keyframe 2
+30078
+inter area
+30078
+alpha
+1.06266
+ori1
+begin calc area
+52416
+-40832  11584
+-106470  -94886
+22736  -72150
+finally area1
+36075
+36075
+after1
+begin calc area
+-52416
+-22736  -75152
+106470  31318
+40832  72150
+finally area1
+36075
+36075
+ori2
+begin area
+39968
+-32318
+-105970
+-72150
+finally area2
+36075
+36075
+after2
+begin area
+-33820
+39832
+112118
+72150
+finally area2
+36075
+36075
+begin calc area
+52416
+-40832  11584
+-106470  -94886
+22736  -72150
+finally area1
+36075
+begin calc area
+-52416
+-22736  -75152
+106470  31318
+40832  72150
+finally area1
+36075
+keyframe 3
+36075
+inter area
+36075
+alpha
+1.07516
+ori1
+begin calc area
+60956
+-99840  -38884
+-139328  -178212
+51712  -126500
+finally area1
+63250
+63250
+after1
+begin calc area
+-60956
+-51712  -112668
+139328  26660
+99840  126500
+finally area1
+63250
+63250
+ori2
+begin area
+73652
+-36084
+-173212
+-126500
+finally area2
+63250
+63250
+after2
+begin area
+-46712
+90416
+200152
+126500
+finally area2
+63250
+63250
+begin calc area
+60956
+-99840  -38884
+-139328  -178212
+51712  -126500
+finally area1
+63250
+begin calc area
+-60956
+-51712  -112668
+139328  26660
+99840  126500
+finally area1
+63250
+keyframe 4
+63250
+inter area
+63250
+alpha
+1.13177
+calc poly time: 2.33033
+before sort esti
+1.31034  0
+1.0405  1
+1.06266  2
+1.07516  3
+1.13177  4
+after sort esti1.31034  0
+1.13177  4
+1.07516  3
+1.06266  2
+1.0405  1
+esti sort duration0.17415
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+3
+match indeses size: 0
+esti indexes size: 3
+0
+4
+3
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 193]
+end combine descriptors
+[32 x 530]
+end matches with indexes
+end get matches: 159
+begin refine matches with homography
+begin matches size: 159
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.271
+matches size: 9
+end refine matches with homography
+homography found is: 1  9
+homography: 158.386
+matches size: 9
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 1
+find pattern uses : 200.892
+begin clone
+begin update background
+update background
+get gray: 0.595252
+200
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.2116
+keypoints size: 8084
+retain best: 0.70622
+descriptor size: [32 x 203]
+extract: 34.4903
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+168047
+after1
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+168047
+ori2
+begin area
+52521
+-126503
+-381543
+-336094
+finally area2
+168047
+168047
+after2
+begin area
+255040
+434064
+381543
+336094
+finally area2
+168047
+168047
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+keyframe 0
+168047
+inter area
+168047
+alpha
+1.3501
+ori1
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+18869.5
+after1
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+18869.5
+ori2
+begin area
+22546
+-10664
+-55370
+-37739
+finally area2
+18869.5
+18869
+after2
+begin area
+44706
+77916
+55370
+37739
+finally area2
+18869.5
+18869
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+keyframe 1
+18869.5
+inter area
+18869.5
+alpha
+1.03931
+ori1
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+40020
+after1
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+40020
+ori2
+begin area
+44706
+-12306
+-107946
+-80040
+finally area2
+40020
+40020
+after2
+begin area
+95640
+152652
+107946
+80040
+finally area2
+40020
+40020
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+keyframe 2
+40020
+inter area
+40020
+alpha
+1.08338
+ori1
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+30903.5
+after1
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+30903.5
+ori2
+begin area
+30043
+-30385
+-95017
+-61807
+finally area2
+30903.5
+30903
+after2
+begin area
+-33210
+31422
+91850
+61807
+finally area2
+30903.5
+30903
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+keyframe 3
+30903.5
+inter area
+30903.5
+alpha
+1.06438
+ori1
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+78100
+after1
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+78100
+ori2
+begin area
+64632
+-53812
+-213212
+-156200
+finally area2
+78100
+78100
+after2
+begin area
+-57012
+102388
+220832
+156200
+finally area2
+78100
+78100
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+keyframe 4
+78100
+inter area
+78100
+alpha
+1.16271
+calc poly time: 2.35086
+before sort esti
+1.3501  0
+1.03931  1
+1.08338  2
+1.06438  3
+1.16271  4
+after sort esti1.3501  0
+1.16271  4
+1.08338  2
+1.06438  3
+1.03931  1
+esti sort duration0.120911
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+2
+match indeses size: 0
+esti indexes size: 3
+0
+4
+2
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 176]
+end combine descriptors
+[32 x 513]
+end matches with indexes
+end get matches: 149
+begin refine matches with homography
+begin matches size: 149
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.375
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 158.5
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 199.449
+begin clone
+begin update background
+update background
+get gray: 0.647529
+203
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8422
+keypoints size: 8080
+retain best: 1.37395
+descriptor size: [32 x 199]
+extract: 34.5407
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+168047
+after1
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+168047
+ori2
+begin area
+52521
+-126503
+-381543
+-336094
+finally area2
+168047
+168047
+after2
+begin area
+255040
+434064
+381543
+336094
+finally area2
+168047
+168047
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+keyframe 0
+168047
+inter area
+168047
+alpha
+1.3501
+ori1
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+18869.5
+after1
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+18869.5
+ori2
+begin area
+22546
+-10664
+-55370
+-37739
+finally area2
+18869.5
+18869
+after2
+begin area
+44706
+77916
+55370
+37739
+finally area2
+18869.5
+18869
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+keyframe 1
+18869.5
+inter area
+18869.5
+alpha
+1.03931
+ori1
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+40020
+after1
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+40020
+ori2
+begin area
+44706
+-12306
+-107946
+-80040
+finally area2
+40020
+40020
+after2
+begin area
+95640
+152652
+107946
+80040
+finally area2
+40020
+40020
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+keyframe 2
+40020
+inter area
+40020
+alpha
+1.08338
+ori1
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+30903.5
+after1
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+30903.5
+ori2
+begin area
+30043
+-30385
+-95017
+-61807
+finally area2
+30903.5
+30903
+after2
+begin area
+-33210
+31422
+91850
+61807
+finally area2
+30903.5
+30903
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+keyframe 3
+30903.5
+inter area
+30903.5
+alpha
+1.06438
+ori1
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+78100
+after1
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+78100
+ori2
+begin area
+64632
+-53812
+-213212
+-156200
+finally area2
+78100
+78100
+after2
+begin area
+-57012
+102388
+220832
+156200
+finally area2
+78100
+78100
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+keyframe 4
+78100
+inter area
+78100
+alpha
+1.16271
+calc poly time: 2.40699
+before sort esti
+1.3501  0
+1.03931  1
+1.08338  2
+1.06438  3
+1.16271  4
+after sort esti1.3501  0
+1.16271  4
+1.08338  2
+1.06438  3
+1.03931  1
+esti sort duration0.129249
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+2
+match indeses size: 0
+esti indexes size: 3
+0
+4
+2
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 176]
+end combine descriptors
+[32 x 513]
+end matches with indexes
+end get matches: 150
+begin refine matches with homography
+begin matches size: 150
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.675
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 158.787
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 199.334
+begin clone
+begin update background
+update background
+get gray: 0.65234
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.0567
+keypoints size: 8077
+retain best: 0.764591
+descriptor size: [32 x 199]
+extract: 33.9306
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+168047
+after1
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+168047
+ori2
+begin area
+52521
+-126503
+-381543
+-336094
+finally area2
+168047
+168047
+after2
+begin area
+255040
+434064
+381543
+336094
+finally area2
+168047
+168047
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+keyframe 0
+168047
+inter area
+168047
+alpha
+1.3501
+ori1
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+18869.5
+after1
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+18869.5
+ori2
+begin area
+22546
+-10664
+-55370
+-37739
+finally area2
+18869.5
+18869
+after2
+begin area
+44706
+77916
+55370
+37739
+finally area2
+18869.5
+18869
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+keyframe 1
+18869.5
+inter area
+18869.5
+alpha
+1.03931
+ori1
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+40020
+after1
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+40020
+ori2
+begin area
+44706
+-12306
+-107946
+-80040
+finally area2
+40020
+40020
+after2
+begin area
+95640
+152652
+107946
+80040
+finally area2
+40020
+40020
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+keyframe 2
+40020
+inter area
+40020
+alpha
+1.08338
+ori1
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+30903.5
+after1
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+30903.5
+ori2
+begin area
+30043
+-30385
+-95017
+-61807
+finally area2
+30903.5
+30903
+after2
+begin area
+-33210
+31422
+91850
+61807
+finally area2
+30903.5
+30903
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+keyframe 3
+30903.5
+inter area
+30903.5
+alpha
+1.06438
+ori1
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+78100
+after1
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+78100
+ori2
+begin area
+64632
+-53812
+-213212
+-156200
+finally area2
+78100
+78100
+after2
+begin area
+-57012
+102388
+220832
+156200
+finally area2
+78100
+78100
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+keyframe 4
+78100
+inter area
+78100
+alpha
+1.16271
+calc poly time: 2.35824
+before sort esti
+1.3501  0
+1.03931  1
+1.08338  2
+1.06438  3
+1.16271  4
+after sort esti1.3501  0
+1.16271  4
+1.08338  2
+1.06438  3
+1.03931  1
+esti sort duration0.120911
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+2
+match indeses size: 0
+esti indexes size: 3
+0
+4
+2
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 176]
+end combine descriptors
+[32 x 513]
+end matches with indexes
+end get matches: 153
+begin refine matches with homography
+begin matches size: 153
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.455
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 157.568
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 197.429
+begin clone
+begin update background
+update background
+get gray: 0.677035
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.991
+keypoints size: 8079
+retain best: 0.77293
+descriptor size: [32 x 201]
+extract: 34.4467
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+168047
+after1
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+168047
+ori2
+begin area
+52521
+-126503
+-381543
+-336094
+finally area2
+168047
+168047
+after2
+begin area
+255040
+434064
+381543
+336094
+finally area2
+168047
+168047
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+keyframe 0
+168047
+inter area
+168047
+alpha
+1.3501
+ori1
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+18869.5
+after1
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+18869.5
+ori2
+begin area
+22546
+-10664
+-55370
+-37739
+finally area2
+18869.5
+18869
+after2
+begin area
+44706
+77916
+55370
+37739
+finally area2
+18869.5
+18869
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+keyframe 1
+18869.5
+inter area
+18869.5
+alpha
+1.03931
+ori1
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+40020
+after1
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+40020
+ori2
+begin area
+44706
+-12306
+-107946
+-80040
+finally area2
+40020
+40020
+after2
+begin area
+95640
+152652
+107946
+80040
+finally area2
+40020
+40020
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+keyframe 2
+40020
+inter area
+40020
+alpha
+1.08338
+ori1
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+30903.5
+after1
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+30903.5
+ori2
+begin area
+30043
+-30385
+-95017
+-61807
+finally area2
+30903.5
+30903
+after2
+begin area
+-33210
+31422
+91850
+61807
+finally area2
+30903.5
+30903
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+keyframe 3
+30903.5
+inter area
+30903.5
+alpha
+1.06438
+ori1
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+78100
+after1
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+78100
+ori2
+begin area
+64632
+-53812
+-213212
+-156200
+finally area2
+78100
+78100
+after2
+begin area
+-57012
+102388
+220832
+156200
+finally area2
+78100
+78100
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+keyframe 4
+78100
+inter area
+78100
+alpha
+1.16271
+calc poly time: 2.35311
+before sort esti
+1.3501  0
+1.03931  1
+1.08338  2
+1.06438  3
+1.16271  4
+after sort esti1.3501  0
+1.16271  4
+1.08338  2
+1.06438  3
+1.03931  1
+esti sort duration0.122193
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+2
+match indeses size: 0
+esti indexes size: 3
+0
+4
+2
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 176]
+end combine descriptors
+[32 x 513]
+end matches with indexes
+end get matches: 155
+begin refine matches with homography
+begin matches size: 155
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.057
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 157.169
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 197.563
+begin clone
+begin update background
+update background
+get gray: 0.64785
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.2065
+keypoints size: 8080
+retain best: 0.699165
+descriptor size: [32 x 202]
+extract: 33.8671
+begin get matches
+begin match keyframes
+begin calc areas
+begin calc area
+0
+-480000  -480000
+-480000  -960000
+0  -960000
+finally area1
+480000
+screea area
+480000
+ori1
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+168047
+after1
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+168047
+ori2
+begin area
+52521
+-126503
+-381543
+-336094
+finally area2
+168047
+168047
+after2
+begin area
+255040
+434064
+381543
+336094
+finally area2
+168047
+168047
+begin calc area
+46814
+-148619  -101805
+-250902  -352707
+16613  -336094
+finally area1
+168047
+begin calc area
+-16613
+250902  234289
+148619  382908
+-46814  336094
+finally area1
+168047
+keyframe 0
+168047
+inter area
+168047
+alpha
+1.3501
+ori1
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+18869.5
+after1
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+18869.5
+ori2
+begin area
+22546
+-10664
+-55370
+-37739
+finally area2
+18869.5
+18869
+after2
+begin area
+44706
+77916
+55370
+37739
+finally area2
+18869.5
+18869
+begin calc area
+18601
+-23932  -5331
+-40964  -46295
+8556  -37739
+finally area1
+18869.5
+begin calc area
+-8556
+40964  32408
+23932  56340
+-18601  37739
+finally area1
+18869.5
+keyframe 1
+18869.5
+inter area
+18869.5
+alpha
+1.03931
+ori1
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+40020
+after1
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+40020
+ori2
+begin area
+44706
+-12306
+-107946
+-80040
+finally area2
+40020
+40020
+after2
+begin area
+95640
+152652
+107946
+80040
+finally area2
+40020
+40020
+begin calc area
+19665
+-51940  -32275
+-57570  -89845
+9805  -80040
+finally area1
+40020
+begin calc area
+-9805
+57570  47765
+51940  99705
+-19665  80040
+finally area1
+40020
+keyframe 2
+40020
+inter area
+40020
+alpha
+1.08338
+ori1
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+30903.5
+after1
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+30903.5
+ori2
+begin area
+30043
+-30385
+-95017
+-61807
+finally area2
+30903.5
+30903
+after2
+begin area
+-33210
+31422
+91850
+61807
+finally area2
+30903.5
+30903
+begin calc area
+46513
+-41044  5469
+-91580  -86111
+24304  -61807
+finally area1
+30903.5
+begin calc area
+-46513
+-24304  -70817
+91580  20763
+41044  61807
+finally area1
+30903.5
+keyframe 3
+30903.5
+inter area
+30903.5
+alpha
+1.06438
+ori1
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+78100
+after1
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+78100
+ori2
+begin area
+64632
+-53812
+-213212
+-156200
+finally area2
+78100
+78100
+after2
+begin area
+-57012
+102388
+220832
+156200
+finally area2
+78100
+78100
+begin calc area
+68600
+-123500  -54900
+-166950  -221850
+65650  -156200
+finally area1
+78100
+begin calc area
+-68600
+-65650  -134250
+166950  32700
+123500  156200
+finally area1
+78100
+keyframe 4
+78100
+inter area
+78100
+alpha
+1.16271
+calc poly time: 2.40185
+before sort esti
+1.3501  0
+1.03931  1
+1.08338  2
+1.06438  3
+1.16271  4
+after sort esti1.3501  0
+1.16271  4
+1.08338  2
+1.06438  3
+1.03931  1
+esti sort duration0.124759
+end match keyframes
+0
+get indexes
+indexes size: 3
+0
+4
+2
+match indeses size: 0
+esti indexes size: 3
+0
+4
+2
+begin matches with indexes
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+keyframe: 1
+[32 x 186]
+keyframe: 2
+[32 x 176]
+end combine descriptors
+[32 x 513]
+end matches with indexes
+end get matches: 162
+begin refine matches with homography
+begin matches size: 162
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.8
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 158.917
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 198.815
+begin clone
+begin update background
+update background
+get gray: 0.6703
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.9663
+keypoints size: 8082
+retain best: 0.799228
+descriptor size: [32 x 202]
+extract: 33.5397
+begin get matches
+begin match keyframes
+detect time: 16.1366
+keypoints size: 8082
+retain best: 0.742461
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.414
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.517
+060begin match keyframe: 1
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.604
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 154.714
+061begin match keyframe: 2
+after get match : 68
+begin refine matches with homography
+begin matches size: 68
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.544
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.644
+062begin match keyframe: 3
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.449
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.556
+063begin match keyframe: 4
+after get match : 93
+begin refine matches with homography
+begin matches size: 93
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.923
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.032
+064calc match time: 790.629
+match count; 5
+ss: match condition: 0  6  0  6  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.844
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.954
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1015.86
+begin clone
+begin update background
+update background
+get gray: 0.648812
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.295
+keypoints size: 8112
+retain best: 0.730595
+descriptor size: [32 x 200]
+extract: 33.872
+begin get matches
+begin match keyframes
+detect time: 16.1924
+keypoints size: 8112
+retain best: 0.76844
+descriptor size: [32 x 200]
+begin match
+begin match keyframe: 0
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.771
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.877
+060begin match keyframe: 1
+after get match : 87
+begin refine matches with homography
+begin matches size: 87
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.81
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.918
+061begin match keyframe: 2
+after get match : 66
+begin refine matches with homography
+begin matches size: 66
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.18
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.288
+062begin match keyframe: 3
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.484
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.589
+063begin match keyframe: 4
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.938
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.044
+064calc match time: 794.112
+match count; 5
+ss: match condition: 0  6  0  6  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.202
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.312
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1019.71
+begin clone
+begin update background
+update background
+get gray: 0.62989
+200
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8691
+keypoints size: 8116
+retain best: 0.776778
+descriptor size: [32 x 199]
+extract: 33.4489
+begin get matches
+begin match keyframes
+detect time: 15.8451
+keypoints size: 8116
+retain best: 0.797304
+descriptor size: [32 x 199]
+begin match
+begin match keyframe: 0
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.527
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.632
+060begin match keyframe: 1
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.106
+071begin match keyframe: 2
+after get match : 67
+begin refine matches with homography
+begin matches size: 67
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.904
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.006
+052begin match keyframe: 3
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.622
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.762
+063begin match keyframe: 4
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.821
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.95
+064calc match time: 791.019
+match count; 5
+ss: match condition: 0  6  0  7  0  5  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  5  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  3
+0  6  4
+0  5  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.423
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.529
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1015.68
+begin clone
+begin update background
+update background
+get gray: 0.659396
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8383
+keypoints size: 8116
+retain best: 0.827131
+descriptor size: [32 x 199]
+extract: 33.8777
+begin get matches
+begin match keyframes
+detect time: 15.9233
+keypoints size: 8116
+retain best: 0.823603
+descriptor size: [32 x 199]
+begin match
+begin match keyframe: 0
+after get match : 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.604
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.708
+060begin match keyframe: 1
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.783
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 154.899
+061begin match keyframe: 2
+after get match : 65
+begin refine matches with homography
+begin matches size: 65
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.539
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 156.642
+052begin match keyframe: 3
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.905
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.015
+063begin match keyframe: 4
+after get match : 93
+begin refine matches with homography
+begin matches size: 93
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.606
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.717
+064calc match time: 792.768
+match count; 5
+ss: match condition: 0  6  0  6  0  5  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  5  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  3
+0  6  4
+0  5  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.826
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.932
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1017.97
+begin clone
+begin update background
+update background
+get gray: 0.690505
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.2017
+keypoints size: 8117
+retain best: 0.69275
+descriptor size: [32 x 199]
+extract: 33.9303
+begin get matches
+begin match keyframes
+detect time: 16.406
+keypoints size: 8117
+retain best: 0.75978
+descriptor size: [32 x 199]
+begin match
+begin match keyframe: 0
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.996
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.103
+050begin match keyframe: 1
+after get match : 95
+begin refine matches with homography
+begin matches size: 95
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.975
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.085
+071begin match keyframe: 2
+after get match : 64
+begin refine matches with homography
+begin matches size: 64
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.855
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.956
+062begin match keyframe: 3
+after get match : 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.666
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.791
+063begin match keyframe: 4
+after get match : 94
+begin refine matches with homography
+begin matches size: 94
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.894
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.003
+064calc match time: 792.302
+match count; 5
+ss: match condition: 0  5  0  7  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.29
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 155.399
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1018.25
+begin clone
+begin update background
+update background
+get gray: 0.640794
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.0593
+keypoints size: 8112
+retain best: 0.843808
+descriptor size: [32 x 203]
+extract: 34.285
+begin get matches
+begin match keyframes
+detect time: 15.9907
+keypoints size: 8112
+retain best: 0.796342
+descriptor size: [32 x 203]
+begin match
+begin match keyframe: 0
+after get match : 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.414
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 156.517
+050begin match keyframe: 1
+after get match : 94
+begin refine matches with homography
+begin matches size: 94
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.722
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 154.847
+071begin match keyframe: 2
+after get match : 69
+begin refine matches with homography
+begin matches size: 69
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.398
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.571
+062begin match keyframe: 3
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 162.483
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 162.6
+063begin match keyframe: 4
+after get match : 94
+begin refine matches with homography
+begin matches size: 94
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.735
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.842
+064calc match time: 797.19
+match count; 5
+ss: match condition: 0  5  0  7  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.149
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 154.261
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1022.4
+begin clone
+begin update background
+update background
+get gray: 0.669338
+203
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.1847
+keypoints size: 8118
+retain best: 0.750479
+descriptor size: [32 x 201]
+extract: 34.0506
+begin get matches
+begin match keyframes
+detect time: 16.2787
+keypoints size: 8118
+retain best: 0.713597
+descriptor size: [32 x 201]
+begin match
+begin match keyframe: 0
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.876
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.98
+060begin match keyframe: 1
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.81
+matches size: 8
+end refine matches with homography
+after homography: 8
+homography: 155.921
+081begin match keyframe: 2
+after get match : 68
+begin refine matches with homography
+begin matches size: 68
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.056
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.16
+062begin match keyframe: 3
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.41
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 158.518
+073begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.146
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 158.253
+074calc match time: 794.009
+match count; 5
+ss: match condition: 0  6  0  8  0  6  0  7  0  7  
+before sort match5
+0  6  0
+0  8  1
+0  6  2
+0  7  3
+0  7  4
+after sort match5
+0  8  1
+0  7  3
+0  7  4
+0  6  0
+0  6  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.06
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.177
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1019.1
+begin clone
+begin update background
+update background
+get gray: 0.649774
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.4692
+keypoints size: 8117
+retain best: 0.917894
+descriptor size: [32 x 203]
+extract: 34.7235
+begin get matches
+begin match keyframes
+detect time: 16.0394
+keypoints size: 8117
+retain best: 0.919498
+descriptor size: [32 x 203]
+begin match
+begin match keyframe: 0
+after get match : 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.781
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.919
+060begin match keyframe: 1
+after get match : 87
+begin refine matches with homography
+begin matches size: 87
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.59
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 155.699
+071begin match keyframe: 2
+after get match : 71
+begin refine matches with homography
+begin matches size: 71
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.995
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.095
+062begin match keyframe: 3
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.435
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.541
+063begin match keyframe: 4
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.519
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.623
+064calc match time: 792.331
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.924
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 156.032
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1019.64
+begin clone
+begin update background
+update background
+get gray: 0.633097
+203
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.9647
+keypoints size: 8116
+retain best: 0.979472
+descriptor size: [32 x 201]
+extract: 34.2459
+begin get matches
+begin match keyframes
+detect time: 16.3088
+keypoints size: 8116
+retain best: 0.986528
+descriptor size: [32 x 201]
+begin match
+begin match keyframe: 0
+after get match : 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.193
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.297
+060begin match keyframe: 1
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.504
+matches size: 8
+end refine matches with homography
+after homography: 8
+homography: 154.624
+081begin match keyframe: 2
+after get match : 73
+begin refine matches with homography
+begin matches size: 73
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.979
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 158.089
+072begin match keyframe: 3
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.59
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.699
+063begin match keyframe: 4
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.494
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.602
+064calc match time: 791.663
+match count; 5
+ss: match condition: 0  6  0  8  0  7  0  6  0  6  
+before sort match5
+0  6  0
+0  8  1
+0  7  2
+0  6  3
+0  6  4
+after sort match5
+0  8  1
+0  7  2
+0  6  0
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.53
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.639
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1018.75
+begin clone
+begin update background
+update background
+get gray: 0.64785
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8778
+keypoints size: 8114
+retain best: 0.70622
+descriptor size: [32 x 199]
+extract: 33.4816
+begin get matches
+begin match keyframes
+detect time: 15.9297
+keypoints size: 8114
+retain best: 0.658433
+descriptor size: [32 x 199]
+begin match
+begin match keyframe: 0
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.357
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.463
+060begin match keyframe: 1
+after get match : 87
+begin refine matches with homography
+begin matches size: 87
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.474
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 155.599
+071begin match keyframe: 2
+after get match : 72
+begin refine matches with homography
+begin matches size: 72
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 162.369
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 162.475
+062begin match keyframe: 3
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.133
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.237
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.539
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.643
+064calc match time: 799.435
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.016
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 156.122
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1025.47
+begin clone
+begin update background
+update background
+get gray: 0.641756
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.2174
+keypoints size: 8114
+retain best: 0.736689
+descriptor size: [32 x 200]
+extract: 34.5224
+begin get matches
+begin match keyframes
+detect time: 16.1558
+keypoints size: 8114
+retain best: 0.7508
+descriptor size: [32 x 200]
+begin match
+begin match keyframe: 0
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.089
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.192
+060begin match keyframe: 1
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.15
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.257
+071begin match keyframe: 2
+after get match : 68
+begin refine matches with homography
+begin matches size: 68
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.614
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.717
+062begin match keyframe: 3
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.35
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.452
+063begin match keyframe: 4
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.228
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.332
+064calc match time: 795.173
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.613
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.723
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1022.16
+begin clone
+begin update background
+update background
+get gray: 0.802115
+200
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.3156
+keypoints size: 8118
+retain best: 0.758818
+descriptor size: [32 x 200]
+extract: 34.244
+begin get matches
+begin match keyframes
+detect time: 15.9804
+keypoints size: 8118
+retain best: 0.687619
+descriptor size: [32 x 200]
+begin match
+begin match keyframe: 0
+after get match : 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.222
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.324
+050begin match keyframe: 1
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.94
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.045
+061begin match keyframe: 2
+after get match : 68
+begin refine matches with homography
+begin matches size: 68
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.503
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.607
+062begin match keyframe: 3
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.781
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.888
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.934
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.042
+064calc match time: 794.038
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.726
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 155.834
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1020.25
+begin clone
+begin update background
+update background
+get gray: 0.648812
+200
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.7604
+keypoints size: 8118
+retain best: 0.892557
+descriptor size: [32 x 202]
+extract: 33.7668
+begin get matches
+begin match keyframes
+detect time: 15.8861
+keypoints size: 8118
+retain best: 0.896727
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.34
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.446
+060begin match keyframe: 1
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.928
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.033
+071begin match keyframe: 2
+after get match : 69
+begin refine matches with homography
+begin matches size: 69
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.527
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.634
+072begin match keyframe: 3
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.334
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.455
+053begin match keyframe: 4
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.712
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.818
+064calc match time: 790.86
+match count; 5
+ss: match condition: 0  6  0  7  0  7  0  5  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  7  2
+0  5  3
+0  6  4
+after sort match5
+0  7  1
+0  7  2
+0  6  0
+0  6  4
+0  5  3
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.206
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 156.334
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1017.51
+begin clone
+begin update background
+update background
+get gray: 0.690184
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.9692
+keypoints size: 8124
+retain best: 0.773892
+descriptor size: [32 x 202]
+extract: 33.7411
+begin get matches
+begin match keyframes
+detect time: 15.8181
+keypoints size: 8124
+retain best: 0.788966
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.885
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 154.99
+050begin match keyframe: 1
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.548
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.656
+061begin match keyframe: 2
+after get match : 70
+begin refine matches with homography
+begin matches size: 70
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.835
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.937
+062begin match keyframe: 3
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.289
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.393
+063begin match keyframe: 4
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.519
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.644
+064calc match time: 790.007
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.756
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 154.861
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1014.95
+begin clone
+begin update background
+update background
+get gray: 0.693712
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.8826
+keypoints size: 8122
+retain best: 0.748876
+descriptor size: [32 x 201]
+extract: 34.8902
+begin get matches
+begin match keyframes
+detect time: 16.059
+keypoints size: 8122
+retain best: 0.71488
+descriptor size: [32 x 201]
+begin match
+begin match keyframe: 0
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.69
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 156.821
+050begin match keyframe: 1
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.403
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.505
+061begin match keyframe: 2
+after get match : 74
+begin refine matches with homography
+begin matches size: 74
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.144
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.247
+062begin match keyframe: 3
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.434
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.54
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.213
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.321
+064calc match time: 790.065
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.92
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 155.099
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1016.93
+begin clone
+begin update background
+update background
+get gray: 0.638228
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.93
+keypoints size: 8118
+retain best: 0.848619
+descriptor size: [32 x 199]
+extract: 33.5846
+begin get matches
+begin match keyframes
+detect time: 15.7581
+keypoints size: 8118
+retain best: 0.851505
+descriptor size: [32 x 199]
+begin match
+begin match keyframe: 0
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.568
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.678
+060begin match keyframe: 1
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.41
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.528
+061begin match keyframe: 2
+after get match : 73
+begin refine matches with homography
+begin matches size: 73
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.557
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.66
+062begin match keyframe: 3
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.116
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.224
+053begin match keyframe: 4
+after get match : 93
+begin refine matches with homography
+begin matches size: 93
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.977
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.08
+064calc match time: 795.646
+match count; 5
+ss: match condition: 0  6  0  6  0  6  0  5  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  6  2
+0  5  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  4
+0  5  3
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.816
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.922
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1021.61
+begin clone
+begin update background
+update background
+get gray: 1.01988
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.4461
+keypoints size: 8111
+retain best: 0.904103
+descriptor size: [32 x 201]
+extract: 34.9079
+begin get matches
+begin match keyframes
+detect time: 16.4028
+keypoints size: 8111
+retain best: 1.06542
+descriptor size: [32 x 201]
+begin match
+begin match keyframe: 0
+after get match : 76
+begin refine matches with homography
+begin matches size: 76
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.457
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 155.559
+050begin match keyframe: 1
+after get match : 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.473
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.576
+061begin match keyframe: 2
+after get match : 74
+begin refine matches with homography
+begin matches size: 74
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.682
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.787
+062begin match keyframe: 3
+after get match : 87
+begin refine matches with homography
+begin matches size: 87
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.83
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.938
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.995
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.102
+064calc match time: 790.087
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 76
+begin refine matches with homography
+begin matches size: 76
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 153.832
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 153.934
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1016.47
+begin clone
+begin update background
+update background
+get gray: 0.668055
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8242
+keypoints size: 8116
+retain best: 0.89384
+descriptor size: [32 x 204]
+extract: 34.1818
+begin get matches
+begin match keyframes
+detect time: 16.2572
+keypoints size: 8116
+retain best: 0.952852
+descriptor size: [32 x 204]
+begin match
+begin match keyframe: 0
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.909
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.032
+060begin match keyframe: 1
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.051
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.161
+061begin match keyframe: 2
+after get match : 75
+begin refine matches with homography
+begin matches size: 75
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.36
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.464
+052begin match keyframe: 3
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.698
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.805
+063begin match keyframe: 4
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.295
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.401
+064calc match time: 796.509
+match count; 5
+ss: match condition: 0  6  0  6  0  5  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  5  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  3
+0  6  4
+0  5  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.41
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 156.519
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1025.32
+begin clone
+begin update background
+update background
+get gray: 0.63887
+204
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.1292
+keypoints size: 8116
+retain best: 0.852788
+descriptor size: [32 x 207]
+extract: 34.3441
+begin get matches
+begin match keyframes
+detect time: 15.8816
+keypoints size: 8116
+retain best: 0.841884
+descriptor size: [32 x 207]
+begin match
+begin match keyframe: 0
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.461
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.59
+060begin match keyframe: 1
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.496
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.604
+071begin match keyframe: 2
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.501
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.627
+062begin match keyframe: 3
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.182
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.29
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.64
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.751
+064calc match time: 792.656
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.622
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.73
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1018.48
+begin clone
+begin update background
+update background
+get gray: 0.6703
+207
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.9272
+keypoints size: 8120
+retain best: 1.00834
+descriptor size: [32 x 206]
+extract: 34.8684
+begin get matches
+begin match keyframes
+detect time: 15.6414
+keypoints size: 8120
+retain best: 1.02918
+descriptor size: [32 x 206]
+begin match
+begin match keyframe: 0
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 153.915
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 154.018
+060begin match keyframe: 1
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.608
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 155.718
+071begin match keyframe: 2
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.363
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.472
+062begin match keyframe: 3
+after get match : 96
+begin refine matches with homography
+begin matches size: 96
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.919
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.078
+063begin match keyframe: 4
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.353
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.458
+064calc match time: 790.168
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 153.757
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 153.873
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1015.73
+begin clone
+begin update background
+update background
+get gray: 0.780948
+206
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.6299
+keypoints size: 8116
+retain best: 0.71071
+descriptor size: [32 x 204]
+extract: 33.787
+begin get matches
+begin match keyframes
+detect time: 15.592
+keypoints size: 8116
+retain best: 0.859523
+descriptor size: [32 x 204]
+begin match
+begin match keyframe: 0
+after get match : 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.325
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.433
+060begin match keyframe: 1
+after get match : 87
+begin refine matches with homography
+begin matches size: 87
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.684
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.795
+061begin match keyframe: 2
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.41
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.514
+052begin match keyframe: 3
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.859
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.968
+063begin match keyframe: 4
+after get match : 92
+begin refine matches with homography
+begin matches size: 92
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.859
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.965
+064calc match time: 795.143
+match count; 5
+ss: match condition: 0  6  0  6  0  5  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  5  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  3
+0  6  4
+0  5  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.408
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.516
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1019.73
+begin clone
+begin update background
+update background
+get gray: 0.79987
+204
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.9179
+keypoints size: 8114
+retain best: 0.71969
+descriptor size: [32 x 199]
+extract: 33.702
+begin get matches
+begin match keyframes
+detect time: 16.0638
+keypoints size: 8114
+retain best: 0.709428
+descriptor size: [32 x 199]
+begin match
+begin match keyframe: 0
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.763
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.868
+060begin match keyframe: 1
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 161.861
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 161.97
+061begin match keyframe: 2
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.817
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.927
+052begin match keyframe: 3
+after get match : 97
+begin refine matches with homography
+begin matches size: 97
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.957
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.062
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.798
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.903
+064calc match time: 795.989
+match count; 5
+ss: match condition: 0  6  0  6  0  5  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  5  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  3
+0  6  4
+0  5  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.252
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.358
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1020.76
+begin clone
+begin update background
+update background
+get gray: 0.640794
+199
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8707
+keypoints size: 8110
+retain best: 0.950928
+descriptor size: [32 x 206]
+extract: 34.0599
+begin get matches
+begin match keyframes
+detect time: 15.7979
+keypoints size: 8110
+retain best: 0.737651
+descriptor size: [32 x 206]
+begin match
+begin match keyframe: 0
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.475
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.58
+060begin match keyframe: 1
+after get match : 91
+begin refine matches with homography
+begin matches size: 91
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.44
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.548
+061begin match keyframe: 2
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.459
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.562
+062begin match keyframe: 3
+after get match : 97
+begin refine matches with homography
+begin matches size: 97
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.119
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.224
+063begin match keyframe: 4
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.189
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.298
+064calc match time: 793.522
+match count; 5
+ss: match condition: 0  6  0  6  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.894
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.004
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1019.18
+begin clone
+begin update background
+update background
+get gray: 0.657151
+206
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.0125
+keypoints size: 8105
+retain best: 0.919177
+descriptor size: [32 x 198]
+extract: 34.4278
+begin get matches
+begin match keyframes
+detect time: 15.6164
+keypoints size: 8105
+retain best: 0.917573
+descriptor size: [32 x 198]
+begin match
+begin match keyframe: 0
+after get match : 76
+begin refine matches with homography
+begin matches size: 76
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.623
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.727
+060begin match keyframe: 1
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.88
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.987
+061begin match keyframe: 2
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.807
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 157.919
+072begin match keyframe: 3
+after get match : 94
+begin refine matches with homography
+begin matches size: 94
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.73
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.838
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.796
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 158.905
+074calc match time: 792.543
+match count; 5
+ss: match condition: 0  6  0  6  0  7  0  6  0  7  
+before sort match5
+0  6  0
+0  6  1
+0  7  2
+0  6  3
+0  7  4
+after sort match5
+0  7  2
+0  7  4
+0  6  0
+0  6  1
+0  6  3
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 76
+begin refine matches with homography
+begin matches size: 76
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.707
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.825
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1017.64
+begin clone
+begin update background
+update background
+get gray: 0.644963
+198
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.7104
+keypoints size: 8104
+retain best: 0.936496
+descriptor size: [32 x 201]
+extract: 33.498
+begin get matches
+begin match keyframes
+detect time: 15.6327
+keypoints size: 8104
+retain best: 0.921422
+descriptor size: [32 x 201]
+begin match
+begin match keyframe: 0
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.761
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.874
+060begin match keyframe: 1
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.356
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.465
+061begin match keyframe: 2
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.276
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.386
+062begin match keyframe: 3
+after get match : 97
+begin refine matches with homography
+begin matches size: 97
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.564
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.673
+063begin match keyframe: 4
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.088
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.191
+064calc match time: 789.982
+match count; 5
+ss: match condition: 0  6  0  6  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.131
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.247
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1014.58
+begin clone
+begin update background
+update background
+get gray: 0.629248
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.6918
+keypoints size: 8096
+retain best: 1.00737
+descriptor size: [32 x 202]
+extract: 33.9977
+begin get matches
+begin match keyframes
+detect time: 15.8191
+keypoints size: 8096
+retain best: 1.01058
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.962
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 159.067
+050begin match keyframe: 1
+after get match : 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.875
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.981
+061begin match keyframe: 2
+after get match : 76
+begin refine matches with homography
+begin matches size: 76
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.095
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.199
+062begin match keyframe: 3
+after get match : 95
+begin refine matches with homography
+begin matches size: 95
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.185
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.296
+063begin match keyframe: 4
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.159
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 159.272
+074calc match time: 801.566
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  7  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  7  4
+after sort match5
+0  7  4
+0  6  1
+0  6  2
+0  6  3
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.568
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 155.684
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1027.68
+begin clone
+begin update background
+update background
+get gray: 0.650415
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.7379
+keypoints size: 8098
+retain best: 1.53207
+descriptor size: [32 x 201]
+extract: 34.3402
+begin get matches
+begin match keyframes
+detect time: 15.625
+keypoints size: 8098
+retain best: 1.57184
+descriptor size: [32 x 201]
+begin match
+begin match keyframe: 0
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.158
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 156.282
+050begin match keyframe: 1
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.025
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.133
+061begin match keyframe: 2
+after get match : 74
+begin refine matches with homography
+begin matches size: 74
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.186
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.302
+052begin match keyframe: 3
+after get match : 98
+begin refine matches with homography
+begin matches size: 98
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.614
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.74
+063begin match keyframe: 4
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.263
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.373
+064calc match time: 792.835
+match count; 5
+ss: match condition: 0  5  0  6  0  5  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  5  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  3
+0  6  4
+0  5  0
+0  5  2
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.325
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 154.432
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1018.28
+begin clone
+begin update background
+update background
+get gray: 0.651378
+201
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.948
+keypoints size: 8099
+retain best: 0.799228
+descriptor size: [32 x 198]
+extract: 33.8113
+begin get matches
+begin match keyframes
+detect time: 16.1343
+keypoints size: 8099
+retain best: 0.830017
+descriptor size: [32 x 198]
+begin match
+begin match keyframe: 0
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.072
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.177
+060begin match keyframe: 1
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.646
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.754
+071begin match keyframe: 2
+after get match : 74
+begin refine matches with homography
+begin matches size: 74
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.252
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.356
+062begin match keyframe: 3
+after get match : 99
+begin refine matches with homography
+begin matches size: 99
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.926
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.068
+063begin match keyframe: 4
+after get match : 84
+begin refine matches with homography
+begin matches size: 84
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.32
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 159.428
+054calc match time: 796.882
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  5  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  5  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  5  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.631
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 156.738
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1024.04
+begin clone
+begin update background
+update background
+get gray: 0.619947
+198
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.7982
+keypoints size: 8098
+retain best: 0.71937
+descriptor size: [32 x 205]
+extract: 34.0185
+begin get matches
+begin match keyframes
+detect time: 15.8967
+keypoints size: 8098
+retain best: 0.699485
+descriptor size: [32 x 205]
+begin match
+begin match keyframe: 0
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.433
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.562
+050begin match keyframe: 1
+after get match : 86
+begin refine matches with homography
+begin matches size: 86
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.93
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.039
+071begin match keyframe: 2
+after get match : 75
+begin refine matches with homography
+begin matches size: 75
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.625
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.788
+062begin match keyframe: 3
+after get match : 98
+begin refine matches with homography
+begin matches size: 98
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.483
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.587
+063begin match keyframe: 4
+after get match : 85
+begin refine matches with homography
+begin matches size: 85
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.203
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.304
+054calc match time: 792.72
+match count; 5
+ss: match condition: 0  5  0  7  0  6  0  6  0  5  
+before sort match5
+0  5  0
+0  7  1
+0  6  2
+0  6  3
+0  5  4
+after sort match5
+0  7  1
+0  6  2
+0  6  3
+0  5  0
+0  5  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.239
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 154.344
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1018.54
+begin clone
+begin update background
+update background
+get gray: 0.637266
+205
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.6209
+keypoints size: 8100
+retain best: 0.777099
+descriptor size: [32 x 202]
+extract: 33.4829
+begin get matches
+begin match keyframes
+detect time: 15.9881
+keypoints size: 8100
+retain best: 0.784796
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.98
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.081
+060begin match keyframe: 1
+after get match : 87
+begin refine matches with homography
+begin matches size: 87
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.123
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 157.228
+071begin match keyframe: 2
+after get match : 74
+begin refine matches with homography
+begin matches size: 74
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.997
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.099
+062begin match keyframe: 3
+after get match : 97
+begin refine matches with homography
+begin matches size: 97
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.443
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.549
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.908
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.041
+064calc match time: 790.209
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.317
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.439
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1014.28
+begin clone
+begin update background
+update background
+get gray: 0.689222
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.6286
+keypoints size: 8101
+retain best: 0.843167
+descriptor size: [32 x 202]
+extract: 34.4916
+begin get matches
+begin match keyframes
+detect time: 16.1376
+keypoints size: 8101
+retain best: 0.862731
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.233
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.34
+060begin match keyframe: 1
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.889
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.995
+061begin match keyframe: 2
+after get match : 75
+begin refine matches with homography
+begin matches size: 75
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.423
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 156.555
+072begin match keyframe: 3
+after get match : 96
+begin refine matches with homography
+begin matches size: 96
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.016
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.122
+063begin match keyframe: 4
+after get match : 88
+begin refine matches with homography
+begin matches size: 88
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.554
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.661
+064calc match time: 792.059
+match count; 5
+ss: match condition: 0  6  0  6  0  7  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  7  2
+0  6  3
+0  6  4
+after sort match5
+0  7  2
+0  6  0
+0  6  1
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 83
+begin refine matches with homography
+begin matches size: 83
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.568
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.686
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1017.93
+begin clone
+begin update background
+update background
+get gray: 0.648812
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.085
+keypoints size: 8087
+retain best: 0.709748
+descriptor size: [32 x 204]
+extract: 34.6192
+begin get matches
+begin match keyframes
+detect time: 16.0051
+keypoints size: 8087
+retain best: 0.67928
+descriptor size: [32 x 204]
+begin match
+begin match keyframe: 0
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.414
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 156.566
+050begin match keyframe: 1
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 202.287
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 202.544
+061begin match keyframe: 2
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.556
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.661
+062begin match keyframe: 3
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.631
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 155.738
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.596
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.722
+064calc match time: 834.661
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.241
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 154.348
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1060.11
+begin clone
+begin update background
+update background
+get gray: 0.673507
+204
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.6164
+keypoints size: 8086
+retain best: 1.12412
+descriptor size: [32 x 203]
+extract: 34.0455
+begin get matches
+begin match keyframes
+detect time: 15.9265
+keypoints size: 8086
+retain best: 1.13823
+descriptor size: [32 x 203]
+begin match
+begin match keyframe: 0
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.417
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.541
+060begin match keyframe: 1
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.668
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.771
+061begin match keyframe: 2
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.725
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.829
+062begin match keyframe: 3
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.688
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.795
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.1
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.216
+064calc match time: 792.618
+match count; 5
+ss: match condition: 0  6  0  6  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 153.899
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 154.007
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1017.76
+begin clone
+begin update background
+update background
+get gray: 0.657792
+203
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.0439
+keypoints size: 8086
+retain best: 1.06863
+descriptor size: [32 x 204]
+extract: 35.5368
+begin get matches
+begin match keyframes
+detect time: 16.2569
+keypoints size: 8086
+retain best: 1.08595
+descriptor size: [32 x 204]
+begin match
+begin match keyframe: 0
+after get match : 75
+begin refine matches with homography
+begin matches size: 75
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.729
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 155.835
+050begin match keyframe: 1
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.758
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.864
+061begin match keyframe: 2
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.469
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.575
+062begin match keyframe: 3
+after get match : 93
+begin refine matches with homography
+begin matches size: 93
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.207
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.31
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.305
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.407
+064calc match time: 792.201
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 75
+begin refine matches with homography
+begin matches size: 75
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 154.504
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 154.611
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1019.17
+begin clone
+begin update background
+update background
+get gray: 0.63887
+204
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.9974
+keypoints size: 8084
+retain best: 1.26908
+descriptor size: [32 x 205]
+extract: 35.0493
+begin get matches
+begin match keyframes
+detect time: 15.9791
+keypoints size: 8084
+retain best: 1.23284
+descriptor size: [32 x 205]
+begin match
+begin match keyframe: 0
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.771
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.876
+060begin match keyframe: 1
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.805
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 155.911
+071begin match keyframe: 2
+after get match : 79
+begin refine matches with homography
+begin matches size: 79
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.47
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.574
+062begin match keyframe: 3
+after get match : 95
+begin refine matches with homography
+begin matches size: 95
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.204
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.31
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.278
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.385
+064calc match time: 790.28
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.327
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.431
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1018.33
+begin clone
+begin update background
+update background
+get gray: 0.618023
+205
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.8884
+keypoints size: 8081
+retain best: 0.694354
+descriptor size: [32 x 203]
+extract: 34.3902
+begin get matches
+begin match keyframes
+detect time: 16.591
+keypoints size: 8081
+retain best: 0.733161
+descriptor size: [32 x 203]
+begin match
+begin match keyframe: 0
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.977
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.097
+060begin match keyframe: 1
+after get match : 80
+begin refine matches with homography
+begin matches size: 80
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.84
+matches size: 7
+end refine matches with homography
+after homography: 7
+homography: 158.96
+071begin match keyframe: 2
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.512
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.625
+062begin match keyframe: 3
+after get match : 102
+begin refine matches with homography
+begin matches size: 102
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 158.47
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.579
+063begin match keyframe: 4
+after get match : 90
+begin refine matches with homography
+begin matches size: 90
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.555
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 157.66
+064calc match time: 799.516
+match count; 5
+ss: match condition: 0  6  0  7  0  6  0  6  0  6  
+before sort match5
+0  6  0
+0  7  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  7  1
+0  6  0
+0  6  2
+0  6  3
+0  6  4
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 155.082
+matches size: 6
+end refine matches with homography
+homography found is: 0  6
+homography: 155.187
+matches size: 6
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1026.68
+begin clone
+begin update background
+update background
+get gray: 0.631172
+203
+estimated homography not found
+m_grayImage: 640  480
+detect time: 16.159
+keypoints size: 8078
+retain best: 0.985245
+descriptor size: [32 x 202]
+extract: 34.8489
+begin get matches
+begin match keyframes
+detect time: 16.0596
+keypoints size: 8078
+retain best: 0.981075
+descriptor size: [32 x 202]
+begin match
+begin match keyframe: 0
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.273
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 157.376
+050begin match keyframe: 1
+after get match : 78
+begin refine matches with homography
+begin matches size: 78
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.13
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.25
+061begin match keyframe: 2
+after get match : 81
+begin refine matches with homography
+begin matches size: 81
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 157.935
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 158.036
+062begin match keyframe: 3
+after get match : 102
+begin refine matches with homography
+begin matches size: 102
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.232
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.342
+063begin match keyframe: 4
+after get match : 89
+begin refine matches with homography
+begin matches size: 89
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 159.448
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 159.555
+064calc match time: 796.843
+match count; 5
+ss: match condition: 0  5  0  6  0  6  0  6  0  6  
+before sort match5
+0  5  0
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+after sort match5
+0  6  1
+0  6  2
+0  6  3
+0  6  4
+0  5  0
+result count3
+indexes size: 0
+
+matchIdxes size: 0
+
+estiIdxes size: 0
+
+end match keyframes
+-1
+get indexes
+indexes size: 0
+match indeses size: 0
+esti indexes size: 0
+begin matches with indexes
+index size is 0, use original picture to match
+begin combine descriptors
+keyframe: 0
+[32 x 151]
+end combine descriptors
+[32 x 151]
+end matches with indexes
+end get matches: 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.457
+matches size: 5
+end refine matches with homography
+homography found is: 0  5
+homography: 156.565
+matches size: 5
+begin handle tracked points outer
+begin handle tracked points inner
+end find pattern homography found: 0
+find pattern uses : 1024.82
+begin clone
+begin update background
+update background
+get gray: 0.643039
+202
+estimated homography not found
+m_grayImage: 640  480
+detect time: 15.729
+keypoints size: 8075
+retain best: 0.925271
+descriptor size: [32 x 200]
+extract: 33.5904
+begin get matches
+begin match keyframes
+detect time: 15.7501
+keypoints size: 8075
+retain best: 1.45061
+descriptor size: [32 x 200]
+begin match
+begin match keyframe: 0
+after get match : 76
+begin refine matches with homography
+begin matches size: 76
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.777
+matches size: 5
+end refine matches with homography
+after homography: 5
+homography: 156.897
+050begin match keyframe: 1
+after get match : 82
+begin refine matches with homography
+begin matches size: 82
+begin copy
+timer start
+begin homography
+end homography
+find homography duration: 156.74
+matches size: 6
+end refine matches with homography
+after homography: 6
+homography: 156.847
+061begin match keyframe: 2
+after get match : 77
+begin refine matches with homography
+begin matches size: 77
+begin copy
+timer start
+begin homography
