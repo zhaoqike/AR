@@ -1,5 +1,4 @@
 
-
 #ifndef ARDrawingContext_HPP
 #define ARDrawingContext_HPP
 
@@ -11,60 +10,60 @@
 ////////////////////////////////////////////////////////////////////
 // Standard includes:
 #include <opencv2/opencv.hpp>
+using namespace cv;
 
 void ARDrawingContextDrawCallback(void* param);
 
-class ARDrawingContext
-{
+class ARDrawingContext {
 public:
 	ARDrawingContext();
-  ARDrawingContext(string windowName, Size frameSize, const CameraCalibration& c);
-  void init(string windowName, Size frameSize, const CameraCalibration& c);
-  ~ARDrawingContext();
+	ARDrawingContext(string windowName, Size frameSize,
+			const CameraCalibration& c);
+	void init(string windowName, Size frameSize, const CameraCalibration& c);
+	~ARDrawingContext();
 
-  
-  bool                isPatternPresent;
-  Transformation      patternPose;
+	bool isPatternPresent;
+	Transformation patternPose;
 
+	//! Set the new frame for the background
+	void updateBackground(const Mat& frame);
 
-  //! Set the new frame for the background
-  void updateBackground(const Mat& frame);
+	void updateWindow();
 
-  void updateWindow();
+	//private:
+	friend void ARDrawingContextDrawCallback(void* param);
+	//! Render entire scene in the OpenGl window
+	void draw();
 
-//private:
-    friend void ARDrawingContextDrawCallback(void* param);
-    //! Render entire scene in the OpenGl window
-    void draw();
+	//! Draws the background with video
+	void drawCameraFrame();
 
-  //! Draws the background with video
-  void drawCameraFrame();
+	//! Draws the AR
+	//void drawAugmentedScene();
+	void drawAugmentedScene(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 
-  //! Draws the AR
-  void drawAugmentedScene();
-  void drawAugmentedScene(float x,float y,float z);
+	//! Builds the right projection matrix from the camera calibration for AR
+	void buildProjectionMatrix(const CameraCalibration& calibration, int w,
+			int h, Matrix44& result);
 
-  //! Builds the right projection matrix from the camera calibration for AR
-  void buildProjectionMatrix(const CameraCalibration& calibration, int w, int h, Matrix44& result);
-  
-  //! Draws the coordinate axis 
-  void drawCoordinateAxis();
-  
-  //! Draw the cube model
-  void drawCubeModel();
+	//! Draws the coordinate axis
+	void drawCoordinateAxis();
 
-  bool drawMesh();
+	//! Draw the cube model
+	void drawCubeModel();
 
-  int width;
-  int height;
+	bool drawMesh();
 
-//private:
-public: 
-  bool               m_isTextureInitialized;
-  unsigned int       m_backgroundTextureId;
-  CameraCalibration  m_calibration;
-  Mat            m_backgroundImage;
-  string        m_windowName;
+	int width;
+	int height;
+
+	//private:
+public:
+	bool m_isTextureInitialized;
+	unsigned int m_backgroundTextureId;
+	CameraCalibration m_calibration;
+	Mat m_backgroundImage;
+	string m_windowName;
 };
 
 #endif

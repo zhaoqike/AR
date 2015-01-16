@@ -247,6 +247,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 		case R.id.store_error:
 			ARNativeLib.storeError();
 			break;
+		case R.id.show_points:
+			ARNativeLib.showPoints();
+			break;
+		case R.id.show_rects:
+			ARNativeLib.showRects();
+			break;
 		}
 		if (item.getGroupId() == 2)
         {

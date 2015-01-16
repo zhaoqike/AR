@@ -92,7 +92,7 @@ int main(int argc, const char * argv[])
 
 	string filename="out"+str+".txt";
 
-	//freopen(filename.c_str(),"w",stdout);
+	freopen(filename.c_str(),"w",stdout);
 
 
     // Change this calibration to yours:
@@ -230,7 +230,7 @@ void processSingleImage(Mat& patternImage, CameraCalibration& calibration, Mat& 
     bool shouldQuit = false;
     do
     {
-        shouldQuit = processFramefuck(image, pipeline, drawingCtx);
+        shouldQuit = processFrame(image, pipeline, drawingCtx);
     } while (true);
 }
 
@@ -254,8 +254,9 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
 	//waitKey(0);
     // Find a pattern and update it's detection status:
 	Mat processImage = cameraFrame.clone();
-    drawingCtx.isPatternPresent = pipeline.processFrame(processImage);
-
+    drawingCtx.isPatternPresent = pipeline.processFrame(img);
+	//putText(img, "fuck", Point(10, 50), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
+	drawingCtx.updateBackground(img);
     // Update a pattern pose:
     drawingCtx.patternPose = pipeline.getPatternLocation();
 
@@ -302,7 +303,7 @@ bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& 
 	drawingCtx.updateBackground(img);
 	Mat processImage = cameraFrame.clone();
 	//cvtColor(processImage, processImage, CV_BGR2GRAY);
-	pipeline.processFrame(processImage);
+	pipeline.processFrame(img);
 	drawingCtx.isPatternPresent = true;
 	drawingCtx.updateWindow();
 
