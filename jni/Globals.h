@@ -1,6 +1,8 @@
 #include "ARDrawingContext.hpp"
 #include "ARPipeline.hpp"
 #include "Model/pmesh.h"
+#include "ARDrawing.h"
+#include "ARError.h"
 
 
 #ifndef WIN32
@@ -38,3 +40,8 @@ extern GLuint *gTexture;
 
 const int screenWidth = 640;
 const int screenHeight = 480;
+
+const int updateFrameNum = 50;
+
+extern ARDrawing drawing;
+extern ARError arerror;

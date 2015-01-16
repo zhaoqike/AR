@@ -40,7 +40,7 @@ extern PMesh *g_pProgMesh;
 
 extern ARPipeline pipeline;
 extern ARDrawingContext drawingCtx;
-
+extern CameraCalibration calibration;
 //ARPipeline pipeline;
 //ARDrawingContext drawingCtx;
 
@@ -76,7 +76,7 @@ void processSingleImage(Mat& patternImage, CameraCalibration& calibration, Mat& 
  * Returns true if processing loop should be stopped; otherwise - false.
  */
 bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx);
-bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx);
+//bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx);
 
 int main(int argc, const char * argv[])
 {
@@ -96,7 +96,7 @@ int main(int argc, const char * argv[])
 
 
     // Change this calibration to yours:
-    CameraCalibration calibration(526.58037684199849f, 524.65577209994706f, 318.41744018680112f, 202.96659047014398f);
+    // CameraCalibration calibration(526.58037684199849f, 524.65577209994706f, 318.41744018680112f, 202.96659047014398f);
 	Mat patternImage = imread("PyramidPattern.jpg");
 	Mat testImage = imread("PyramidPatternTest.bmp");
 	if (!testImage.empty())
@@ -184,8 +184,11 @@ void processVideo(Mat& patternImage, CameraCalibration& calibration, VideoCaptur
 
     Size frameSize(currentFrame.cols, currentFrame.rows);
 
-    ARPipeline pipeline(patternImage, calibration);
-    ARDrawingContext drawingCtx("Markerless AR", frameSize, calibration);
+    //ARPipeline pipeline(patternImage, calibration);
+    //ARDrawingContext drawingCtx("Markerless AR", frameSize, calibration);
+	pipeline.init(patternImage, calibration);
+	drawingCtx.init("Markerless AR", frameSize, calibration);
+
 
     bool shouldQuit = false;
 	Timer t;
@@ -231,7 +234,7 @@ void processSingleImage(Mat& patternImage, CameraCalibration& calibration, Mat& 
     do
     {
         shouldQuit = processFrame(image, pipeline, drawingCtx);
-    } while (true);
+	} while (!shouldQuit);
 }
 
 bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
@@ -294,7 +297,7 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
     return shouldQuit;
 }
 
-bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
+/*bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
 {
 	// Clone image used for background (we will draw overlay on it)
 	cout << "begin clone" << endl;
@@ -314,6 +317,6 @@ bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& 
 	bool shouldQuit = true;
 
 	return shouldQuit;
-}
+}*/
 
 

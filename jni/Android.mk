@@ -18,6 +18,9 @@ Timer.cpp \
 gl_code.cpp \
 Utils.cpp \
 Globals.cpp \
+ARError.cpp \
+ARDrawing.cpp \
+Friend.cpp \
 MutexImage.cpp \
 Model/mesh.cpp \
 Model/Model.cpp \

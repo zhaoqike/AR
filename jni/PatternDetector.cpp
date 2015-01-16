@@ -215,9 +215,9 @@ void PatternDetector::makeKeyFrame(const Mat& rangeImage, Rect& range, Size& ori
 	double scalew=(double)screenWidth/(double)keyframe.frame.cols;
 	double scaleh=(double)screenHeight/(double)keyframe.frame.rows;
 	//double scale=(scalew+scaleh)/2;
-	//double scale = getWindowDivPictureScale(keyframe.frame.cols, keyframe.frame.rows);
+	double scale = getWindowDivPictureScale(keyframe.frame.cols, keyframe.frame.rows);
 
-	double scale = 1.0;
+	//double scale = 1.0;
 
 	cout<<"scalew scaleh scale: "<<scalew<<"  "<<scaleh<<"  "<<scale<<endl;
 
@@ -598,7 +598,7 @@ void rectToVector(Rect& rect, vector<Point2f>& pointList)
 	pointList.push_back(Point2f(rect.x + rect.width, rect.y));
 }
 
-void draw2dContour(Mat& image, vector<Point2f>& points2d, Scalar color, int lineWidth)
+void draw2dContourWithoutPerpective(Mat& image, vector<Point2f>& points2d, Scalar color, int lineWidth)
 {
 	for (size_t i = 0; i < points2d.size(); i++)
 	{
@@ -647,7 +647,7 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 			vector<Point2f> pointList;
 			rectToVector(kf.rect, pointList);
 			//if (i == 4)
-			draw2dContour(layerImg, pointList, Scalar(200, 0, 0), 3);
+			draw2dContourWithoutPerpective(layerImg, pointList, Scalar(200, 0, 0), 3);
 			}
 			string filename = "/sdcard/keyframes/contoursrect_" + intToString(i) + ".jpg";
 			imwrite(filename, layerImg);
@@ -658,7 +658,7 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 			KeyFrame& kf = layer.keyframeList[j];
 			vector<Point2f> pointList=kf.points2d;
 			//if (i == 4)
-			draw2dContour(layerImg, pointList, Scalar(200, 0, 0), 3);
+			draw2dContourWithoutPerpective(layerImg, pointList, Scalar(200, 0, 0), 3);
 			}
 			filename = "/sdcard/keyframes/contourspoint_" + intToString(i) + ".jpg";
 			imwrite(filename, layerImg);
@@ -947,8 +947,8 @@ bool PatternDetector::findPatternThirdStage(Mat& image, PatternTrackingInfo& inf
 
 bool PatternDetector::needNewPoints()
 {
-	return points[2].size()<minNum;// || m_opticalFrameNum>100;
-	return after.size()<minNum;
+	//return points[2].size()<minNum || m_opticalFrameNum>100;
+	return after.size()<minNum || m_opticalFrameNum>updateFrameNum;
 }
 
 bool PatternDetector::compareAlpha(AlphaState a, AlphaState b)
@@ -1086,7 +1086,7 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 			return estiIndex;
 		}
 	}
-	//else 上次没找到或者这次没找到都跳转到这里来 使用匹配算法寻找关键帧
+	//else //上次没找到或者这次没找到都跳转到这里来 使用匹配算法寻找关键帧
 	{
 		extractFeatures(m_grayImg, m_queryKeypoints, m_queryDescriptors);
 		int size = m_pattern.keyframeList.size();
@@ -1228,25 +1228,25 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
 	cout<<m_queryKeypoints.size()<<endl;
-	if(!needNewPoints()&&enableOpticalFlow&&false){
+	if(!needNewPoints()&&enableOpticalFlow){
 		// 2. track features
-		cout<<"before optical flow: "<<points[0].size()<<endl;
+		cout<<"before optical flow: "<<before.size()<<endl;
 		cout << "before optical flow: " << before.size() << endl;
-		InputArray _prevPts=(InputArray)points[0];
+		InputArray _prevPts=(InputArray)before;
 		Mat prevPtsMat = _prevPts.getMat();
 
 		int npoints = prevPtsMat.checkVector(2, CV_32F, true);
 		//cout<<npoints<<endl;
 		cout<<npoints<<endl;
 		calcOpticalFlowPyrLK(m_grayImgPrev, m_grayImg, // 2 consecutive images
-				points[0], // input point position in first image
-				points[1], // output point postion in the second image
+				before, // input point position in first image
+				after, // output point postion in the second image
 				status,    // tracking success
 				err);      // tracking error
 
 		// 2. loop over the tracked points to reject the undesirables
 		int k=0;
-		for( int i= 0; i < points[1].size(); i++ ) {
+		for( int i= 0; i < after.size(); i++ ) {
 
 			// do we keep this point?
 			if (acceptTrackedPoint(i)) {
@@ -1254,25 +1254,25 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 				// keep this point in vector
 				patternPoints[k]=patternPoints[i];
 				initial[k]= initial[i];
-				points[1][k++] = points[1][i];
+				after[k++] = after[i];
 			}
 		}
 
 		// eliminate unsuccesful points
 		patternPoints.resize(k);
-		points[1].resize(k);
+		after.resize(k);
 		initial.resize(k);
 		cout<<"k: "<<k<<endl;
 
 
 
 		// Find homography matrix and get inliers mask
-		vector<unsigned char> inliersMask(points[0].size());
+		vector<unsigned char> inliersMask(before.size());
 		Timer timer;
 		timer.start();
 		double findHomographyStart = timer.getElapsedTimeInMilliSec();
 		Mat homography = findHomography(patternPoints,
-				points[1],
+				after,
 				0,
 				homographyReprojectionThreshold,
 				inliersMask);
@@ -1298,19 +1298,22 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 
 			// Transform contour with precise homography
 			//LOGE("draw refine homography");
-			perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
+			//perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 			//#if _DEBUG
-			info.draw2dContour(image, CV_RGB(200,0,200));
+			//info.draw2dContour(image, CV_RGB(200,0,200));
+			//draw2dContour(image,info, m_pattern.points2d,info.homography, CV_RGB(200, 0, 200));
+			drawing.draw2dContour(*this,image, info, m_pattern.points2d, info.homography, CV_RGB(200, 0, 200));
 			m_lostFrameNum=0;
 			estimatedHomographyFound=true;
-			float err = computeError(homography);
+			float err = arerror.computeError(*this,homography);
 			cout << "err: " << err << endl;
 			// 3. handle the accepted tracked points
 			Scalar scalar(255,0,0);
 			handleTrackedPoints(image, image, scalar);
 
 			// 4. current points and image become previous ones
-			swap(points[1], points[0]);
+			//swap(points[1], points[0]);
+			swap(before, after);
 			swap(m_grayImgPrev, m_grayImg);
 		}
 		m_opticalFrameNum++;
@@ -1431,13 +1434,14 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			}
 			cout<<"warped matches size: "<<warpedMatches.size()<<endl;
 			initial.clear();
-			points[0].clear();
-			points[1].clear();
 			before.clear();
 			after.clear();
+			//before.clear();
+			//after.clear();
 			for(int i=0;i<warpedMatches.size();i++){
 				initial.push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
-				points[0].push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
+				//points[0].push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
+				before.push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
 			}
 			cout<<"begin handle tracked points outer"<<endl;
 			handleTrackedPoints(image,image);
@@ -1575,7 +1579,8 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 					}*/
 					//drawContours(image, info);
 
-					draw2Contours(image, info, matchIndexes, estiIndexes);
+					//draw2Contours(image, info, matchIndexes, estiIndexes);
+					drawing.draw2Contours(*this,image, info, matchIndexes, estiIndexes);
 
 				}
 				else
@@ -1596,8 +1601,8 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			}
 			cout<<"matches size: "<<m_matches.size()<<endl;
 			initial.clear();
-			points[0].clear();
-			points[1].clear();
+			//points[0].clear();
+			//points[1].clear();
 			before.clear();
 			after.clear();
 			patternPoints.clear();
@@ -1609,8 +1614,8 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 					patternPoints.push_back(m_pattern.keypoints[m_matches[i].trainIdx].pt);
 				}
 				initial.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-				points[0].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-				points[1].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+				//points[0].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+				//points[1].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 				before.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 				after.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 			}
@@ -1627,7 +1632,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	cout<<"end find pattern homography found: "<<homographyFound<<endl;
 	return homographyFound;
 }
-float PatternDetector::point_distance(Point2f& p1, Point2f& p2)
+/*float PatternDetector::point_distance(Point2f& p1, Point2f& p2)
 {
 	float x = p1.x - p2.x;
 	float y = p1.y - p2.y;
@@ -1642,7 +1647,7 @@ float PatternDetector::computeError(Mat homography)
 	}
 	vector<Point2f> persPoints;
 	perspectiveTransform(patternPoints, persPoints, homography);
-	if (persPoints.size() != points[1].size())
+	if (persPoints.size() != after.size())
 	{
 		cout << "compute error size not match";
 		return 0;
@@ -1650,12 +1655,9 @@ float PatternDetector::computeError(Mat homography)
 	float err = 0;
 	for (int i = 0; i < persPoints.size(); i++)
 	{
-		err += (point_distance(persPoints[i], points[1][i]));
-	}
-	/*for (int i = 0; i < persPoints.size(); i++)
-	{
 		err += (point_distance(persPoints[i], after[i]));
-	}*/
+	}
+
 	err /= persPoints.size();
 	errs.push_back(err);
 	return err;
@@ -1672,16 +1674,26 @@ void PatternDetector::printError()
 	}
 	errfile.flush();
 	errfile.close();
+}*/
+
+/*void PatternDetector::draw2dContour(Mat& image, PatternTrackingInfo& info, vector<Point2f> points, Mat homography, Scalar color, int lineWidth)
+{
+	if (isShowRects == false)
+	{
+		return;
+	}
+	perspectiveTransform(points, info.points2d, homography);
+	info.draw2dContour(image, color,lineWidth);
 }
 
 void PatternDetector::drawContours(Mat& image, PatternTrackingInfo& info)
 {
 	for(int i=0;i<m_pattern.keyframeList.size();i++){
-		perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		info.draw2dContour(image, CV_RGB(200,200,200));
+		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+		draw2dContour(image, info, m_pattern.keyframeList[i].points2d,m_roughHomography,CV_RGB(200, 200, 200));
 	}
-	perspectiveTransform(m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, info.points2d, m_roughHomography);
-	info.draw2dContour(image, CV_RGB(200,0,0));
+	//perspectiveTransform(m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, info.points2d, m_roughHomography);
+	draw2dContour(image, info, m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 
 	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 }
@@ -1689,13 +1701,15 @@ void PatternDetector::drawContours(Mat& image, PatternTrackingInfo& info)
 void PatternDetector::drawContours(Mat& image, PatternTrackingInfo& info, vector<int> indexes)
 {
 	for (int i = 0; i<m_pattern.keyframeList.size(); i++){
-		perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		info.draw2dContour(image, CV_RGB(200, 200, 200));
+		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+		//info.draw2dContour(image, CV_RGB(200, 200, 200));
+		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 	}
 	for (int i = 0; i < indexes.size(); i++)
 	{
-		perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		info.draw2dContour(image, CV_RGB(200, 0, 0));
+		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+		//info.draw2dContour(image, CV_RGB(200, 0, 0));
+		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 	}
 
 
@@ -1711,22 +1725,25 @@ void PatternDetector::draw2Contours(Mat& image, PatternTrackingInfo& info, vecto
 	}
 	putText(image, str, Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
 	for (int i = 0; i<m_pattern.keyframeList.size(); i++){
-		perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		info.draw2dContour(image, CV_RGB(200, 200, 200));
+		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+		//info.draw2dContour(image, CV_RGB(200, 200, 200));
+		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 	}
 	for (int i = 0; i < matchIndexes.size(); i++)
 	{
-		perspectiveTransform(m_pattern.keyframeList[matchIndexes[i]].points2d, info.points2d, m_roughHomography);
-		info.draw2dContour(image, CV_RGB(200, 0, 0),5);
+		//perspectiveTransform(m_pattern.keyframeList[matchIndexes[i]].points2d, info.points2d, m_roughHomography);
+		//info.draw2dContour(image, CV_RGB(200, 0, 0),5);
+		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 	}
 	for (int i = 0; i < estiIndexes.size(); i++)
 	{
-		perspectiveTransform(m_pattern.keyframeList[estiIndexes[i]].points2d, info.points2d, m_roughHomography);
-		info.draw2dContour(image, CV_RGB(0, 200, 0));
+		//perspectiveTransform(m_pattern.keyframeList[estiIndexes[i]].points2d, info.points2d, m_roughHomography);
+		//info.draw2dContour(image, CV_RGB(0, 200, 0));
+		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 	}
 
 	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
-}
+}*/
 
 /*bool PatternDetector::findPatternTwice(Mat& image, PatternTrackingInfo& info)
 {
@@ -2136,20 +2153,14 @@ void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output, Scalar scal
 		return;
 	}
 	// for all tracked points
-	for(int i= 0; i < points[1].size(); i++ ) {
+	for(int i= 0; i < after.size(); i++ ) {
 		//cout<<"i: "<<i<<"  "<<points[0][i].x<<"  "<<points[0][i].y<<endl;
 
 		// draw line and circle
 		//line(output, initial[i], points[1][i], Scalar(255,255,255));
-		circle(output, points[1][i], 3, scalar,-1);
+		circle(output, after[i], 3, scalar,-1);
 	}
 
-	for (int i = 0; i < after.size(); i++){
-		//cout<<"i: "<<i<<"  "<<points[0][i].x<<"  "<<points[0][i].y<<endl;
 
-		// draw line and circle
-		//line(output, initial[i], points[1][i], Scalar(255,255,255));
-		circle(output, after[i], 3, scalar, -1);
-	}
 }
 

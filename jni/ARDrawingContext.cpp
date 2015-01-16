@@ -48,9 +48,9 @@ ARDrawingContext::ARDrawingContext() {
 }
 
 ARDrawingContext::ARDrawingContext(string windowName, Size frameSize,
-		const CameraCalibration& c) :
-		m_isTextureInitialized(false), m_calibration(c), m_windowName(
-				windowName) {
+	const CameraCalibration& c) :
+	m_isTextureInitialized(false), m_calibration(c), m_windowName(
+	windowName) {
 	// Create window with OpenGL support
 	namedWindow(windowName, WINDOW_OPENGL);
 
@@ -63,7 +63,7 @@ ARDrawingContext::ARDrawingContext(string windowName, Size frameSize,
 }
 
 void ARDrawingContext::init(string windowName, Size frameSize,
-		const CameraCalibration& c) {
+	const CameraCalibration& c) {
 	m_isTextureInitialized = false;
 	m_calibration = c;
 	m_windowName = windowName;
@@ -100,19 +100,14 @@ void ARDrawingContext::draw() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); // Clear entire screen:
 	drawCameraFrame();                                  // Render background
 
-	for (int i = 0;
-			i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
-		Point3f & center =
-				pipeline.m_patternDetector.m_pattern.keyframeList[i].center;
+	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
+		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[i].center;
 		drawAugmentedScene(center.x, center.y, center.z);
 	}
 	cout << "begin cout center data" << endl;
-	for (int i = 0;
-			i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
-		Point3f & center =
-				pipeline.m_patternDetector.m_pattern.keyframeList[i].center;
-		cout << "center " << i << " : " << center.x << "  " << center.y << "  "
-				<< center.z << endl;
+	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
+		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[i].center;
+		cout << "center " << i << " : " << center.x << "  " << center.y << "  " << center.z << endl;
 	}
 	cout << "end cout center data" << endl;
 	//drawAugmentedScene();                               // Draw AR
@@ -139,41 +134,36 @@ void ARDrawingContext::drawCameraFrame() {
 
 	int w = m_backgroundImage.cols;
 	int h = m_backgroundImage.rows;
-	cout << "width: " << w << " height: " << h << " channel: "
-			<< m_backgroundImage.channels() << endl;
+	cout << "width: " << w << " height: " << h << " channel: " << m_backgroundImage.channels() << endl;
 	cvtColor(m_backgroundImage, m_backgroundImage, CV_BGR2RGB);
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 
 	// Upload new texture data:
 	if (m_backgroundImage.channels() == 3)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB,
-				GL_UNSIGNED_BYTE, m_backgroundImage.data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, m_backgroundImage.data);
 	else if (m_backgroundImage.channels() == 4)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGBA,
-				GL_UNSIGNED_BYTE, m_backgroundImage.data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_backgroundImage.data);
 	else if (m_backgroundImage.channels() == 1)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_LUMINANCE,
-				GL_UNSIGNED_BYTE, m_backgroundImage.data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, m_backgroundImage.data);
 
 	const GLfloat bgTextureVertices[] = { 0, 0, w, 0, 0, h, w, h };
 	const GLfloat bgTextureCoords[] = { 1, 0, 1, 1, 0, 0, 0, 1 };
-	const GLfloat proj[] = { 0, -2.f / w, 0, 0, -2.f / h, 0, 0, 0, 0, 0, 1, 0,
-			1, 1, 0, 1 };
+	const GLfloat proj[] = { 0, -2.f / w, 0, 0, -2.f / h, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1 };
 
-	glMatrixMode (GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(proj);
 
-	glMatrixMode (GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glEnable (GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 
 	// Update attribute values.
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-	glDisable (GL_DEPTH_TEST);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_DEPTH_TEST);
 
 	glVertexPointer(2, GL_FLOAT, 0, bgTextureVertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, bgTextureCoords);
@@ -233,7 +223,7 @@ void ARDrawingContext::drawAugmentedScene(float x, float y, float z) {
 	int h = height;
 	buildProjectionMatrix(m_calibration, w, h, projectionMatrix);
 
-	glMatrixMode (GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(projectionMatrix.data);
 	cout << "projectionMatrix: " << endl;
 	for (int i = 0; i < 16; i++) {
@@ -241,7 +231,7 @@ void ARDrawingContext::drawAugmentedScene(float x, float y, float z) {
 	}
 	cout << endl;
 
-	glMatrixMode (GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	cout << "is pattern present: " << isPatternPresent << endl;
 	if (isPatternPresent) {
@@ -266,9 +256,7 @@ void ARDrawingContext::drawAugmentedScene(float x, float y, float z) {
 	}
 }
 
-void ARDrawingContext::buildProjectionMatrix(
-		const CameraCalibration& calibration, int screen_width,
-		int screen_height, Matrix44& projectionMatrix) {
+void ARDrawingContext::buildProjectionMatrix(const CameraCalibration& calibration, int screen_width, int screen_height, Matrix44& projectionMatrix) {
 	float nearPlane = 0.01f;  // Near clipping distance
 	float farPlane = 100.0f;  // Far clipping distance
 
@@ -290,19 +278,17 @@ void ARDrawingContext::buildProjectionMatrix(
 
 	projectionMatrix.data[8] = 2.0f * c_x / screen_width - 1.0f;
 	projectionMatrix.data[9] = 2.0f * c_y / screen_height - 1.0f;
-	projectionMatrix.data[10] = -(farPlane + nearPlane)
-			/ (farPlane - nearPlane);
+	projectionMatrix.data[10] = -(farPlane + nearPlane) / (farPlane - nearPlane);
 	projectionMatrix.data[11] = -1.0f;
 
 	projectionMatrix.data[12] = 0.0f;
 	projectionMatrix.data[13] = 0.0f;
-	projectionMatrix.data[14] = -2.0f * farPlane * nearPlane
-			/ (farPlane - nearPlane);
+	projectionMatrix.data[14] = -2.0f * farPlane * nearPlane / (farPlane - nearPlane);
 	projectionMatrix.data[15] = 0.0f;
 }
 
 void ARDrawingContext::drawCoordinateAxis() {
-#ifndef WIN32
+#ifndef WIN32 //android
 	float lineX[] = { 0, 0, 0, 1, 0, 0 };
 	float lineY[] = { 0, 0, 0, 0, 1, 0 };
 	float lineZ[] = { 0, 0, 0, 0, 0, 1 };
@@ -334,10 +320,10 @@ void ARDrawingContext::drawCoordinateAxis() {
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-#else
-	static float lineX[] = {0,0,0,1,0,0};
-	static float lineY[] = {0,0,0,0,1,0};
-	static float lineZ[] = {0,0,0,0,0,1};
+#else //windows
+	static float lineX[] = { 0, 0, 0, 1, 0, 0 };
+	static float lineY[] = { 0, 0, 0, 0, 1, 0 };
+	static float lineZ[] = { 0, 0, 0, 0, 0, 1 };
 
 	glLineWidth(2);
 
@@ -376,57 +362,57 @@ void ARDrawingContext::drawCubeModel() {
 	// 一个正方体有8个顶点,6个面
 #define one 1.0f
 	static GLfloat gVertices[] = {
-	one, one, -one, -one, one, -one,
-	one, one, one,
+		one, one, -one, -one, one, -one,
+		one, one, one,
 
-	-one, one, one,
-	one, -one, one, -one, -one, one,
+		-one, one, one,
+		one, -one, one, -one, -one, one,
 
-	one, -one, -one, -one, -one, -one,
-	one, one, one,
+		one, -one, -one, -one, -one, -one,
+		one, one, one,
 
-	-one, one, one,
-	one, -one, one, -one, -one, one,
+		-one, one, one,
+		one, -one, one, -one, -one, one,
 
-	one, -one, -one, -one, -one, -one,
-	one, one, -one,
+		one, -one, -one, -one, -one, -one,
+		one, one, -one,
 
-	-one, one, -one, -one, one, one, -one, one, -one,
+		-one, one, -one, -one, one, one, -one, one, -one,
 
-	-one, -one, one, -one, -one, -one,
-	one, one, -one,
+		-one, -one, one, -one, -one, -one,
+		one, one, -one,
 
-	one, one, one,
-	one, -one, -one,
-	one, -one, one };
+		one, one, one,
+		one, -one, -one,
+		one, -one, one };
 
 	// 定义纹理坐标
 	// 纹理坐标原点会因不同系统环境而有所不同。
 	// 比如在iOS以及Android上，纹理坐标原点（0, 0）是在左上角
 	// 而在OS X上，纹理坐标的原点是在左下角
 	static GLfloat gTexCoords[] = { 0, one,
-	one, one, 0, 0,
-	one, 0,
+		one, one, 0, 0,
+		one, 0,
 
-	0, one,
-	one, one, 0, 0,
-	one, 0,
+		0, one,
+		one, one, 0, 0,
+		one, 0,
 
-	0, one,
-	one, one, 0, 0,
-	one, 0,
+		0, one,
+		one, one, 0, 0,
+		one, 0,
 
-	0, one,
-	one, one, 0, 0,
-	one, 0,
+		0, one,
+		one, one, 0, 0,
+		one, 0,
 
-	0, one,
-	one, one, 0, 0,
-	one, 0,
+		0, one,
+		one, one, 0, 0,
+		one, 0,
 
-	0, one,
-	one, one, 0, 0,
-	one, 0,
+		0, one,
+		one, one, 0, 0,
+		one, 0,
 
 	};
 
@@ -472,9 +458,9 @@ void ARDrawingContext::drawCubeModel() {
 	cout << "angle: " << endl;
 
 #else
-	static const GLfloat LightAmbient[] = {0.25f, 0.25f, 0.25f, 1.0f}; // Ambient Light Values
-	static const GLfloat LightDiffuse[] = {0.1f, 0.1f, 0.1f, 1.0f}; // Diffuse Light Values
-	static const GLfloat LightPosition[] = {0.0f, 0.0f, 2.0f, 1.0f}; // Light Position
+	static const GLfloat LightAmbient[] = { 0.25f, 0.25f, 0.25f, 1.0f }; // Ambient Light Values
+	static const GLfloat LightDiffuse[] = { 0.1f, 0.1f, 0.1f, 1.0f }; // Diffuse Light Values
+	static const GLfloat LightPosition[] = { 0.0f, 0.0f, 2.0f, 1.0f }; // Light Position
 
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
 
@@ -593,8 +579,8 @@ bool ARDrawingContext::drawMesh() {
 	 glRotatef(yAngle, 0, 1.0F, 0);*/
 	//glScalef(12.2f,12.2f,12.2f);
 
-	glShadeModel (GL_SMOOTH);
-	glDisable (GL_CULL_FACE);
+	glShadeModel(GL_SMOOTH);
+	glDisable(GL_CULL_FACE);
 
 	//glDisable(GL_CULL_FACE);
 	// NOTE: we could use display lists here.  That would speed things
@@ -634,15 +620,13 @@ bool ARDrawingContext::drawMesh() {
 			 cout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
 			 }*/
 
-			glEnableClientState (GL_VERTEX_ARRAY);
-			glEnableClientState (GL_NORMAL_ARRAY);
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
 			glVertexPointer(3, GL_FLOAT, 0, vert);
 			glNormalPointer(GL_FLOAT, 0, norm);
 			glDisable(GL_CULL_FACE);
-			glDrawElements(GL_TRIANGLES, m._plist.size() * 3, GL_UNSIGNED_SHORT,
-					vertElem);
-			cout << "num triangles: " << g_pProgMesh->numTris() << "  "
-					<< m._plist.size() << endl;
+			glDrawElements(GL_TRIANGLES, m._plist.size() * 3, GL_UNSIGNED_SHORT, vertElem);
+			cout << "num triangles: " << g_pProgMesh->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
@@ -655,7 +639,8 @@ bool ARDrawingContext::drawMesh() {
 			 }*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
-		} else {
+		}
+		else {
 			GLfloat *vert = new GLfloat[vec.size() * 3];
 			GLfloat *norm = new GLfloat[vec.size() * 3];
 			GLushort *vertElem = new GLushort[m._plist.size() * 6];
@@ -685,14 +670,12 @@ bool ARDrawingContext::drawMesh() {
 			 cout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
 			 }*/
 
-			glEnableClientState (GL_VERTEX_ARRAY);
+			glEnableClientState(GL_VERTEX_ARRAY);
 			//glEnableClientState(GL_NORMAL_ARRAY);
 			glVertexPointer(3, GL_FLOAT, 0, vert);
 			//glNormalPointer(GL_FLOAT,0,norm);
-			glDrawElements(GL_LINES, m._plist.size() * 6, GL_UNSIGNED_SHORT,
-					vertElem);
-			cout << "num triangles: " << g_pProgMesh->numTris() << "  "
-					<< m._plist.size() << endl;
+			glDrawElements(GL_LINES, m._plist.size() * 6, GL_UNSIGNED_SHORT, vertElem);
+			cout << "num triangles: " << g_pProgMesh->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)

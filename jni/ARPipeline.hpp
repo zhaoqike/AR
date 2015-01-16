@@ -14,8 +14,7 @@ public:
 	ARPipeline(const Mat& patternImage, const CameraCalibration& calibration);
 
 	void init(const Mat& patternImage, const CameraCalibration& calibration);
-	void init(const vector<Mat>& patternImageList,
-			const CameraCalibration& calibration);
+	void init(const vector<Mat>& patternImageList,const CameraCalibration& calibration);
 
 	bool processFrameFirstStage(Mat& inputFrame);
 	bool processFrameSecondStage(Mat& inputFrame, Mat& descriptors);

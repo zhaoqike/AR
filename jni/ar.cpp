@@ -18,6 +18,7 @@
 #include "Model/pmesh.h"
 #include "Model/mesh.h"
 #include "MutexImage.h"
+#include "ARError.h"
 
 #define  LOG_TAG    "libgljni"
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
@@ -49,6 +50,7 @@ MutexImage thirdToRender;
 
 extern bool isMultiScale;
 
+//get center and matrix and track state
 bool trackState = false;
 float val[12];
 Point3d center;
@@ -56,6 +58,8 @@ Point3d center;
 extern ARPipeline pipeline;
 extern ARDrawingContext drawingCtx;
 extern CameraCalibration calibration;
+
+extern ARError arerror;
 
 //ARPipeline pipeline;
 //ARDrawingContext drawingCtx;
@@ -97,10 +101,8 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_loadMapNative(JNIEnv*, jo
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackingFrameNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba);
 
 //getpose
-JNIEXPORT jboolean JNICALL Java_com_example_ar_ARNativeLib_getGLPoseNative(
-		JNIEnv* env, jobject, jfloatArray arr);
-JNIEXPORT jboolean JNICALL Java_com_example_ar_ARNativeLib_getCenterNative(
-		JNIEnv* env, jobject, jfloatArray arr);
+JNIEXPORT jboolean JNICALL Java_com_example_ar_ARNativeLib_getGLPoseNative(JNIEnv* env, jobject, jfloatArray arr);
+JNIEXPORT jboolean JNICALL Java_com_example_ar_ARNativeLib_getCenterNative(JNIEnv* env, jobject, jfloatArray arr);
 
 //common
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_sendFrameToNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba);
@@ -115,16 +117,11 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showPoints(JNIEnv*, jobje
 }
 //declare
 void redirectStdOut();
-bool processFrame(cv::Mat& cameraFrame, ARPipeline& pipeline,
-		ARDrawingContext& drawingCtx);
-bool processFrameFirstStage(cv::Mat& cameraFrame, ARPipeline& pipeline,
-		ARDrawingContext& drawingCtx);
-bool processFrameSecondStage(cv::Mat& cameraFrame, ARPipeline& pipeline,
-		ARDrawingContext& drawingCtx, Mat& descriptors);
-bool processFrameThirdStage(cv::Mat& cameraFrame, ARPipeline& pipeline,
-		ARDrawingContext& drawingCtx, Mat& descriptors);
-void initKalmanFilter(KalmanFilter &KF, int nStates, int nMeasurements,
-		int nInputs, double dt);
+bool processFrame(cv::Mat& cameraFrame, ARPipeline& pipeline,ARDrawingContext& drawingCtx);
+bool processFrameFirstStage(cv::Mat& cameraFrame, ARPipeline& pipeline,ARDrawingContext& drawingCtx);
+bool processFrameSecondStage(cv::Mat& cameraFrame, ARPipeline& pipeline,ARDrawingContext& drawingCtx, Mat& descriptors);
+bool processFrameThirdStage(cv::Mat& cameraFrame, ARPipeline& pipeline,ARDrawingContext& drawingCtx, Mat& descriptors);
+void initKalmanFilter(KalmanFilter &KF, int nStates, int nMeasurements,int nInputs, double dt);
 
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv* env, jobject, jstring path)
 {
@@ -920,8 +917,8 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_FindFeatures(JNIEnv*, job
 
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_storeError(JNIEnv*, jobject)
 {
-	pipeline.m_patternDetector.printError();
-	pipeline.m_patternDetector.calcWindowArea();
+	arerror.printError();
+	//pipeline.m_patternDetector.calcWindowArea();
 }
 
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showRects(JNIEnv*, jobject)

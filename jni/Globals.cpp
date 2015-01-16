@@ -20,3 +20,6 @@ PMesh *g_pProgMesh = NULL;
 
 
 GLuint *gTexture = 0;
+
+ARDrawing drawing;
+ARError arerror;
