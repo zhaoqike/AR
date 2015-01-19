@@ -69,13 +69,13 @@ void ARDrawing::draw2Contours(PatternDetector& pd, Mat& image, PatternTrackingIn
 	{
 		//perspectiveTransform(m_pattern.keyframeList[matchIndexes[i]].points2d, info.points2d, m_roughHomography);
 		//info.draw2dContour(image, CV_RGB(200, 0, 0),5);
-		draw2dContour(pd, image, info, pd.m_pattern.keyframeList[i].points2d, pd.m_roughHomography, CV_RGB(200, 0, 0));
+		draw2dContour(pd, image, info, pd.m_pattern.keyframeList[matchIndexes[i]].points2d, pd.m_roughHomography, CV_RGB(200, 0, 0));
 	}
 	for (int i = 0; i < estiIndexes.size(); i++)
 	{
 		//perspectiveTransform(m_pattern.keyframeList[estiIndexes[i]].points2d, info.points2d, m_roughHomography);
 		//info.draw2dContour(image, CV_RGB(0, 200, 0));
-		draw2dContour(pd, image, info, pd.m_pattern.keyframeList[i].points2d, pd.m_roughHomography, CV_RGB(0, 200, 0));
+		draw2dContour(pd, image, info, pd.m_pattern.keyframeList[estiIndexes[i]].points2d, pd.m_roughHomography, CV_RGB(0, 200, 0));
 	}
 
 	perspectiveTransform(pd.m_pattern.points2d, info.points2d, pd.m_roughHomography);

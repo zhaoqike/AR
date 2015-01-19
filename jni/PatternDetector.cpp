@@ -255,7 +255,7 @@ double PatternDetector::getPictureDivWindowScale(int width, int height)
 int PatternDetector::getLayerNum(int width, int height)
 {
 	double scale = getPictureDivWindowScale(width, height);
-	if (true){
+	if (false){
 		int level = log(scale) / log(2);
 		return 2 * level;
 	}
@@ -611,10 +611,11 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 	if(isMultiScale)
 	{
 		bool useNewScale = true;
-		useNewScale = false;
+		//useNewScale = false;
 		if (useNewScale)
 		{
 			int layerNum = getLayerNum(image.cols, image.rows);
+			cout << "layer num: " << layerNum << endl;
 			makeLayerList(image, pattern.layerList, layerNum);
 
 			//to put all keyframes in a vector
@@ -995,7 +996,7 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 	if (estimatedHomographyFound)
 	{
 		cout << "begin calc areas" << endl;
-		MyPoint lt(0, 0), lb(0, 600), rb(800, 600), rt(800, 0);
+		MyPoint lt(0, 0), lb(0, 480), rb(640, 480), rt(640, 0);
 		vector<MyPoint> screenPointList;
 		screenPointList.push_back(lt);
 		screenPointList.push_back(lb);
@@ -1066,7 +1067,7 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 				cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
 			}
 			sort(alphaList.begin(), alphaList.end(), compareAlpha);
-			cout << "after sort esti";
+			cout << "after sort esti"<<endl;
 			for (int i = 0; i < alphaList.size(); i++)
 			{
 				cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
@@ -1074,15 +1075,21 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 			int resultCount = (min)((int)alphaList.size(), indexCount);
 			for (int i = 0; i < resultCount; i++)
 			{
-				//indexes.push_back(alphaList[i].index);
+				indexes.push_back(alphaList[i].index);
 				estiIdxes.push_back(alphaList[i].index);
 			}
+			stringstream ss;
+			for (int i = 0; i < indexes.size(); i++)
+			{
+				ss << indexes[i] << "  ";
+			}
+			str = ss.str();
 			double estiSortEnd = timer.getElapsedTimeInMilliSec();
 			double estiSortDuration = estiSortEnd - estiSortStart;
 			cout << "esti sort duration" << estiSortDuration << endl;
 
 			//copy vector
-			indexes = estiIdxes;
+			//indexes = estiIdxes;
 			return estiIndex;
 		}
 	}
@@ -1315,6 +1322,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			//swap(points[1], points[0]);
 			swap(before, after);
 			swap(m_grayImgPrev, m_grayImg);
+			perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 		}
 		m_opticalFrameNum++;
 
@@ -1421,6 +1429,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 				perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 				//#if _DEBUG
 				info.draw2dContour(image, CV_RGB(200,0,200));
+				perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 				m_lostFrameNum=0;
 				estimatedHomographyFound=true;
 			}

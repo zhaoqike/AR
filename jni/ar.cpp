@@ -126,7 +126,8 @@ void initKalmanFilter(KalmanFilter &KF, int nStates, int nMeasurements,int nInpu
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv* env, jobject, jstring path)
 {
 	redirectStdOut();
-	LOGE("begin train pattern");cout<<"begin train pattern"<<endl;
+	LOGE("begin train pattern");
+	cout<<"begin train pattern"<<endl;
 	const char* str;
 	str = env->GetStringUTFChars(path, false);
 	if(str == NULL) {
@@ -136,18 +137,21 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 
 	Mat patternImage = cv::imread(str);
 	env->ReleaseStringUTFChars(path, str);
-	LOGE("pattern channels: %d",
-			patternImage.channels());cvtColor(patternImage,patternImage,CV_BGR2RGB);
+	LOGE("pattern channels: %d",patternImage.channels());cvtColor(patternImage,patternImage,CV_BGR2RGB);
 	if (patternImage.empty())
 	{
 		std::cout << "Input image cannot be read" << std::endl;
 		return;
 	}
-	cv::Size frameSize(1024, 576);
-	LOGE("begin pipeline init");pipeline.init(patternImage, calibration);
-	LOGE(
-			"begin drawctx init");drawingCtx.init("Markerless AR", frameSize, calibration);
+	cv::Size frameSize(640, 480);
+	LOGE("begin pipeline init");
+	cout<<"begin pipeline init"<<endl;
+	pipeline.init(patternImage, calibration);
+	LOGE("begin drawctx init");
+	cout<<"begin drawctx init"<<endl;
+	drawingCtx.init("Markerless AR", frameSize, calibration);
 	LOGE("end drawctx init");
+	cout<<"end drawctx init"<<endl;
 
 	//kalman
 	//cout << "begin init kalman" << endl;
