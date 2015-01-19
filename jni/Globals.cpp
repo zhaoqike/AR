@@ -3,7 +3,7 @@
 
 bool isShowRects = true;
 bool isShowPoints = true;
-bool isMultiScale = false;
+bool isMultiScale = true;
 
 
 
