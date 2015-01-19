@@ -202,6 +202,7 @@ public:
 	Ptr<DescriptorMatcher>   m_matcher;
 
 	vector<float> errs;
+	vector<int> nowMatchedKeyframes;
 
 	int m_lostFrameNum;
 	int m_opticalFrameNum;

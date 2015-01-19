@@ -1546,7 +1546,10 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			//indexes.push_back(0);
 			getMatches(m_queryDescriptors, indexes, m_matches);
 			cout << indexes.size() << endl;
-
+			if (indexes.size() != 0)
+			{
+				nowMatchedKeyframes = indexes;
+			}
 			cout << m_queryDescriptors.size() << "  " << m_pattern.keyframeList[indexes[0]].descriptors.size() << endl;
 			cout << "before homo size: " << m_matches.size() << endl;
 			cout << "end get matches: " << m_matches.size() << endl;

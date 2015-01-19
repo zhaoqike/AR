@@ -100,8 +100,16 @@ void ARDrawingContext::draw() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); // Clear entire screen:
 	drawCameraFrame();                                  // Render background
 
-	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
+	/*for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
 		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[i].center;
+		drawAugmentedScene(center.x, center.y, center.z);
+	}*/
+
+	vector<int>& matchedKfs = pipeline.m_patternDetector.nowMatchedKeyframes;
+	for (int i = 0; i < matchedKfs.size();i++)
+	{
+		int index = matchedKfs[i];
+		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[index].center;
 		drawAugmentedScene(center.x, center.y, center.z);
 	}
 	cout << "begin cout center data" << endl;
