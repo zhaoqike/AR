@@ -43,7 +43,7 @@ extern bool isShowPoints;
 int StringToInt(string str)
 {
 	int result = 0;
-	for (int i = 0; i<str.length(); i++)
+	for (int i = 0; i < str.length(); i++)
 	{
 		result *= 10;
 		result += str[i] - '0';
@@ -75,9 +75,9 @@ string intToString(int i)
 void printMat(string name, Mat& mat)
 {
 	cout << name << endl;
-	for (int i = 0; i<mat.rows; i++)
+	for (int i = 0; i < mat.rows; i++)
 	{
-		for (int j = 0; j<mat.cols; j++)
+		for (int j = 0; j < mat.cols; j++)
 		{
 			cout << mat.at<double>(i, j) << ' ';
 		}
@@ -86,23 +86,23 @@ void printMat(string name, Mat& mat)
 	cout << endl;
 }
 
-PatternDetector::PatternDetector(Ptr<FeatureDetector> detector, 
-		Ptr<DescriptorExtractor> extractor,
-		Ptr<DescriptorMatcher> matcher,
-		bool ratioTest,
-		bool wrap,
-		bool opticalFlow,
-		bool estimatedHomoFound)
-: m_detector(detector)
-, m_extractor(extractor)
-, m_matcher(matcher)
-, enableRatioTest(ratioTest)
-, enableWrap(wrap)
-, enableOpticalFlow(opticalFlow)
-, estimatedHomographyFound(estimatedHomoFound)
-, homographyReprojectionThreshold(3)
-, m_lostFrameNum(0)
-, m_opticalFrameNum(0)
+PatternDetector::PatternDetector(Ptr<FeatureDetector> detector,
+	Ptr<DescriptorExtractor> extractor,
+	Ptr<DescriptorMatcher> matcher,
+	bool ratioTest,
+	bool wrap,
+	bool opticalFlow,
+	bool estimatedHomoFound)
+	: m_detector(detector)
+	, m_extractor(extractor)
+	, m_matcher(matcher)
+	, enableRatioTest(ratioTest)
+	, enableWrap(wrap)
+	, enableOpticalFlow(opticalFlow)
+	, estimatedHomographyFound(estimatedHomoFound)
+	, homographyReprojectionThreshold(3)
+	, m_lostFrameNum(0)
+	, m_opticalFrameNum(0)
 {
 	errs.reserve(10000);
 }
@@ -123,7 +123,7 @@ void PatternDetector::train(const Pattern& pattern)
 
 	/*if(pattern.descriptors.type()!=CV_32F) {
 		pattern.descriptors.convertTo(pattern.descriptors, CV_32F);
-	}*/
+		}*/
 
 
 	descriptors[0] = pattern.descriptors.clone();
@@ -208,18 +208,18 @@ void PatternDetector::makeKeyFrame(const Mat& rangeImage, Rect& range, Size& ori
 	keyframe.points3d[2] = Point3f(unitW, unitH, 0);
 	keyframe.points3d[3] = Point3f(-unitW, unitH, 0);
 
-	keyframe.center.x=(ltw + rtw) / 2;
-	keyframe.center.y=(lth + lbh) / 2;
-	keyframe.center.z=0;
+	keyframe.center.x = (ltw + rtw) / 2;
+	keyframe.center.y = (lth + lbh) / 2;
+	keyframe.center.z = 0;
 
-	double scalew=(double)screenWidth/(double)keyframe.frame.cols;
-	double scaleh=(double)screenHeight/(double)keyframe.frame.rows;
+	double scalew = (double)screenWidth / (double)keyframe.frame.cols;
+	double scaleh = (double)screenHeight / (double)keyframe.frame.rows;
 	//double scale=(scalew+scaleh)/2;
 	double scale = getWindowDivPictureScale(keyframe.frame.cols, keyframe.frame.rows);
 
 	//double scale = 1.0;
 
-	cout<<"scalew scaleh scale: "<<scalew<<"  "<<scaleh<<"  "<<scale<<endl;
+	cout << "scalew scaleh scale: " << scalew << "  " << scaleh << "  " << scale << endl;
 
 
 	Size dstsize(keyframe.grayImg.cols*scale, keyframe.grayImg.rows*scale);
@@ -240,7 +240,7 @@ double PatternDetector::getWindowDivPictureScale(int width, int height)
 {
 	double scalew = (double)screenWidth / (double)width;
 	double scaleh = (double)screenHeight / (double)height;
-	double scale=(scalew+scaleh)/2;
+	double scale = (scalew + scaleh) / 2;
 	return scale;
 }
 
@@ -254,53 +254,61 @@ double PatternDetector::getPictureDivWindowScale(int width, int height)
 
 int PatternDetector::getLayerNum(int width, int height)
 {
-	double scale = getPictureDivWindowScale(width, height);
-	if (false){
-		int level = log(scale) / log(2);
-		return 2 * level;
+	if (isMultiScale)
+	{
+
+		double scale = getPictureDivWindowScale(width, height);
+		if (false){
+			int level = log(scale) / log(2);
+			return 2 * level;
+		}
+		else{
+			int level = 1;
+			double dlevel = log(scale) / log(2);
+			if (dlevel < 1)
+			{
+				level = 1;
+			}
+			else
+			{
+				level = ceil(dlevel);
+			}
+			return (std::min)(2 * level, 4);
+		}
 	}
-	else{
-		int level = 1;
-		double dlevel = log(scale) / log(2);
-		if (dlevel < 1)
-		{
-			level = 1;
-		}
-		else
-		{
-			level = ceil(dlevel);
-		}
-		return 2 * level;
+	else
+	{
+		return 1;
 	}
 
 }
 
-void PatternDetector::makeKeyFrame(const Mat& oriimage, Rect& range,KeyFrame& kf)
+void PatternDetector::makeKeyFrame(const Mat& oriimage, Rect& range, KeyFrame& kf)
 {
 	Size oriSize = oriimage.size();
 	Mat rectimage;
 	oriimage(range).copyTo(rectimage);
 
-	makeKeyFrame(rectimage,range,oriSize,kf);
+	makeKeyFrame(rectimage, range, oriSize, kf);
 }
 
 void PatternDetector::cutImage(Mat& image, int level, vector<Rect>& rectList)
 {
 	rectList.clear();
 	Size oriSize = image.size();
-	for(int k=0;k<=level;k++)
+	for (int k = 0; k <= level; k++)
 	{
-		int num=pow(2,k);
-		for(int i=0;i<num;i++)
+		int num = pow(2, k);
+		for (int i = 0; i < num; i++)
 		{
-			for(int j=0;j<num;j++)
+			for (int j = 0; j < num; j++)
 			{
-				int w=oriSize.width/num;
-				int h=oriSize.height/num;
-				int left=i*w;
-				int top=j*w;
+				int w = oriSize.width / num;
+				int h = oriSize.height / num;
+				int left = i*w;
+				int top = j*w;
 
-				Rect r(left,top,w,h);
+				Rect r(left, top, w, h);
 				rectList.push_back(r);
 			}
 		}
@@ -430,14 +438,14 @@ void PatternDetector::makeKeyFrameList(const Mat& img, Layer& layer, int lev)
 	/*double scale = 1;
 	if (level % 2) //odd
 	{
-		level /= 2;
-		scale = pow(2, level);
-		scale *= 1.5;
+	level /= 2;
+	scale = pow(2, level);
+	scale *= 1.5;
 	}
 	else //even
 	{
-		level /= 2;
-		scale = pow(2, level);
+	level /= 2;
+	scale = pow(2, level);
 	}*/
 
 
@@ -565,14 +573,14 @@ void PatternDetector::makeKeyFrameList(const Mat& img, vector<KeyFrame>& keyFram
 		cout << keyFrameList[i].keypoints.size() << "  " << keyFrameList[i].descriptors.size() << endl;
 	}
 
-	double scale=getPictureDivWindowScale(img.cols,img.rows);
-	int level=log(scale)/log(2);
+	double scale = getPictureDivWindowScale(img.cols, img.rows);
+	int level = log(scale) / log(2);
 	vector<Rect> rectList1;
-	cutImage(ori,level,rectList1);
-	cout<<"rect list : "<<rectList1.size()<<endl;
-	for(int i=0;i<rectList1.size();i++)
+	cutImage(ori, level, rectList1);
+	cout << "rect list : " << rectList1.size() << endl;
+	for (int i = 0; i < rectList1.size(); i++)
 	{
-		cout<<rectList1[i].x<<"  "<<rectList1[i].y<<"  "<<rectList1[i].width<<"  "<<rectList1[i].height<<endl;
+		cout << rectList1[i].x << "  " << rectList1[i].y << "  " << rectList1[i].width << "  " << rectList1[i].height << endl;
 	}
 
 
@@ -608,7 +616,7 @@ void draw2dContourWithoutPerpective(Mat& image, vector<Point2f>& points2d, Scala
 
 void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 {
-	if(isMultiScale)
+	//if(isMultiScale)
 	{
 		bool useNewScale = true;
 		//useNewScale = false;
@@ -622,47 +630,60 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 			pattern.keyframeList.clear();
 			for (int i = 0; i < pattern.layerList.size(); i++)
 			{
-			Layer& layer = pattern.layerList[i];
-			for (int j = 0; j < layer.keyframeList.size(); j++)
-			{
-			pattern.keyframeList.push_back(layer.keyframeList[j]);
+				Layer& layer = pattern.layerList[i];
+				for (int j = 0; j < layer.keyframeList.size(); j++)
+				{
+					pattern.keyframeList.push_back(layer.keyframeList[j]);
+				}
 			}
+			if (isMultiScale == false)
+			{
+				cout << "keyframe list size: " << pattern.keyframeList.size() << endl;
+				if (pattern.keyframeList.size() == 1)
+				{
+					//cout << "keyframe list size: " << pattern.keyframeList.size() << endl;
+					cout << "success" << endl;
+				}
+				else
+				{
+					cout << "error" << endl;
+				}
 			}
 
 			for (int i = 0; i < pattern.layerList.size(); i++)
 			{
-			cout << "layer: " << i << " has " << pattern.layerList[i].keyframeList.size() << " keyframes";
+				cout << "layer: " << i << " has " << pattern.layerList[i].keyframeList.size() << " keyframes";
 			}
 			cout << "all keyframe num is: " << pattern.keyframeList.size() << endl;
 
 
 			for (int i = 0; i < pattern.layerList.size(); i++)
 			{
-			Mat layerImg = image.clone();
-			//cout << "layer: " << i << endl;
-			Layer& layer = pattern.layerList[i];
-			for (int j = 0; j < layer.keyframeList.size(); j++)
-			{
-			//cout << "keyframe: " << j << endl;
-			KeyFrame& kf = layer.keyframeList[j];
-			vector<Point2f> pointList;
-			rectToVector(kf.rect, pointList);
-			//if (i == 4)
-			draw2dContourWithoutPerpective(layerImg, pointList, Scalar(200, 0, 0), 3);
-			}
-			string filename = "/sdcard/keyframes/contoursrect_" + intToString(i) + ".jpg";
-			imwrite(filename, layerImg);
+				Mat layerImg = image.clone();
+				//cout << "layer: " << i << endl;
+				Layer& layer = pattern.layerList[i];
+				for (int j = 0; j < layer.keyframeList.size(); j++)
+				{
+					//cout << "keyframe: " << j << endl;
+					KeyFrame& kf = layer.keyframeList[j];
+					vector<Point2f> pointList;
+					rectToVector(kf.rect, pointList);
+					//if (i == 4)
+					draw2dContourWithoutPerpective(layerImg, pointList, Scalar(200, 0, 0), 3);
+				}
+				string filename = "/sdcard/keyframes/contoursrect_" + intToString(i) + ".jpg";
+				imwrite(filename, layerImg);
 
-			for (int j = 0; j < layer.keyframeList.size(); j++)
-			{
-			//cout << "keyframe: " << j << endl;
-			KeyFrame& kf = layer.keyframeList[j];
-			vector<Point2f> pointList=kf.points2d;
-			//if (i == 4)
-			draw2dContourWithoutPerpective(layerImg, pointList, Scalar(200, 0, 0), 3);
-			}
-			filename = "/sdcard/keyframes/contourspoint_" + intToString(i) + ".jpg";
-			imwrite(filename, layerImg);
+				for (int j = 0; j < layer.keyframeList.size(); j++)
+				{
+					//cout << "keyframe: " << j << endl;
+					KeyFrame& kf = layer.keyframeList[j];
+					vector<Point2f> pointList = kf.points2d;
+					//if (i == 4)
+					draw2dContourWithoutPerpective(layerImg, pointList, Scalar(200, 0, 0), 3);
+				}
+				filename = "/sdcard/keyframes/contourspoint_" + intToString(i) + ".jpg";
+				imwrite(filename, layerImg);
 			}
 		}
 		else
@@ -681,77 +702,77 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 	}
 	//else
 	{
-		int numImages = 4;
-		float step = sqrtf(2.0f);
+	int numImages = 4;
+	float step = sqrtf(2.0f);
 
-		// Store original image in pattern structure
-		pattern.size = Size(image.cols, image.rows);
-		pattern.frame = image.clone();
-		getGray(image, pattern.grayImg);
+	// Store original image in pattern structure
+	pattern.size = Size(image.cols, image.rows);
+	pattern.frame = image.clone();
+	getGray(image, pattern.grayImg);
 
-		// Build 2d and 3d contours (3d contour lie in XY plane since it's planar)
-		pattern.points2d.resize(4);
-		pattern.points3d.resize(4);
+	// Build 2d and 3d contours (3d contour lie in XY plane since it's planar)
+	pattern.points2d.resize(4);
+	pattern.points3d.resize(4);
 
-		// Image dimensions
-		const float w = image.cols;
-		const float h = image.rows;
+	// Image dimensions
+	const float w = image.cols;
+	const float h = image.rows;
 
-		// Normalized dimensions:
-		const float maxSize = (max)(w,h);
-		const float unitW = w / maxSize;
-		const float unitH = h / maxSize;
+	// Normalized dimensions:
+	const float maxSize = (max)(w, h);
+	const float unitW = w / maxSize;
+	const float unitH = h / maxSize;
 
-		pattern.points2d[0] = Point2f(0,0);
-		pattern.points2d[1] = Point2f(w,0);
-		pattern.points2d[2] = Point2f(w,h);
-		pattern.points2d[3] = Point2f(0,h);
+	pattern.points2d[0] = Point2f(0, 0);
+	pattern.points2d[1] = Point2f(w, 0);
+	pattern.points2d[2] = Point2f(w, h);
+	pattern.points2d[3] = Point2f(0, h);
 
-		pattern.points3d[0] = Point3f(-unitW, -unitH, 0);
-		pattern.points3d[1] = Point3f( unitW, -unitH, 0);
-		pattern.points3d[2] = Point3f( unitW,  unitH, 0);
-		pattern.points3d[3] = Point3f(-unitW,  unitH, 0);
+	pattern.points3d[0] = Point3f(-unitW, -unitH, 0);
+	pattern.points3d[1] = Point3f(unitW, -unitH, 0);
+	pattern.points3d[2] = Point3f(unitW, unitH, 0);
+	pattern.points3d[3] = Point3f(-unitW, unitH, 0);
 
-		extractFeatures(pattern.grayImg, pattern.keypoints, pattern.descriptors);
-	}
+	extractFeatures(pattern.grayImg, pattern.keypoints, pattern.descriptors);
+}
 }
 
 
 
 bool PatternDetector::findPatternFirstStage(Mat& image, PatternTrackingInfo& info)
 {
-	cout<<"find pattern first stage"<<endl;
+	cout << "find pattern first stage" << endl;
 	Timer timer;
 	timer.start();
-	double getGrayStart=timer.getElapsedTimeInMilliSec();
+	double getGrayStart = timer.getElapsedTimeInMilliSec();
 	getGray(image, m_grayImg);
-	double getGrayEnd=timer.getElapsedTimeInMilliSec();
-	double getGrayDuration=getGrayEnd-getGrayStart;
-	cout<<"get gray: "<<getGrayDuration<<endl;
+	double getGrayEnd = timer.getElapsedTimeInMilliSec();
+	double getGrayDuration = getGrayEnd - getGrayStart;
+	cout << "get gray: " << getGrayDuration << endl;
 
 
-	int maxLostFrames=5;
-	m_roughHomography=info.homography;
-	bool homographyFound=false;
+	int maxLostFrames = 5;
+	m_roughHomography = info.homography;
+	bool homographyFound = false;
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
 	/*if (estimatedHomographyFound && enableWrap)
 	{
 
-		LOGE("homography found first");
-		//LOGE("type:%d, rows:%d, cold:%d",m_roughHomography.type(),m_roughHomography.rows,m_roughHomography.cols);
-		// Warp image using found homography
-		double warpStart=timer.getElapsedTimeInMilliSec();
-		warpPerspective(m_grayImg, m_firstStageImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP );
-		//warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
-		double warpEnd=timer.getElapsedTimeInMilliSec();
-		double warpDuration=warpEnd-warpStart;
-		cout<<"warp image: "<<warpDuration<<endl;
+	LOGE("homography found first");
+	//LOGE("type:%d, rows:%d, cold:%d",m_roughHomography.type(),m_roughHomography.rows,m_roughHomography.cols);
+	// Warp image using found homography
+	double warpStart=timer.getElapsedTimeInMilliSec();
+	warpPerspective(m_grayImg, m_firstStageImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP );
+	//warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
+	double warpEnd=timer.getElapsedTimeInMilliSec();
+	double warpDuration=warpEnd-warpStart;
+	cout<<"warp image: "<<warpDuration<<endl;
 	}
 	else*/
 	{
 		cout << "homography not found first" << endl;
-		m_firstStageImg=m_grayImg;
+		m_firstStageImg = m_grayImg;
 	}
 	m_firstToSecondMutex.lock();
 	m_firstToSecondImg = m_firstStageImg;
@@ -762,7 +783,7 @@ bool PatternDetector::findPatternFirstStage(Mat& image, PatternTrackingInfo& inf
 bool PatternDetector::findPatternSecondStage(Mat& image, PatternTrackingInfo& info, Mat& descriptors)
 {
 	// Convert input image to gray
-	cout<<"find pattern second stage"<<endl;
+	cout << "find pattern second stage" << endl;
 	Timer timer;
 	timer.start();
 
@@ -770,53 +791,53 @@ bool PatternDetector::findPatternSecondStage(Mat& image, PatternTrackingInfo& in
 	m_secondStageImg = m_firstToSecondImg;
 	m_firstToSecondMutex.unlock();
 
-	int maxLostFrames=5;
-	m_roughHomography=info.homography;
-	bool homographyFound=false;
+	int maxLostFrames = 5;
+	m_roughHomography = info.homography;
+	bool homographyFound = false;
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
 	/*if (estimatedHomographyFound && enableWrap)
 	{
-		LOGE("homography found second");
-		// Get refined matches:
-		//vector<KeyPoint> warpedKeypoints;
-		//vector<DMatch> warpedMatches;
+	LOGE("homography found second");
+	// Get refined matches:
+	//vector<KeyPoint> warpedKeypoints;
+	//vector<DMatch> warpedMatches;
 
-		// Detect features on warped image
-		double extractStart=timer.getElapsedTimeInMilliSec();
-		extractFeatures(m_secondStageImg, m_queryKeypoints, m_queryDescriptors);
-		double extractEnd=timer.getElapsedTimeInMilliSec();
-		double extractDuration=extractEnd-extractStart;
-		cout<<"extract feature: "<<extractDuration<<endl;
+	// Detect features on warped image
+	double extractStart=timer.getElapsedTimeInMilliSec();
+	extractFeatures(m_secondStageImg, m_queryKeypoints, m_queryDescriptors);
+	double extractEnd=timer.getElapsedTimeInMilliSec();
+	double extractDuration=extractEnd-extractStart;
+	cout<<"extract feature: "<<extractDuration<<endl;
 
-		// Match with pattern
-		double matchStart=timer.getElapsedTimeInMilliSec();
-		getMatches(m_queryDescriptors, m_matches);
-		double matchEnd=timer.getElapsedTimeInMilliSec();
-		double matchDuration=matchEnd-matchStart;
-		cout<<"match feature: "<<matchDuration<<endl;
+	// Match with pattern
+	double matchStart=timer.getElapsedTimeInMilliSec();
+	getMatches(m_queryDescriptors, m_matches);
+	double matchEnd=timer.getElapsedTimeInMilliSec();
+	double matchDuration=matchEnd-matchStart;
+	cout<<"match feature: "<<matchDuration<<endl;
 
 
 
 	}
 	else*/
 	{
-		cout<<"homography not found second"<<endl;
+		cout << "homography not found second" << endl;
 		// Extract feature points from input gray image
 		Timer timer;
 		timer.start();
 		double extractStart = timer.getElapsedTimeInMilliSec();
 		extractFeatures(m_secondStageImg, m_queryKeypoints, m_queryDescriptors);
 		double extractEnd = timer.getElapsedTimeInMilliSec();
-		double extractDuration=extractEnd-extractStart;
-		cout<<"extract: "<<extractDuration<<endl;
+		double extractDuration = extractEnd - extractStart;
+		cout << "extract: " << extractDuration << endl;
 
 		// Get matches with current pattern
-		double matchStart=timer.getElapsedTimeInMilliSec();
+		double matchStart = timer.getElapsedTimeInMilliSec();
 		getMatches(m_queryDescriptors, m_matches);
-		cout<<"match size: "<<m_matches.size()<<endl;
-		double matchEnd=timer.getElapsedTimeInMilliSec();
-		double matchDuration=matchEnd-matchStart;
+		cout << "match size: " << m_matches.size() << endl;
+		double matchEnd = timer.getElapsedTimeInMilliSec();
+		double matchDuration = matchEnd - matchStart;
 		//usleep(60*1000);
 		// Find homography transformation and detect good matches
 
@@ -831,113 +852,113 @@ bool PatternDetector::findPatternSecondStage(Mat& image, PatternTrackingInfo& in
 bool PatternDetector::findPatternThirdStage(Mat& image, PatternTrackingInfo& info, Mat& descriptors)
 {
 	// Convert input image to gray
-	cout<<"find pattern second stage"<<endl;
+	cout << "find pattern second stage" << endl;
 	Timer timer;
 	timer.start();
 
 
 
-	int maxLostFrames=5;
-	m_roughHomography=info.homography;
-	bool homographyFound=false;
+	int maxLostFrames = 5;
+	m_roughHomography = info.homography;
+	bool homographyFound = false;
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
 	/*if (estimatedHomographyFound && enableWrap)
 	{
-		LOGE("homography found second");
-		// Get refined matches:
-		double homographyStart=timer.getElapsedTimeInMilliSec();
-		homographyFound = refineMatchesWithHomography(
-				m_queryKeypoints,
-				m_pattern.keypoints,
-				homographyReprojectionThreshold,
-				m_matches,
-				m_refinedHomography);
-		double homographyEnd=timer.getElapsedTimeInMilliSec();
-		double homographyDuration=homographyEnd-homographyStart;
-		cout<<"homography : "<<homographyDuration<<endl;
+	LOGE("homography found second");
+	// Get refined matches:
+	double homographyStart=timer.getElapsedTimeInMilliSec();
+	homographyFound = refineMatchesWithHomography(
+	m_queryKeypoints,
+	m_pattern.keypoints,
+	homographyReprojectionThreshold,
+	m_matches,
+	m_refinedHomography);
+	double homographyEnd=timer.getElapsedTimeInMilliSec();
+	double homographyDuration=homographyEnd-homographyStart;
+	cout<<"homography : "<<homographyDuration<<endl;
 
 
 
-		// Get a result homography as result of matrix product of refined and rough homographies:
-		if(homographyFound)
-		{
+	// Get a result homography as result of matrix product of refined and rough homographies:
+	if(homographyFound)
+	{
 
-			Mat mulHomography=m_roughHomography*m_refinedHomography;//don't know why but can't use info.homography = m_roughHomography * m_refinedHomography
-			info.homography = mulHomography;
-
-
-			//printMat("info.homography",info.homography);
-			//printMat("rough homography", m_roughHomography);
-			//printMat("refine homography",m_refinedHomography);
-			//printMat("mul homography", mul);
+	Mat mulHomography=m_roughHomography*m_refinedHomography;//don't know why but can't use info.homography = m_roughHomography * m_refinedHomography
+	info.homography = mulHomography;
 
 
-			//LOGE("draw rough homography");
-			perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
-			info.draw2dContour(image, CV_RGB(0,200,0));
-
-			// Transform contour with precise homography
-			//LOGE("draw refine homography");
-			perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
-			//#if _DEBUG
-			info.draw2dContour(image, CV_RGB(200,0,200));
-			m_lostFrameNum=0;
-			estimatedHomographyFound=true;
-		}
-		else
-		{
-			info.homography=m_roughHomography;
-			m_lostFrameNum++;
-			if(m_lostFrameNum>=maxLostFrames){
-				estimatedHomographyFound=false;
-			}
-		}
+	//printMat("info.homography",info.homography);
+	//printMat("rough homography", m_roughHomography);
+	//printMat("refine homography",m_refinedHomography);
+	//printMat("mul homography", mul);
 
 
-		m_estimatedHomography=info.homography;
+	//LOGE("draw rough homography");
+	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+	info.draw2dContour(image, CV_RGB(0,200,0));
+
+	// Transform contour with precise homography
+	//LOGE("draw refine homography");
+	perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
+	//#if _DEBUG
+	info.draw2dContour(image, CV_RGB(200,0,200));
+	m_lostFrameNum=0;
+	estimatedHomographyFound=true;
+	}
+	else
+	{
+	info.homography=m_roughHomography;
+	m_lostFrameNum++;
+	if(m_lostFrameNum>=maxLostFrames){
+	estimatedHomographyFound=false;
+	}
+	}
+
+
+	m_estimatedHomography=info.homography;
 
 	}
 	else*/
 	{
-		cout<<"homography not found second";
-		cout<<"homography not found"<<endl;
+		cout << "homography not found second";
+		cout << "homography not found" << endl;
 		// Extract feature points from input gray image
 		Timer timer;
 		timer.start();
 
 		// Find homography transformation and detect good matches
-		double homographyStart=timer.getElapsedTimeInMilliSec();
+		double homographyStart = timer.getElapsedTimeInMilliSec();
 		homographyFound = refineMatchesWithHomography(
-				m_queryKeypoints,
-				m_pattern.keypoints,
-				homographyReprojectionThreshold,
-				m_matches,
-				m_roughHomography);
-		double homographyEnd=timer.getElapsedTimeInMilliSec();
-		double homographyDuration=homographyEnd-homographyStart;
-		cout<<"homography: "<<homographyDuration<<endl;
+			m_queryKeypoints,
+			m_pattern.keypoints,
+			homographyReprojectionThreshold,
+			m_matches,
+			m_roughHomography);
+		double homographyEnd = timer.getElapsedTimeInMilliSec();
+		double homographyDuration = homographyEnd - homographyStart;
+		cout << "homography: " << homographyDuration << endl;
 
-		cout<<"homography found: "<<homographyFound<<endl;
+		cout << "homography found: " << homographyFound << endl;
 		// Transform contour with rough homography
-		if(homographyFound){
+		if (homographyFound){
 
 			info.homography = m_roughHomography;
 
-			m_estimatedHomography=info.homography;
+			m_estimatedHomography = info.homography;
 
 
 
 			perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
-			info.draw2dContour(image, CV_RGB(200,200,200));
-			m_lostFrameNum=0;
-			estimatedHomographyFound=true;
+			info.draw2dContour(image, CV_RGB(200, 200, 200));
+			m_lostFrameNum = 0;
+			estimatedHomographyFound = true;
 		}
 		else
 		{
 			m_lostFrameNum++;
-			if(m_lostFrameNum>=maxLostFrames){
-				estimatedHomographyFound=false;
+			if (m_lostFrameNum >= maxLostFrames){
+				estimatedHomographyFound = false;
 			}
 		}
 	}
@@ -954,7 +975,7 @@ bool PatternDetector::needNewPoints()
 
 bool PatternDetector::compareAlpha(AlphaState a, AlphaState b)
 {
-	return a.alpha>b.alpha;
+	return a.alpha > b.alpha;
 }
 
 bool PatternDetector::compareCount(MatchState a, MatchState b)
@@ -1017,9 +1038,9 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 			PatternTrackingInfo info;
 			info.homography = homography;
 			perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, info.homography);
-			for(int j=0;j<4;j++)
+			for (int j = 0; j < 4; j++)
 			{
-				MyPoint p(info.points2d[j].x,info.points2d[j].y);
+				MyPoint p(info.points2d[j].x, info.points2d[j].y);
 				keyframePointList.push_back(p);
 			}
 			MyPolygon keyframePoly(keyframePointList);
@@ -1047,7 +1068,7 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 		double polyEnd = timer.getElapsedTimeInMilliSec();
 		double polyDuration = polyEnd - polyStart;
 		cout << "calc poly time: " << polyDuration << endl;
-		
+
 		if (success)
 		{
 			double estiSortStart = timer.getElapsedTimeInMilliSec();
@@ -1067,7 +1088,7 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 				cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
 			}
 			sort(alphaList.begin(), alphaList.end(), compareAlpha);
-			cout << "after sort esti"<<endl;
+			cout << "after sort esti" << endl;
 			for (int i = 0; i < alphaList.size(); i++)
 			{
 				cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
@@ -1114,7 +1135,7 @@ int PatternDetector::matchKeyFrames(Mat& homography, vector<int>& indexes, vecto
 		cout << "calc match time: " << matchDuration << endl;
 
 		stringstream ss;
-		ss<<"match condition: ";
+		ss << "match condition: ";
 		cout << "match count; " << matchCount.size() << endl;
 		for (int i = 0; i < matchCount.size(); i++)
 		{
@@ -1190,29 +1211,29 @@ MatchState PatternDetector::matchKeyFrame(int index, vector<DMatch>& matches)
 	Timer timer;
 	timer.start();
 
-	KeyFrame& keyframe=m_pattern.keyframeList[index];
+	KeyFrame& keyframe = m_pattern.keyframeList[index];
 	// Get matches with current pattern
-	double matchStart=timer.getElapsedTimeInMilliSec();
+	double matchStart = timer.getElapsedTimeInMilliSec();
 	getMatches(m_queryDescriptors, index, matches);
 	cout << "after get match : " << matches.size() << endl;
-	double matchEnd=timer.getElapsedTimeInMilliSec();
-	double matchDuration=matchEnd-matchStart;
+	double matchEnd = timer.getElapsedTimeInMilliSec();
+	double matchDuration = matchEnd - matchStart;
 
 	// Find homography transformation and detect good matches
-	double homographyStart=timer.getElapsedTimeInMilliSec();
+	double homographyStart = timer.getElapsedTimeInMilliSec();
 	bool homographyFound = refineMatchesWithHomography(
-			m_queryKeypoints,
-			keyframe.keypoints,
-			homographyReprojectionThreshold,
-			matches,
-			m_roughHomography);
+		m_queryKeypoints,
+		keyframe.keypoints,
+		homographyReprojectionThreshold,
+		matches,
+		m_roughHomography);
 	cout << "after homography: " << matches.size() << endl;
-	double homographyEnd=timer.getElapsedTimeInMilliSec();
-	double homographyDuration=homographyEnd-homographyStart;
-	cout<<"homography: "<<homographyDuration<<endl;
+	double homographyEnd = timer.getElapsedTimeInMilliSec();
+	double homographyDuration = homographyEnd - homographyStart;
+	cout << "homography: " << homographyDuration << endl;
 	MatchState ms;
-	ms.found=homographyFound;
-	ms.num=matches.size();
+	ms.found = homographyFound;
+	ms.num = matches.size();
 	ms.index = index;
 	return ms;
 }
@@ -1222,45 +1243,45 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	// Convert input image to gray
 	Timer timer;
 	timer.start();
-	double getGrayStart=timer.getElapsedTimeInMilliSec();
+	double getGrayStart = timer.getElapsedTimeInMilliSec();
 	getGray(image, m_grayImg);
-	double getGrayEnd=timer.getElapsedTimeInMilliSec();
-	double getGrayDuration=getGrayEnd-getGrayStart;
-	cout<<"get gray: "<<getGrayDuration<<endl;
+	double getGrayEnd = timer.getElapsedTimeInMilliSec();
+	double getGrayDuration = getGrayEnd - getGrayStart;
+	cout << "get gray: " << getGrayDuration << endl;
 
 
-	int maxLostFrames=5;
-	m_roughHomography=info.homography;
-	bool homographyFound=false;
+	int maxLostFrames = 5;
+	m_roughHomography = info.homography;
+	bool homographyFound = false;
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
-	cout<<m_queryKeypoints.size()<<endl;
-	if(!needNewPoints()&&enableOpticalFlow){
+	cout << m_queryKeypoints.size() << endl;
+	if (!needNewPoints() && enableOpticalFlow){
 		// 2. track features
-		cout<<"before optical flow: "<<before.size()<<endl;
 		cout << "before optical flow: " << before.size() << endl;
-		InputArray _prevPts=(InputArray)before;
+		cout << "before optical flow: " << before.size() << endl;
+		InputArray _prevPts = (InputArray)before;
 		Mat prevPtsMat = _prevPts.getMat();
 
 		int npoints = prevPtsMat.checkVector(2, CV_32F, true);
 		//cout<<npoints<<endl;
-		cout<<npoints<<endl;
+		cout << npoints << endl;
 		calcOpticalFlowPyrLK(m_grayImgPrev, m_grayImg, // 2 consecutive images
-				before, // input point position in first image
-				after, // output point postion in the second image
-				status,    // tracking success
-				err);      // tracking error
+			before, // input point position in first image
+			after, // output point postion in the second image
+			status,    // tracking success
+			err);      // tracking error
 
 		// 2. loop over the tracked points to reject the undesirables
-		int k=0;
-		for( int i= 0; i < after.size(); i++ ) {
+		int k = 0;
+		for (int i = 0; i < after.size(); i++) {
 
 			// do we keep this point?
 			if (acceptTrackedPoint(i)) {
 
 				// keep this point in vector
-				patternPoints[k]=patternPoints[i];
-				initial[k]= initial[i];
+				patternPoints[k] = patternPoints[i];
+				initial[k] = initial[i];
 				after[k++] = after[i];
 			}
 		}
@@ -1269,7 +1290,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		patternPoints.resize(k);
 		after.resize(k);
 		initial.resize(k);
-		cout<<"k: "<<k<<endl;
+		cout << "k: " << k << endl;
 
 
 
@@ -1279,17 +1300,17 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		timer.start();
 		double findHomographyStart = timer.getElapsedTimeInMilliSec();
 		Mat homography = findHomography(patternPoints,
-				after,
-				0,
-				homographyReprojectionThreshold,
-				inliersMask);
+			after,
+			0,
+			homographyReprojectionThreshold,
+			inliersMask);
 
-		double findHomographyEnd=timer.getElapsedTimeInMilliSec();
-		double findHomographyDuration=findHomographyEnd-findHomographyStart;
-		cout<<"find homography duration: "<<findHomographyDuration<<endl;
+		double findHomographyEnd = timer.getElapsedTimeInMilliSec();
+		double findHomographyDuration = findHomographyEnd - findHomographyStart;
+		cout << "find homography duration: " << findHomographyDuration << endl;
 
-		homographyFound=(countNonZero(inliersMask)>8);
-		if(homographyFound){
+		homographyFound = (countNonZero(inliersMask) > 8);
+		if (homographyFound){
 			info.homography = homography;
 
 
@@ -1309,13 +1330,13 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			//#if _DEBUG
 			//info.draw2dContour(image, CV_RGB(200,0,200));
 			//draw2dContour(image,info, m_pattern.points2d,info.homography, CV_RGB(200, 0, 200));
-			drawing.draw2dContour(*this,image, info, m_pattern.points2d, info.homography, CV_RGB(200, 0, 200));
-			m_lostFrameNum=0;
-			estimatedHomographyFound=true;
-			float err = arerror.computeError(*this,homography);
+			drawing.draw2dContour(*this, image, info, m_pattern.points2d, info.homography, CV_RGB(200, 0, 200));
+			m_lostFrameNum = 0;
+			estimatedHomographyFound = true;
+			float err = arerror.computeError(*this, homography);
 			cout << "err: " << err << endl;
 			// 3. handle the accepted tracked points
-			Scalar scalar(255,0,0);
+			Scalar scalar(255, 0, 0);
 			handleTrackedPoints(image, image, scalar);
 
 			// 4. current points and image become previous ones
@@ -1331,28 +1352,28 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	}
 	else
 	{
-		if (estimatedHomographyFound && enableWrap&&false)
+		if (estimatedHomographyFound && enableWrap && false)
 		{
 			//LOGE("homography found");
 			//LOGE("type:%d, rows:%d, cold:%d",m_roughHomography.type(),m_roughHomography.rows,m_roughHomography.cols);
 			// Warp image using found homography
-			double warpStart=timer.getElapsedTimeInMilliSec();
-			warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP );
+			double warpStart = timer.getElapsedTimeInMilliSec();
+			warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP);
 			//warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
-			double warpEnd=timer.getElapsedTimeInMilliSec();
-			double warpDuration=warpEnd-warpStart;
-			cout<<"warp image: "<<warpDuration<<endl;
+			double warpEnd = timer.getElapsedTimeInMilliSec();
+			double warpDuration = warpEnd - warpStart;
+			cout << "warp image: " << warpDuration << endl;
 
 			// Get refined matches:
 			vector<KeyPoint> warpedKeypoints;
 			vector<DMatch> warpedMatches;
 
 			// Detect features on warped image
-			double extractStart=timer.getElapsedTimeInMilliSec();
+			double extractStart = timer.getElapsedTimeInMilliSec();
 			extractFeatures(m_warpedImg, warpedKeypoints, m_queryDescriptors);
-			double extractEnd=timer.getElapsedTimeInMilliSec();
-			double extractDuration=extractEnd-extractStart;
-			cout<<"extract feature: "<<extractDuration<<endl;
+			double extractEnd = timer.getElapsedTimeInMilliSec();
+			double extractDuration = extractEnd - extractStart;
+			cout << "extract feature: " << extractDuration << endl;
 
 			// Match with pattern
 			double matchStart = timer.getElapsedTimeInMilliSec();
@@ -1363,7 +1384,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			vector<int> estiIndexes;
 			vector<int> matchIndexes;
 			string str;
-			m_pattern.keyframeIndex = matchKeyFrames(m_estimatedHomography, indexes,estiIndexes,matchIndexes, str);
+			m_pattern.keyframeIndex = matchKeyFrames(m_estimatedHomography, indexes, estiIndexes, matchIndexes, str);
 
 			if (m_pattern.keyframeIndex == -1)
 			{
@@ -1389,28 +1410,28 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 
 
 			// Estimate new refinement homography
-			double homographyStart=timer.getElapsedTimeInMilliSec();
+			double homographyStart = timer.getElapsedTimeInMilliSec();
 			homographyFound = refineMatchesWithHomography(
-					warpedKeypoints,
-					m_pattern.keypoints,
-					homographyReprojectionThreshold,
-					warpedMatches,
-					m_refinedHomography);
-			double homographyEnd=timer.getElapsedTimeInMilliSec();
-			double homographyDuration=homographyEnd-homographyStart;
-			cout<<"homography : "<<homographyDuration<<endl;
+				warpedKeypoints,
+				m_pattern.keypoints,
+				homographyReprojectionThreshold,
+				warpedMatches,
+				m_refinedHomography);
+			double homographyEnd = timer.getElapsedTimeInMilliSec();
+			double homographyDuration = homographyEnd - homographyStart;
+			cout << "homography : " << homographyDuration << endl;
 
 			/*if(homographyFound){
 			LOGE("refine homography found");
-		}
-		else{
+			}
+			else{
 			LOGE("refine homography not found");
-		}*/
+			}*/
 
 			// Get a result homography as result of matrix product of refined and rough homographies:
-			if(homographyFound)
+			if (homographyFound)
 			{
-				Mat mulHomography=m_roughHomography*m_refinedHomography;//don't know why but can't use info.homography = m_roughHomography * m_refinedHomography
+				Mat mulHomography = m_roughHomography*m_refinedHomography;//don't know why but can't use info.homography = m_roughHomography * m_refinedHomography
 				info.homography = mulHomography;
 
 
@@ -1428,60 +1449,60 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 				//LOGE("draw refine homography");
 				perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 				//#if _DEBUG
-				info.draw2dContour(image, CV_RGB(200,0,200));
+				info.draw2dContour(image, CV_RGB(200, 0, 200));
 				perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
-				m_lostFrameNum=0;
-				estimatedHomographyFound=true;
+				m_lostFrameNum = 0;
+				estimatedHomographyFound = true;
 			}
 			else
 			{
-				info.homography=m_roughHomography;
+				info.homography = m_roughHomography;
 				m_lostFrameNum++;
-				if(m_lostFrameNum>=maxLostFrames){
-					estimatedHomographyFound=false;
+				if (m_lostFrameNum >= maxLostFrames){
+					estimatedHomographyFound = false;
 				}
 			}
-			cout<<"warped matches size: "<<warpedMatches.size()<<endl;
+			cout << "warped matches size: " << warpedMatches.size() << endl;
 			initial.clear();
 			before.clear();
 			after.clear();
 			//before.clear();
 			//after.clear();
-			for(int i=0;i<warpedMatches.size();i++){
+			for (int i = 0; i < warpedMatches.size(); i++){
 				initial.push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
 				//points[0].push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
 				before.push_back(warpedKeypoints[warpedMatches[i].queryIdx].pt);
 			}
-			cout<<"begin handle tracked points outer"<<endl;
-			handleTrackedPoints(image,image);
-			m_estimatedHomography=info.homography;
-			m_initialHomography=info.homography;
+			cout << "begin handle tracked points outer" << endl;
+			handleTrackedPoints(image, image);
+			m_estimatedHomography = info.homography;
+			m_initialHomography = info.homography;
 		}
 		else
 		{
-			cout<<"estimated homography not found"<<endl;
+			cout << "estimated homography not found" << endl;
 			// Extract feature points from input gray image
 			Timer timer;
 			timer.start();
 			double extractStart = timer.getElapsedTimeInMilliSec();
-			cout<<"m_grayImage: "<<m_grayImg.cols<<"  "<<m_grayImg.rows<<endl;
+			cout << "m_grayImage: " << m_grayImg.cols << "  " << m_grayImg.rows << endl;
 			extractFeatures(m_grayImg, m_queryKeypoints, m_queryDescriptors);
 			double extractEnd = timer.getElapsedTimeInMilliSec();
-			double extractDuration=extractEnd-extractStart;
-			cout<<"extract: "<<extractDuration<<endl;
+			double extractDuration = extractEnd - extractStart;
+			cout << "extract: " << extractDuration << endl;
 
 			// Get matches with current pattern
-			double matchStart=timer.getElapsedTimeInMilliSec();
-			cout<<"begin get matches"<<endl;
+			double matchStart = timer.getElapsedTimeInMilliSec();
+			cout << "begin get matches" << endl;
 
 			vector<int> indexes;
 			indexes.clear();
 			vector<int> estiIndexes;
 			vector<int> matchIndexes;
 			string matchstr;
-			cout<<"begin match keyframes"<<endl;
+			cout << "begin match keyframes" << endl;
 			m_pattern.keyframeIndex = matchKeyFrames(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
-			cout<<"end match keyframes"<<endl;
+			cout << "end match keyframes" << endl;
 			cout << m_pattern.keyframeIndex << endl;
 			string str = "index size: " + intToString(indexes.size());
 			putText(image, matchstr, Point(10, 50), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
@@ -1489,14 +1510,14 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			{
 				//return false;
 			}
-			if(m_pattern.keyframeIndex==-1)
+			if (m_pattern.keyframeIndex == -1)
 			{
-				m_pattern.keyframeIndex=0;
+				m_pattern.keyframeIndex = 0;
 			}
 			m_pattern.keyframeIndex = -1;
 			/*for (int i = 0; i < m_pattern.keyframeList.size(); i++)
 			{
-				indexes.push_back(i);
+			indexes.push_back(i);
 			}*/
 			//indexes.push_back(4);
 			//matchIndexes = indexes;
@@ -1526,9 +1547,9 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 
 			cout << m_queryDescriptors.size() << "  " << m_pattern.keyframeList[indexes[0]].descriptors.size() << endl;
 			cout << "before homo size: " << m_matches.size() << endl;
-			cout<<"end get matches: "<<m_matches.size()<<endl;
-			double matchEnd=timer.getElapsedTimeInMilliSec();
-			double matchDuration=matchEnd-matchStart;
+			cout << "end get matches: " << m_matches.size() << endl;
+			double matchEnd = timer.getElapsedTimeInMilliSec();
+			double matchDuration = matchEnd - matchStart;
 			//cout<<m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints.size()<<endl;
 			//cout<<m_pattern.keypoints.size()<<endl;
 
@@ -1540,88 +1561,89 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			}
 
 			// Find homography transformation and detect good matches
-			double homographyStart=timer.getElapsedTimeInMilliSec();
-			if(isMultiScale){
-				homographyFound = refineMatchesWithHomography(
-						m_queryKeypoints,
-						//m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints,
-						patternKeyPoints,
-						homographyReprojectionThreshold,
-						m_matches,
-						m_roughHomography);
-				cout << "homography found is: " << homographyFound <<"  "<<m_matches.size() << endl;
-				cout << m_queryKeypoints.size() << "  " << m_pattern.keyframeList[indexes[0]].keypoints.size() << endl;
-				cout << "after homo size: " << m_matches.size() << endl;
-			}
-			else
-			{
-				homographyFound = refineMatchesWithHomography(
-						m_queryKeypoints,
-						m_pattern.keypoints,
-						homographyReprojectionThreshold,
-						m_matches,
-						m_roughHomography);
-			}
-			double homographyEnd=timer.getElapsedTimeInMilliSec();
-			double homographyDuration=homographyEnd-homographyStart;
-			cout<<"homography: "<<homographyDuration<<endl;
+			double homographyStart = timer.getElapsedTimeInMilliSec();
+			//if(isMultiScale){
+			homographyFound = refineMatchesWithHomography(
+				m_queryKeypoints,
+				//m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints,
+				patternKeyPoints,
+				homographyReprojectionThreshold,
+				m_matches,
+				m_roughHomography);
+			cout << "homography found is: " << homographyFound << "  " << m_matches.size() << endl;
+			cout << m_queryKeypoints.size() << "  " << m_pattern.keyframeList[indexes[0]].keypoints.size() << endl;
+			cout << "after homo size: " << m_matches.size() << endl;
+			//}
+			//else
+			//{
+			//	homographyFound = refineMatchesWithHomography(
+			//			m_queryKeypoints,
+			//			m_pattern.keypoints,
+			//			homographyReprojectionThreshold,
+			//			m_matches,
+			//			m_roughHomography);
+			//}
+			double homographyEnd = timer.getElapsedTimeInMilliSec();
+			double homographyDuration = homographyEnd - homographyStart;
+			cout << "homography: " << homographyDuration << endl;
 
 
 			// Transform contour with rough homography
-			if(homographyFound){
+			if (homographyFound){
 
 				info.homography = m_roughHomography;
 
-				m_estimatedHomography=info.homography;
-				m_initialHomography=info.homography;
+				m_estimatedHomography = info.homography;
+				m_initialHomography = info.homography;
 
 
-				if(isMultiScale)
+				//if(isMultiScale)
 				{
 					/*perspectiveTransform(m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, info.points2d, m_roughHomography);
 					info.draw2dContour(image, CV_RGB(200,0,0));
 					cout<<"keyframe size: "<<m_pattern.keyframeList.size()<<endl;
 					for(int i=0;i<m_pattern.keyframeList.size();i++){
-						perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-						info.draw2dContour(image, CV_RGB(200,200,200));
+					perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+					info.draw2dContour(image, CV_RGB(200,200,200));
 
 					}*/
 					//drawContours(image, info);
 
 					//draw2Contours(image, info, matchIndexes, estiIndexes);
-					drawing.draw2Contours(*this,image, info, matchIndexes, estiIndexes);
+					drawing.draw2Contours(*this, image, info, matchIndexes, estiIndexes);
+					perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 
 				}
-				else
-				{
-					perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
-				}
+				//else
+				//{
+				//	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+				//}
 				perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 				//info.draw2dContour(image, CV_RGB(200,0,0));
-				m_lostFrameNum=0;
-				estimatedHomographyFound=true;
+				m_lostFrameNum = 0;
+				estimatedHomographyFound = true;
 			}
 			else
 			{
 				m_lostFrameNum++;
-				if(m_lostFrameNum>=maxLostFrames){
-					estimatedHomographyFound=false;
+				if (m_lostFrameNum >= maxLostFrames){
+					estimatedHomographyFound = false;
 				}
 			}
-			cout<<"matches size: "<<m_matches.size()<<endl;
+			cout << "matches size: " << m_matches.size() << endl;
 			initial.clear();
 			//points[0].clear();
 			//points[1].clear();
 			before.clear();
 			after.clear();
 			patternPoints.clear();
-			for(int i=0;i<m_matches.size();i++){
-				if(isMultiScale){
-					//patternPoints.push_back(m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints[m_matches[i].trainIdx].pt);
-					patternPoints.push_back(patternKeyPoints[m_matches[i].trainIdx].pt);
-				}else{
-					patternPoints.push_back(m_pattern.keypoints[m_matches[i].trainIdx].pt);
-				}
+			for (int i = 0; i < m_matches.size(); i++){
+				//if(isMultiScale){
+				//patternPoints.push_back(m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints[m_matches[i].trainIdx].pt);
+				patternPoints.push_back(patternKeyPoints[m_matches[i].trainIdx].pt);
+				//}else{
+				//	patternPoints.push_back(m_pattern.keypoints[m_matches[i].trainIdx].pt);
+				//}
 				initial.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 				//points[0].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 				//points[1].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
@@ -1631,231 +1653,231 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 			//float err = computeError(m_roughHomography);
 			//cout << "err is: " << err << endl;
 
-			cout<<"begin handle tracked points outer"<<endl;
-			handleTrackedPoints(image,image);
-			m_grayImgPrev=m_grayImg.clone();
+			cout << "begin handle tracked points outer" << endl;
+			handleTrackedPoints(image, image);
+			m_grayImgPrev = m_grayImg.clone();
 		}
-		m_opticalFrameNum=0;
+		m_opticalFrameNum = 0;
 	}
 
-	cout<<"end find pattern homography found: "<<homographyFound<<endl;
+	cout << "end find pattern homography found: " << homographyFound << endl;
 	return homographyFound;
 }
 /*float PatternDetector::point_distance(Point2f& p1, Point2f& p2)
 {
-	float x = p1.x - p2.x;
-	float y = p1.y - p2.y;
-	return sqrtf(x*x + y*y);
+float x = p1.x - p2.x;
+float y = p1.y - p2.y;
+return sqrtf(x*x + y*y);
 }
 
 float PatternDetector::computeError(Mat homography)
 {
-	if (homography.rows != 3 || homography.cols != 3)
-	{
-		return 0;
-	}
-	vector<Point2f> persPoints;
-	perspectiveTransform(patternPoints, persPoints, homography);
-	if (persPoints.size() != after.size())
-	{
-		cout << "compute error size not match";
-		return 0;
-	}
-	float err = 0;
-	for (int i = 0; i < persPoints.size(); i++)
-	{
-		err += (point_distance(persPoints[i], after[i]));
-	}
+if (homography.rows != 3 || homography.cols != 3)
+{
+return 0;
+}
+vector<Point2f> persPoints;
+perspectiveTransform(patternPoints, persPoints, homography);
+if (persPoints.size() != after.size())
+{
+cout << "compute error size not match";
+return 0;
+}
+float err = 0;
+for (int i = 0; i < persPoints.size(); i++)
+{
+err += (point_distance(persPoints[i], after[i]));
+}
 
-	err /= persPoints.size();
-	errs.push_back(err);
-	return err;
+err /= persPoints.size();
+errs.push_back(err);
+return err;
 }
 
 void PatternDetector::printError()
 {
-	fstream errfile;
-	errfile.open("sdcard/err.txt", ios::out);
-	cout << errs.size() << endl;
-	for (int i = 0; i < errs.size(); i++)
-	{
-		cout << errs[i] << endl;
-	}
-	errfile.flush();
-	errfile.close();
+fstream errfile;
+errfile.open("sdcard/err.txt", ios::out);
+cout << errs.size() << endl;
+for (int i = 0; i < errs.size(); i++)
+{
+cout << errs[i] << endl;
+}
+errfile.flush();
+errfile.close();
 }*/
 
 /*void PatternDetector::draw2dContour(Mat& image, PatternTrackingInfo& info, vector<Point2f> points, Mat homography, Scalar color, int lineWidth)
 {
-	if (isShowRects == false)
-	{
-		return;
-	}
-	perspectiveTransform(points, info.points2d, homography);
-	info.draw2dContour(image, color,lineWidth);
+if (isShowRects == false)
+{
+return;
+}
+perspectiveTransform(points, info.points2d, homography);
+info.draw2dContour(image, color,lineWidth);
 }
 
 void PatternDetector::drawContours(Mat& image, PatternTrackingInfo& info)
 {
-	for(int i=0;i<m_pattern.keyframeList.size();i++){
-		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		draw2dContour(image, info, m_pattern.keyframeList[i].points2d,m_roughHomography,CV_RGB(200, 200, 200));
-	}
-	//perspectiveTransform(m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, info.points2d, m_roughHomography);
-	draw2dContour(image, info, m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, m_roughHomography, CV_RGB(200, 200, 200));
+for(int i=0;i<m_pattern.keyframeList.size();i++){
+//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+draw2dContour(image, info, m_pattern.keyframeList[i].points2d,m_roughHomography,CV_RGB(200, 200, 200));
+}
+//perspectiveTransform(m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, info.points2d, m_roughHomography);
+draw2dContour(image, info, m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, m_roughHomography, CV_RGB(200, 200, 200));
 
-	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 }
 
 void PatternDetector::drawContours(Mat& image, PatternTrackingInfo& info, vector<int> indexes)
 {
-	for (int i = 0; i<m_pattern.keyframeList.size(); i++){
-		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		//info.draw2dContour(image, CV_RGB(200, 200, 200));
-		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
-	}
-	for (int i = 0; i < indexes.size(); i++)
-	{
-		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		//info.draw2dContour(image, CV_RGB(200, 0, 0));
-		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
-	}
+for (int i = 0; i<m_pattern.keyframeList.size(); i++){
+//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+//info.draw2dContour(image, CV_RGB(200, 200, 200));
+draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
+}
+for (int i = 0; i < indexes.size(); i++)
+{
+//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+//info.draw2dContour(image, CV_RGB(200, 0, 0));
+draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
+}
 
 
-	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 }
 
 void PatternDetector::draw2Contours(Mat& image, PatternTrackingInfo& info, vector<int> matchIndexes, vector<int> estiIndexes)
 {
-	string str="size: "+intToString(matchIndexes.size())+"  ";
-	for (int i = 0; i < matchIndexes.size(); i++)
-	{
-		str += intToString(matchIndexes[i]) + "  ";
-	}
-	putText(image, str, Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
-	for (int i = 0; i<m_pattern.keyframeList.size(); i++){
-		//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
-		//info.draw2dContour(image, CV_RGB(200, 200, 200));
-		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
-	}
-	for (int i = 0; i < matchIndexes.size(); i++)
-	{
-		//perspectiveTransform(m_pattern.keyframeList[matchIndexes[i]].points2d, info.points2d, m_roughHomography);
-		//info.draw2dContour(image, CV_RGB(200, 0, 0),5);
-		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
-	}
-	for (int i = 0; i < estiIndexes.size(); i++)
-	{
-		//perspectiveTransform(m_pattern.keyframeList[estiIndexes[i]].points2d, info.points2d, m_roughHomography);
-		//info.draw2dContour(image, CV_RGB(0, 200, 0));
-		draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
-	}
+string str="size: "+intToString(matchIndexes.size())+"  ";
+for (int i = 0; i < matchIndexes.size(); i++)
+{
+str += intToString(matchIndexes[i]) + "  ";
+}
+putText(image, str, Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
+for (int i = 0; i<m_pattern.keyframeList.size(); i++){
+//perspectiveTransform(m_pattern.keyframeList[i].points2d, info.points2d, m_roughHomography);
+//info.draw2dContour(image, CV_RGB(200, 200, 200));
+draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
+}
+for (int i = 0; i < matchIndexes.size(); i++)
+{
+//perspectiveTransform(m_pattern.keyframeList[matchIndexes[i]].points2d, info.points2d, m_roughHomography);
+//info.draw2dContour(image, CV_RGB(200, 0, 0),5);
+draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
+}
+for (int i = 0; i < estiIndexes.size(); i++)
+{
+//perspectiveTransform(m_pattern.keyframeList[estiIndexes[i]].points2d, info.points2d, m_roughHomography);
+//info.draw2dContour(image, CV_RGB(0, 200, 0));
+draw2dContour(image, info, m_pattern.keyframeList[i].points2d, m_roughHomography, CV_RGB(200, 200, 200));
+}
 
-	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 }*/
 
 /*bool PatternDetector::findPatternTwice(Mat& image, PatternTrackingInfo& info)
 {
-    // Convert input image to gray
-    getGray(image, m_grayImg);
+// Convert input image to gray
+getGray(image, m_grayImg);
 
-    // Extract feature points from input gray image
-    extractFeatures(m_grayImg, m_queryKeypoints, m_queryDescriptors);
+// Extract feature points from input gray image
+extractFeatures(m_grayImg, m_queryKeypoints, m_queryDescriptors);
 
-    // Get matches with current pattern
-    getMatches(m_queryDescriptors, m_matches);
+// Get matches with current pattern
+getMatches(m_queryDescriptors, m_matches);
 
 #if _DEBUG
-    showAndSave("Raw matches", getMatchesImage(image, m_pattern.frame, m_queryKeypoints, m_pattern.keypoints, m_matches, 100));
+showAndSave("Raw matches", getMatchesImage(image, m_pattern.frame, m_queryKeypoints, m_pattern.keypoints, m_matches, 100));
 #endif
 
 #if _DEBUG
-    Mat tmp = image.clone();
+Mat tmp = image.clone();
 #endif
 
-    // Find homography transformation and detect good matches
-    bool homographyFound = refineMatchesWithHomography(
-        m_queryKeypoints,
-        m_pattern.keypoints,
-        homographyReprojectionThreshold,
-        m_matches,
-        m_estimatedHomography);
-    Mat wrapedImg;
+// Find homography transformation and detect good matches
+bool homographyFound = refineMatchesWithHomography(
+m_queryKeypoints,
+m_pattern.keypoints,
+homographyReprojectionThreshold,
+m_matches,
+m_estimatedHomography);
+Mat wrapedImg;
 
-    if (homographyFound)
-    {
+if (homographyFound)
+{
 #if _DEBUG
-        showAndSave("Refined matches using RANSAC", getMatchesImage(image, m_pattern.frame, m_queryKeypoints, m_pattern.keypoints, m_matches, 100));
+showAndSave("Refined matches using RANSAC", getMatchesImage(image, m_pattern.frame, m_queryKeypoints, m_pattern.keypoints, m_matches, 100));
 #endif
-        // If homography refinement enabled improve found transformation
-        if (enableHomographyRefinement)
-        {
-            // Warp image using found homography
-            warpPerspective(m_grayImg, warpedImg, m_estimatedHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
+// If homography refinement enabled improve found transformation
+if (enableHomographyRefinement)
+{
+// Warp image using found homography
+warpPerspective(m_grayImg, warpedImg, m_estimatedHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
 #if _DEBUG
-            showAndSave("Warped image",m_warpedImg);
+showAndSave("Warped image",m_warpedImg);
 #endif
-            // Get refined matches:
-            vector<KeyPoint> warpedKeypoints;
-            vector<DMatch> refinedMatches;
+// Get refined matches:
+vector<KeyPoint> warpedKeypoints;
+vector<DMatch> refinedMatches;
 
-            // Detect features on warped image
-            extractFeatures(m_warpedImg, warpedKeypoints, m_queryDescriptors);
+// Detect features on warped image
+extractFeatures(m_warpedImg, warpedKeypoints, m_queryDescriptors);
 
-            // Match with pattern
-            getMatches(m_queryDescriptors, refinedMatches);
+// Match with pattern
+getMatches(m_queryDescriptors, refinedMatches);
 
-            // Estimate new refinement homography
-            homographyFound = refineMatchesWithHomography(
-                warpedKeypoints,
-                m_pattern.keypoints,
-                homographyReprojectionThreshold,
-                refinedMatches,
-                estimatedHomography);
+// Estimate new refinement homography
+homographyFound = refineMatchesWithHomography(
+warpedKeypoints,
+m_pattern.keypoints,
+homographyReprojectionThreshold,
+refinedMatches,
+estimatedHomography);
 #if _DEBUG
-            showAndSave("MatchesWithRefinedPose", getMatchesImage(m_warpedImg, m_pattern.grayImg, warpedKeypoints, m_pattern.keypoints, refinedMatches, 100));
+showAndSave("MatchesWithRefinedPose", getMatchesImage(m_warpedImg, m_pattern.grayImg, warpedKeypoints, m_pattern.keypoints, refinedMatches, 100));
 #endif
-            // Get a result homography as result of matrix product of refined and rough homographies:
-            info.homography = m_estimatedHomography;
+// Get a result homography as result of matrix product of refined and rough homographies:
+info.homography = m_estimatedHomography;
 
-            // Transform contour with rough homography
+// Transform contour with rough homography
 #if _DEBUG
-            perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
-            info.draw2dContour(tmp, CV_RGB(0,200,0));
+perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+info.draw2dContour(tmp, CV_RGB(0,200,0));
 #endif
 
-            // Transform contour with precise homography
-            perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
+// Transform contour with precise homography
+perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 #if _DEBUG
-            info.draw2dContour(tmp, CV_RGB(200,0,0));
+info.draw2dContour(tmp, CV_RGB(200,0,0));
 #endif
-        }
-        else
-        {
-            info.homography = m_estimatedHomography;
+}
+else
+{
+info.homography = m_estimatedHomography;
 
-            // Transform contour with rough homography
-            perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
+// Transform contour with rough homography
+perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 #if _DEBUG
-            info.draw2dContour(tmp, CV_RGB(0,200,0));
+info.draw2dContour(tmp, CV_RGB(0,200,0));
 #endif
-        }
-    }
+}
+}
 
 #if _DEBUG
-    if (1)
-    {
-        showAndSave("Final matches", getMatchesImage(tmp, m_pattern.frame, m_queryKeypoints, m_pattern.keypoints, m_matches, 100));
-    }
-    cout << "Features:" << setw(4) << m_queryKeypoints.size() << " Matches: " << setw(4) << m_matches.size() << endl;
+if (1)
+{
+showAndSave("Final matches", getMatchesImage(tmp, m_pattern.frame, m_queryKeypoints, m_pattern.keypoints, m_matches, 100));
+}
+cout << "Features:" << setw(4) << m_queryKeypoints.size() << " Matches: " << setw(4) << m_matches.size() << endl;
 #endif
 
-    return homographyFound;
+return homographyFound;
 }*/
 
 void PatternDetector::getGray(const Mat& image, Mat& gray)
 {
-	if (image.channels()  == 3)
+	if (image.channels() == 3)
 		cvtColor(image, gray, CV_BGR2GRAY);
 	else if (image.channels() == 4)
 		cvtColor(image, gray, CV_BGRA2GRAY);
@@ -1872,31 +1894,31 @@ bool PatternDetector::extractFeatures(const Mat& image, vector<KeyPoint>& keypoi
 	timer.start();
 	double detectStart = timer.getElapsedTimeInMilliSec();
 	m_detector->detect(image, keypoints);
-	double detectEnd=timer.getElapsedTimeInMilliSec();
-	double detectDuration=detectEnd-detectStart;
-	cout<<"detect time: "<<detectDuration<<endl;
+	double detectEnd = timer.getElapsedTimeInMilliSec();
+	double detectDuration = detectEnd - detectStart;
+	cout << "detect time: " << detectDuration << endl;
 
-	cout<<"keypoints size: "<<keypoints.size()<<endl;
+	cout << "keypoints size: " << keypoints.size() << endl;
 	if (keypoints.empty())
 		return false;
 
-	double retainStart=timer.getElapsedTimeInMilliSec();
-	int num=200;
-	if(keypoints.size()>num)
+	double retainStart = timer.getElapsedTimeInMilliSec();
+	int num = 200;
+	if (keypoints.size() > num)
 	{
 		KeyPointsFilter filter;
-		filter.retainBest(keypoints,num);
+		filter.retainBest(keypoints, num);
 		//keyframe.keyPoints.resize(num);
 	}
-	double retainEnd=timer.getElapsedTimeInMilliSec();
-	double retainDuration=retainEnd-retainStart;
-	cout<<"retain best: "<<retainDuration<<endl;
+	double retainEnd = timer.getElapsedTimeInMilliSec();
+	double retainDuration = retainEnd - retainStart;
+	cout << "retain best: " << retainDuration << endl;
 
 
-	double extractStart=timer.getElapsedTimeInMilliSec();
+	double extractStart = timer.getElapsedTimeInMilliSec();
 	m_extractor->compute(image, keypoints, descriptors);
-	double extractEnd=timer.getElapsedTimeInMilliSec();
-	cout<<"descriptor size: "<<descriptors.size()<<endl;
+	double extractEnd = timer.getElapsedTimeInMilliSec();
+	cout << "descriptor size: " << descriptors.size() << endl;
 	if (keypoints.empty())
 		return false;
 
@@ -1915,9 +1937,9 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<DMatch>& ma
 		// KNN match will return 2 nearest matches for each query descriptor
 		m_matcher->knnMatch(queryDescriptors, m_knnMatches, 2);
 
-		for (size_t i=0; i<m_knnMatches.size(); i++)
+		for (size_t i = 0; i < m_knnMatches.size(); i++)
 		{
-			const DMatch& bestMatch   = m_knnMatches[i][0];
+			const DMatch& bestMatch = m_knnMatches[i][0];
 			const DMatch& betterMatch = m_knnMatches[i][1];
 
 			float distanceRatio = bestMatch.distance / betterMatch.distance;
@@ -1932,26 +1954,26 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<DMatch>& ma
 	}
 	else
 	{
-		if(isMultiScale)
+		//if(isMultiScale)
 		{
-			cout<<"multi match start"<<endl;
+			cout << "multi match start" << endl;
 			m_matcher->match(queryDescriptors, m_pattern.keyframeList[m_pattern.keyframeIndex].descriptors, matches);
-			cout<<"match size: "<<matches.size()<<endl;
-			cout<<"multi match end"<<endl;
+			cout << "match size: " << matches.size() << endl;
+			cout << "multi match end" << endl;
 		}
-		else
-		{
-			cout<<"non multi match start"<<endl;
-			// Perform regular match
-			Timer timer;
-			timer.start();
-			double regularMatchStart=timer.getElapsedTimeInMilliSec();
-			m_matcher->match(queryDescriptors, m_pattern.descriptors, matches);
-			double regularMatchEnd=timer.getElapsedTimeInMilliSec();
-			double regularMatchDuration=regularMatchEnd-regularMatchStart;
-			cout<<"regular match: "<<regularMatchDuration<<endl;
-			cout<<"non multi match send"<<endl;
-		}
+		//else
+		//{
+		//	cout<<"non multi match start"<<endl;
+		//	// Perform regular match
+		//	Timer timer;
+		//	timer.start();
+		//	double regularMatchStart=timer.getElapsedTimeInMilliSec();
+		//	m_matcher->match(queryDescriptors, m_pattern.descriptors, matches);
+		//	double regularMatchEnd=timer.getElapsedTimeInMilliSec();
+		//	double regularMatchDuration=regularMatchEnd-regularMatchStart;
+		//	cout<<"regular match: "<<regularMatchDuration<<endl;
+		//	cout<<"non multi match send"<<endl;
+		//}
 	}
 }
 
@@ -1968,9 +1990,9 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, int index, vector<
 		// KNN match will return 2 nearest matches for each query descriptor
 		m_matcher->knnMatch(queryDescriptors, m_knnMatches, 2);
 
-		for (size_t i=0; i<m_knnMatches.size(); i++)
+		for (size_t i = 0; i < m_knnMatches.size(); i++)
 		{
-			const DMatch& bestMatch   = m_knnMatches[i][0];
+			const DMatch& bestMatch = m_knnMatches[i][0];
 			const DMatch& betterMatch = m_knnMatches[i][1];
 
 			float distanceRatio = bestMatch.distance / betterMatch.distance;
@@ -1985,21 +2007,21 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, int index, vector<
 	}
 	else
 	{
-		if(isMultiScale)
+		//if(isMultiScale)
 		{
 			m_matcher->match(queryDescriptors, m_pattern.keyframeList[index].descriptors, matches);
 		}
-		else
-		{
-			// Perform regular match
-			Timer timer;
-			timer.start();
-			double regularMatchStart=timer.getElapsedTimeInMilliSec();
-			m_matcher->match(queryDescriptors, m_pattern.descriptors, matches);
-			double regularMatchEnd=timer.getElapsedTimeInMilliSec();
-			double regularMatchDuration=regularMatchEnd-regularMatchStart;
-			cout<<"regular match: "<<regularMatchDuration<<endl;
-		}
+		//else
+		//{
+		//	// Perform regular match
+		//	Timer timer;
+		//	timer.start();
+		//	double regularMatchStart=timer.getElapsedTimeInMilliSec();
+		//	m_matcher->match(queryDescriptors, m_pattern.descriptors, matches);
+		//	double regularMatchEnd=timer.getElapsedTimeInMilliSec();
+		//	double regularMatchDuration=regularMatchEnd-regularMatchStart;
+		//	cout<<"regular match: "<<regularMatchDuration<<endl;
+		//}
 	}
 }
 
@@ -2016,9 +2038,9 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<int>& index
 		// KNN match will return 2 nearest matches for each query descriptor
 		m_matcher->knnMatch(queryDescriptors, m_knnMatches, 2);
 
-		for (size_t i=0; i<m_knnMatches.size(); i++)
+		for (size_t i = 0; i < m_knnMatches.size(); i++)
 		{
-			const DMatch& bestMatch   = m_knnMatches[i][0];
+			const DMatch& bestMatch = m_knnMatches[i][0];
 			const DMatch& betterMatch = m_knnMatches[i][1];
 
 			float distanceRatio = bestMatch.distance / betterMatch.distance;
@@ -2033,7 +2055,7 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<int>& index
 	}
 	else
 	{
-		if(isMultiScale)
+		//if(isMultiScale)
 		{
 			if (indexes.size() == 0)
 			{
@@ -2047,48 +2069,48 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<int>& index
 			int rows = 0;
 			for (int i = 0; i < indexes.size(); i++)
 			{
-				rows += m_pattern.keyframeList[i].descriptors.rows;
+			rows += m_pattern.keyframeList[i].descriptors.rows;
 			}*/
-			cout<<"begin combine descriptors"<<endl;
+			cout << "begin combine descriptors" << endl;
 			Mat descriptors;
-			for(int i=0;i<indexes.size();i++)
+			for (int i = 0; i < indexes.size(); i++)
 			{
 				cout << m_pattern.keyframeList.size() << "  " << indexes[i] << endl;
 				Mat& kfDescriptors = m_pattern.keyframeList[indexes[i]].descriptors;
-				cout<<"keyframe: "<<i<<endl;
-				cout<<kfDescriptors.size()<<endl;
+				cout << "keyframe: " << i << endl;
+				cout << kfDescriptors.size() << endl;
 				descriptors.push_back(kfDescriptors);
 			}
-			cout<<"end combine descriptors"<<endl;
-			cout<<descriptors.size()<<endl;
+			cout << "end combine descriptors" << endl;
+			cout << descriptors.size() << endl;
 			m_matcher->match(queryDescriptors, descriptors, matches);
 		}
-		else
-		{
-			// Perform regular match
-			Timer timer;
-			timer.start();
-			double regularMatchStart=timer.getElapsedTimeInMilliSec();
-			m_matcher->match(queryDescriptors, m_pattern.descriptors, matches);
-			double regularMatchEnd=timer.getElapsedTimeInMilliSec();
-			double regularMatchDuration=regularMatchEnd-regularMatchStart;
-			cout<<"regular match: "<<regularMatchDuration<<endl;
-		}
+		//else
+		//{
+		//	// Perform regular match
+		//	Timer timer;
+		//	timer.start();
+		//	double regularMatchStart=timer.getElapsedTimeInMilliSec();
+		//	m_matcher->match(queryDescriptors, m_pattern.descriptors, matches);
+		//	double regularMatchEnd=timer.getElapsedTimeInMilliSec();
+		//	double regularMatchDuration=regularMatchEnd-regularMatchStart;
+		//	cout<<"regular match: "<<regularMatchDuration<<endl;
+		//}
 	}
 	cout << "end matches with indexes" << endl;
 }
 
 bool PatternDetector::refineMatchesWithHomography
 (
-		const vector<KeyPoint>& queryKeypoints,
-		const vector<KeyPoint>& trainKeypoints,
-		float reprojectionThreshold,
-		vector<DMatch>& matches,
-		Mat& homography
+const vector<KeyPoint>& queryKeypoints,
+const vector<KeyPoint>& trainKeypoints,
+float reprojectionThreshold,
+vector<DMatch>& matches,
+Mat& homography
 )
 {
-	cout<<"begin refine matches with homography"<<endl;
-	cout<<"begin matches size: "<<matches.size()<<endl;
+	cout << "begin refine matches with homography" << endl;
+	cout << "begin matches size: " << matches.size() << endl;
 	const int minNumberMatchesAllowed = 8;
 
 	if (matches.size() < minNumberMatchesAllowed)
@@ -2097,7 +2119,7 @@ bool PatternDetector::refineMatchesWithHomography
 	// Prepare data for findHomography
 	vector<Point2f> srcPoints(matches.size());
 	vector<Point2f> dstPoints(matches.size());
-	cout<<"begin copy"<<endl;
+	cout << "begin copy" << endl;
 	for (size_t i = 0; i < matches.size(); i++)
 	{
 		srcPoints[i] = trainKeypoints[matches[i].trainIdx].pt;
@@ -2108,30 +2130,30 @@ bool PatternDetector::refineMatchesWithHomography
 	vector<unsigned char> inliersMask(srcPoints.size());
 	Timer timer;
 	timer.start();
-	cout<<"timer start"<<endl;
+	cout << "timer start" << endl;
 	double findHomographyStart = timer.getElapsedTimeInMilliSec();
-	cout<<"begin homography"<<endl;
+	cout << "begin homography" << endl;
 	homography = findHomography(srcPoints,
-			dstPoints,
-			CV_FM_RANSAC,
-			reprojectionThreshold,
-			inliersMask);
-	cout<<"end homography"<<endl;
+		dstPoints,
+		CV_FM_RANSAC,
+		reprojectionThreshold,
+		inliersMask);
+	cout << "end homography" << endl;
 
-	double findHomographyEnd=timer.getElapsedTimeInMilliSec();
-	double findHomographyDuration=findHomographyEnd-findHomographyStart;
-	cout<<"find homography duration: "<<findHomographyDuration<<endl;
+	double findHomographyEnd = timer.getElapsedTimeInMilliSec();
+	double findHomographyDuration = findHomographyEnd - findHomographyStart;
+	cout << "find homography duration: " << findHomographyDuration << endl;
 
 	vector<DMatch> inliers;
-	for (size_t i=0; i<inliersMask.size(); i++)
+	for (size_t i = 0; i<inliersMask.size(); i++)
 	{
 		if (inliersMask[i])
 			inliers.push_back(matches[i]);
 	}
 
 	matches.swap(inliers);
-	cout<<"matches size: "<<matches.size()<<endl;
-	cout<<"end refine matches with homography"<<endl;
+	cout << "matches size: " << matches.size() << endl;
+	cout << "end refine matches with homography" << endl;
 	return matches.size() > minNumberMatchesAllowed;
 }
 
@@ -2146,28 +2168,28 @@ bool PatternDetector::acceptTrackedPoint(int i) {
 	cout<<"begin handle tracked points inner"<<endl;
 	// for all tracked points
 	for(int i= 0; i < points[1].size(); i++ ) {
-		//cout<<"i: "<<i<<"  "<<points[0][i].x<<"  "<<points[0][i].y<<endl;
+	//cout<<"i: "<<i<<"  "<<points[0][i].x<<"  "<<points[0][i].y<<endl;
 
-		// draw line and circle
-		//line(output, initial[i], points[1][i], Scalar(255,255,255));
-		circle(output, points[1][i], 3, Scalar(255,255,255),-1);
+	// draw line and circle
+	//line(output, initial[i], points[1][i], Scalar(255,255,255));
+	circle(output, points[1][i], 3, Scalar(255,255,255),-1);
 	}
-}*/
+	}*/
 
 // handle the currently tracked points
-void PatternDetector::handleTrackedPoints( Mat &frame,  Mat &output, Scalar scalar) {
-	cout<<"begin handle tracked points inner"<<endl;
+void PatternDetector::handleTrackedPoints(Mat &frame, Mat &output, Scalar scalar) {
+	cout << "begin handle tracked points inner" << endl;
 	if (isShowPoints == false)
 	{
 		return;
 	}
 	// for all tracked points
-	for(int i= 0; i < after.size(); i++ ) {
+	for (int i = 0; i < after.size(); i++) {
 		//cout<<"i: "<<i<<"  "<<points[0][i].x<<"  "<<points[0][i].y<<endl;
 
 		// draw line and circle
 		//line(output, initial[i], points[1][i], Scalar(255,255,255));
-		circle(output, after[i], 3, scalar,-1);
+		circle(output, after[i], 3, scalar, -1);
 	}
 
 
