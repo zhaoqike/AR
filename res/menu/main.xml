@@ -15,5 +15,7 @@
     <item android:id="@+id/show_rects" android:title="@string/show_rects"/>
     
     <item android:id="@+id/show_points" android:title="@string/show_points"/>
+    
+    <item android:id="@+id/show_texts" android:title="@string/show_texts"/>
 
 </menu>

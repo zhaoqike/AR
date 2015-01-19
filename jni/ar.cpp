@@ -18,11 +18,14 @@
 #include "Model/pmesh.h"
 #include "Model/mesh.h"
 #include "MutexImage.h"
-#include "ARError.h"
+//#include "ARError.h"
+#include "Globals.h"
 
+#ifndef LOG_TAG
 #define  LOG_TAG    "libgljni"
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#endif
 
 using namespace std;
 using namespace cv;
@@ -55,11 +58,11 @@ bool trackState = false;
 float val[12];
 Point3d center;
 
-extern ARPipeline pipeline;
-extern ARDrawingContext drawingCtx;
-extern CameraCalibration calibration;
+//extern ARPipeline pipeline;
+//extern ARDrawingContext drawingCtx;
+//extern CameraCalibration calibration;
 
-extern ARError arerror;
+//extern ARError arerror;
 
 //ARPipeline pipeline;
 //ARDrawingContext drawingCtx;
@@ -73,11 +76,12 @@ int nMeasurements = 6;       // the number of measured states
 int nInputs = 0;             // the number of control actions
 double dt = 0.125;           // time between measurements (1/FPS)
 
-extern Mesh *g_pMesh;
-extern PMesh *g_pProgMesh;
+//extern Mesh *g_pMesh;
+//extern PMesh *g_pProgMesh;
 
-extern bool isShowRects;
-extern bool isShowPoints;
+//extern bool isShowRects;
+//extern bool isShowPoints;
+//extern bool isShowTexts;
 
 Mat measurements(nMeasurements, 1, CV_64F);
 bool good_measurement = false;
@@ -114,6 +118,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_redirectStdOut(JNIEnv*, j
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_storeError(JNIEnv*, jobject);
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showRects(JNIEnv*, jobject);
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showPoints(JNIEnv*, jobject);
+JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showTexts(JNIEnv*, jobject);
 }
 //declare
 void redirectStdOut();
@@ -946,5 +951,17 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showPoints(JNIEnv*, jobje
 	else
 	{
 		isShowPoints=false;
+	}
+}
+
+JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showTexts(JNIEnv*, jobject)
+{
+	if(isShowTexts==false)
+	{
+		isShowTexts=true;
+	}
+	else
+	{
+		isShowTexts=false;
 	}
 }

@@ -20,5 +20,11 @@ public:
 	void drawContours(PatternDetector& pd, Mat& image, PatternTrackingInfo& info);
 	void drawContours(PatternDetector& pd, Mat& image, PatternTrackingInfo& info, vector<int> indexes);
 	void draw2Contours(PatternDetector& pd, Mat& image, PatternTrackingInfo& info, vector<int> matchIndexes, vector<int> estiIndexes);
+
+
+	void drawTrackedPoints(PatternDetector &pd, Mat &output, Scalar scalar);
+
+	void drawText(PatternDetector& pd, Mat& img, const string& text, Point org, Scalar color);
+	void drawTexts(PatternDetector& pd, Mat& img, const vector<string>& texts, Point org, Scalar color);
 };
 

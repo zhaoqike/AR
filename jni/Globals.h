@@ -21,6 +21,7 @@
 
 extern bool isShowRects;
 extern bool isShowPoints;
+extern bool isShowTexts;
 extern bool isMultiScale;
 
 
@@ -41,7 +42,9 @@ extern GLuint *gTexture;
 const int screenWidth = 640;
 const int screenHeight = 480;
 
-const int updateFrameNum = 50;
+const int updateFrameNum = 20;
+
+const int maxLostFrames = 5;
 
 extern ARDrawing drawing;
 extern ARError arerror;

@@ -48,10 +48,11 @@ void ARError::printError()
 {
 	fstream errfile;
 	errfile.open("sdcard/err.txt", ios::out);
-	cout << errs.size() << endl;
+	errfile << "errors" << endl;
+	errfile << errs.size() << endl;
 	for (int i = 0; i < errs.size(); i++)
 	{
-		cout << errs[i] << endl;
+		errfile << errs[i] << endl;
 	}
 	errfile.flush();
 	errfile.close();

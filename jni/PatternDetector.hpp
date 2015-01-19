@@ -12,6 +12,7 @@
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <mutex>
+#include "cg/mypolygon.h"
 
 
 
@@ -95,9 +96,16 @@ public:
 	 */
 	bool findPattern(Mat& image, PatternTrackingInfo& info);
 	bool needNewPoints();
+	bool matckKeyframesWithPolygon(Mat& homography, vector<int>& indexes);
 	int matchKeyFrames(Mat& homography, vector<int>& indexes, vector<int>& matchIdxes, vector<int>& estiIdxes, string& str);
 	MatchState matchKeyFrame(int index, vector<DMatch>& matches);
 	//bool findPatternTwice(Mat& image, PatternTrackingInfo& info);
+
+	bool OpticalTracking(Mat& image, PatternTrackingInfo& info);
+	bool warpedTracking(Mat& image, PatternTrackingInfo& info);
+	bool simpleTracking(Mat& image, PatternTrackingInfo& info);
+
+	void getKeyPointsAndDescriptors(Mat& image, vector<int> indexes, vector<KeyPoint>& keyPoints, Mat& descriptors);
 
 	double calcWindowArea();
 
@@ -203,6 +211,9 @@ public:
 
 	vector<float> errs;
 	vector<int> nowMatchedKeyframes;
+
+	MyPolygon makeScreenPoly();
+	MyPolygon screenPolygon;
 
 	int m_lostFrameNum;
 	int m_opticalFrameNum;
