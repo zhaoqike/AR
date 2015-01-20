@@ -622,7 +622,9 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 	//if(isMultiScale)
 	{
 		bool useNewScale = true;
-		//useNewScale = false;
+#ifdef WIN32
+		useNewScale = false;
+#endif
 		if (useNewScale)
 		{
 			int layerNum = getLayerNum(image.cols, image.rows);
@@ -1408,25 +1410,34 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 	after.resize(k);
 	initial.resize(k);
 	cout << "k: " << k << endl;
+	Mat homography;
+	if (k >= 4)
+	{
+		// Find homography matrix and get inliers mask
+		vector<unsigned char> inliersMask(before.size());
+		Timer timer;
+		timer.start();
+		double findHomographyStart = timer.getElapsedTimeInMilliSec();
+		homography = findHomography(patternPoints,
+			after,
+			0,
+			homographyReprojectionThreshold,
+			inliersMask);
+
+		double findHomographyEnd = timer.getElapsedTimeInMilliSec();
+		double findHomographyDuration = findHomographyEnd - findHomographyStart;
+		cout << "find homography duration: " << findHomographyDuration << endl;
+
+		homographyFound = (countNonZero(inliersMask) > 8);
+	}
+	else
+	{
+		homographyFound = false;
+	}
 
 
 
-	// Find homography matrix and get inliers mask
-	vector<unsigned char> inliersMask(before.size());
-	Timer timer;
-	timer.start();
-	double findHomographyStart = timer.getElapsedTimeInMilliSec();
-	Mat homography = findHomography(patternPoints,
-		after,
-		0,
-		homographyReprojectionThreshold,
-		inliersMask);
-
-	double findHomographyEnd = timer.getElapsedTimeInMilliSec();
-	double findHomographyDuration = findHomographyEnd - findHomographyStart;
-	cout << "find homography duration: " << findHomographyDuration << endl;
-
-	homographyFound = (countNonZero(inliersMask) > 8);
+	
 	if (homographyFound){
 		info.homography = homography;
 
@@ -1456,6 +1467,10 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 		// 3. handle the accepted tracked points
 		Scalar scalar(255, 0, 0);
 		handleTrackedPoints(image, image, scalar);
+
+		//set estimation
+		m_estimatedHomography = info.homography;
+		m_initialHomography = info.homography;
 
 		// 4. current points and image become previous ones
 		//swap(points[1], points[0]);
@@ -1738,8 +1753,30 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 
 		m_estimatedHomography = info.homography;
 		m_initialHomography = info.homography;
+		cout << "begin compute error" << endl;
 
-
+		cout << "matches size: " << m_matches.size() << endl;
+		initial.clear();
+		//points[0].clear();
+		//points[1].clear();
+		before.clear();
+		after.clear();
+		patternPoints.clear();
+		for (int i = 0; i < m_matches.size(); i++){
+			//if(isMultiScale){
+			//patternPoints.push_back(m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints[m_matches[i].trainIdx].pt);
+			patternPoints.push_back(patternKeyPoints[m_matches[i].trainIdx].pt);
+			//}else{
+			//	patternPoints.push_back(m_pattern.keypoints[m_matches[i].trainIdx].pt);
+			//}
+			initial.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+			//points[0].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+			//points[1].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+			before.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+			after.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
+		}
+		float err = arerror.computeError(*this, m_roughHomography);
+		cout << "end compute error" << endl;
 		//if(isMultiScale)
 		{
 			/*perspectiveTransform(m_pattern.keyframeList[m_pattern.keyframeIndex].points2d, info.points2d, m_roughHomography);
@@ -1752,7 +1789,9 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 			}*/
 			//drawContours(image, info);
 
+			cout << "begin draw contours" << endl;
 			drawing.drawContours(*this,image, info, indexes);
+			cout << "end draw contours" << endl;
 			//drawing.draw2Contours(*this, image, info, matchIndexes, estiIndexes);
 			perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
 
@@ -1773,27 +1812,8 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 			estimatedHomographyFound = false;
 		}
 	}
-	cout << "matches size: " << m_matches.size() << endl;
-	initial.clear();
-	//points[0].clear();
-	//points[1].clear();
-	before.clear();
-	after.clear();
-	patternPoints.clear();
-	for (int i = 0; i < m_matches.size(); i++){
-		//if(isMultiScale){
-		//patternPoints.push_back(m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints[m_matches[i].trainIdx].pt);
-		patternPoints.push_back(patternKeyPoints[m_matches[i].trainIdx].pt);
-		//}else{
-		//	patternPoints.push_back(m_pattern.keypoints[m_matches[i].trainIdx].pt);
-		//}
-		initial.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-		//points[0].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-		//points[1].push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-		before.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-		after.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-	}
-	float err = arerror.computeError(*this, m_roughHomography);
+	
+	
 	//cout << "err is: " << err << endl;
 
 	cout << "begin handle tracked points outer" << endl;
@@ -2416,7 +2436,9 @@ Mat& homography
 	const int minNumberMatchesAllowed = 8;
 
 	if (matches.size() < minNumberMatchesAllowed)
+	{
 		return false;
+	}
 
 	// Prepare data for findHomography
 	vector<Point2f> srcPoints(matches.size());

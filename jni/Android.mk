@@ -23,7 +23,6 @@ ARDrawing.cpp \
 Friend.cpp \
 MutexImage.cpp \
 Model/mesh.cpp \
-Model/Model.cpp \
 Model/pmesh.cpp \
 Model/triangle.cpp \
 Model/vec3.cpp \

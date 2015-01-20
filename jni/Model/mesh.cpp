@@ -374,7 +374,7 @@ void Mesh::setMinMax(float min[3], float max[3])
 
 // Center mesh around origin.
 // Fit mesh in box from (-1, -1, -1) to (1, 1, 1)
-void Mesh::Normalize(float s)
+void Mesh::Normalize(float size)
 {
 	float min[3], max[3], Scale;
 
@@ -388,8 +388,9 @@ void Mesh::Normalize(float s)
 	if (dimv.x >= dimv.y && dimv.x >= dimv.z) Scale = 2.0f/dimv.x;
 	else if (dimv.y >= dimv.x && dimv.y >= dimv.z) Scale = 2.0f/dimv.y;
 	else Scale = 2.0f/dimv.z;
-
-	Scale*=s;
+	cout<<"scale: "<<Scale<<endl;
+	Scale*=size;
+	cout<<"scale size  "<<Scale<<"  "<<size<<endl;
 
 	Vec3 transv = minv + maxv;
 

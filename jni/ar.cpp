@@ -166,14 +166,14 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 	cout<<"begin load model"<<endl;
 	//load model
 	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
-	g_pMesh = new Mesh("/sdcard/cow.ply");
+	//g_pMesh = new Mesh("/sdcard/models/apple.ply");
 	vector<vertex>& vert = g_pMesh->_vlist;
 
-	if (g_pMesh) g_pMesh->Normalize();// center mesh around the origin & shrink to fit
+	//if (g_pMesh) g_pMesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
 	cout<<"after normal"<<endl;
 
 
-	g_pProgMesh = new PMesh(g_pMesh, g_edgemethod );
+	//g_pProgMesh = new PMesh(g_pMesh, g_edgemethod );
 	cout<<"end train"<<endl;
 
 }
@@ -700,8 +700,20 @@ void redirectStdOut() {
 	if (isRedirect == true) {
 		return;
 	}
-	freopen("/sdcard/arStdout.txt", "w", stdout);
+	time_t filetamp;
+	filetamp = time(NULL);
+	stringstream ss;
+	string str;
+	ss << filetamp;
+	ss >> str;
+
+	string filename = "/sdcard/arStdout" + str + ".txt";
+	freopen("/sdcard/arStdout.txt", "a", stdout);
+	freopen("/sdcard/arStdout.txt", "a", stderr);
 	cout << "this is ar std out" << endl;
+	cerr << "this is ar std err" << endl;
+	cout << "this is ar std out" << endl;
+	cerr << "this is ar std err" << endl;
 	isRedirect = true;
 }
 

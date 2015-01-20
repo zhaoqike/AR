@@ -17,7 +17,7 @@ float ARError::point_distance(Point2f& p1, Point2f& p2)
 	return sqrtf(x*x + y*y);
 }
 
-float ARError::computeError(PatternDetector& pd, Mat homography)
+float ARError::computeError(PatternDetector& pd, Mat& homography)
 {
 	if (homography.rows != 3 || homography.cols != 3)
 	{

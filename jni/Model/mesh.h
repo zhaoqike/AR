@@ -48,7 +48,7 @@ public:
 	int getNumTriangles() {return _numTriangles;};
 	void setNumTriangles(int n) {_numTriangles = n;};
 
-	void Normalize(float s=1.0);// center mesh around the origin & shrink to fit in [-1, 1]
+	void Normalize(float size=1.0f);// center mesh around the origin & shrink to fit in [-1, 1]
 
 	void calcOneVertNormal(unsigned vert); // recalc normal for one vertex
 

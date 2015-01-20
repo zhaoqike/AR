@@ -4,7 +4,7 @@
 bool isShowRects = true;
 bool isShowPoints = true;
 bool isShowTexts = true;
-bool isMultiScale = true;
+bool isMultiScale = false;
 
 
 
@@ -13,7 +13,8 @@ ARDrawingContext drawingCtx;
 
 
 
-CameraCalibration calibration(526.58037684199849f, 524.65577209994706f, 318.41744018680112f, 202.96659047014398f);
+
+CameraCalibration calibration(640.0f, 640.0f, 320.0f, 240.0f);
 
 
 Mesh *g_pMesh = NULL; // not necessary, but a nice CYA habit

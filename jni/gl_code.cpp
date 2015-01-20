@@ -406,10 +406,10 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_init(JNIEnv * env, job
 
 
 	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
-	g_pMesh = new Mesh("/sdcard/cow.ply");
+	g_pMesh = new Mesh("/sdcard/models/cow.ply");
 	vector<vertex>& vert = g_pMesh->_vlist;
 
-	if (g_pMesh) g_pMesh->Normalize();// center mesh around the origin & shrink to fit
+	if (g_pMesh) g_pMesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
 	cout<<"after normal"<<endl;
 
 

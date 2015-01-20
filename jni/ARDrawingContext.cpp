@@ -252,10 +252,12 @@ void ARDrawingContext::drawAugmentedScene(float x, float y, float z) {
 		}
 		cout << endl;
 		glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMatrix.data[0]));
-		glTranslatef(x, y, z);
-		glScalef(0.2f, 0.2f, 0.2f);
+		glTranslatef(-x, -y, z);
+#ifndef WIN32
+		//glScalef(0.2f, 0.2f, 0.2f);
+#endif
 		// Render model
-		drawCoordinateAxis();
+		//drawCoordinateAxis();
 #ifdef WIN32
 		drawCubeModel();
 #else

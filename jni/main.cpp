@@ -95,19 +95,19 @@ int main(int argc, const char * argv[])
 	freopen(filename.c_str(),"w",stdout);
 
 
-    // Change this calibration to yours:
-    // CameraCalibration calibration(526.58037684199849f, 524.65577209994706f, 318.41744018680112f, 202.96659047014398f);
-	Mat patternImage = imread("PyramidPattern.jpg");
-	Mat testImage = imread("PyramidPatternTest.bmp");
-	if (!testImage.empty())
-	{
-		//imshow("win1", patternImage);
-		//imshow("win2", testImage);
-		//waitKey(0);
-		cout << "==================================================================================main begin process" << endl;
-		processSingleImage(patternImage, calibration, testImage);
-	}
-	return 0;
+
+
+	//Mat patternImage = imread("PyramidPattern.jpg");
+	//Mat testImage = imread("PyramidPatternTest.bmp");
+	//if (!testImage.empty())
+	//{
+	//	//imshow("win1", patternImage);
+	//	//imshow("win2", testImage);
+	//	//waitKey(0);
+	//	cout << "==================================================================================main begin process" << endl;
+	//	processSingleImage(patternImage, calibration, testImage);
+	//}
+	//return 0;
     /*if (argc < 2)
     {
         cout << "Input image not specified" << endl;
@@ -116,7 +116,7 @@ int main(int argc, const char * argv[])
     }*/
 
     // Try to read the pattern:
-    patternImage = imread("book.jpg");
+    Mat patternImage = imread("book.jpg");
     if (patternImage.empty())
     {
         cout << "Input image cannot be read" << endl;
