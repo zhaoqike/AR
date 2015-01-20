@@ -708,8 +708,10 @@ void redirectStdOut() {
 	ss >> str;
 
 	string filename = "/sdcard/arStdout" + str + ".txt";
-	freopen("/sdcard/arStdout.txt", "a", stdout);
-	freopen("/sdcard/arStdout.txt", "a", stderr);
+	freopen(filename.c_str(), "a", stdout);
+	freopen(filename.c_str(), "a", stderr);
+	cout<<filetamp<<endl;
+	cout<<str<<endl;
 	cout << "this is ar std out" << endl;
 	cerr << "this is ar std err" << endl;
 	cout << "this is ar std out" << endl;
