@@ -40,7 +40,7 @@ public:
 
 	//! Draws the AR
 	//void drawAugmentedScene();
-	void drawAugmentedScene(float x = 0.0f, float y = 0.0f, float z = 0.0f);
+	void drawAugmentedScene(int modelIndex=0, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 
 	//! Builds the right projection matrix from the camera calibration for AR
 	void buildProjectionMatrix(const CameraCalibration& calibration, int w,
@@ -52,7 +52,7 @@ public:
 	//! Draw the cube model
 	void drawCubeModel();
 
-	bool drawMesh();
+	bool drawMesh(int modelIndex=0);
 
 	int width;
 	int height;

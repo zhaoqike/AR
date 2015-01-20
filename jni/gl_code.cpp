@@ -396,6 +396,21 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_step(JNIEnv * env, job
 	LOGE("surface step end");
 }
 
+PMesh* makeMesh(string path)
+{
+	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
+	char* charPath=path.c_str();
+	Mesh* mesh = new Mesh(charPath);
+	vector<vertex>& vert = g_pMesh->_vlist;
+
+	if (mesh) mesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
+	cout<<"after normal"<<endl;
+
+
+	PMesh* pmesh = new PMesh(mesh, g_edgemethod );
+	return pmesh;
+}
+
 JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_init(JNIEnv * env, jobject obj)
 {
 	LOGE("surface init start");
@@ -403,9 +418,15 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_init(JNIEnv * env, job
 	LOGE("surface init end");
 
 
+	//g_pProgMesh = makeMesh("/sdcard/models/cow.ply");
 
+	for(int i=0;i<modelPathList.size();i++)
+	{
+		PMesh* pmesh=makeMesh(modelPathList[i]);
+		pmeshList.push_back(pmesh);
+	}
 
-	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
+	/*PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
 	g_pMesh = new Mesh("/sdcard/models/cow.ply");
 	vector<vertex>& vert = g_pMesh->_vlist;
 
@@ -413,7 +434,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_init(JNIEnv * env, job
 	cout<<"after normal"<<endl;
 
 
-	g_pProgMesh = new PMesh(g_pMesh, g_edgemethod );
+	g_pProgMesh = new PMesh(g_pMesh, g_edgemethod );*/
 }
 
 JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_setTexture(JNIEnv * env, jclass obj, jintArray tex)

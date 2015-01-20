@@ -165,9 +165,9 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 
 	cout<<"begin load model"<<endl;
 	//load model
-	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
+	//PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
 	//g_pMesh = new Mesh("/sdcard/models/apple.ply");
-	vector<vertex>& vert = g_pMesh->_vlist;
+	//vector<vertex>& vert = g_pMesh->_vlist;
 
 	//if (g_pMesh) g_pMesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
 	cout<<"after normal"<<endl;

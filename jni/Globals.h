@@ -32,8 +32,8 @@ extern CameraCalibration calibration;
 
 
 
-extern PMesh *g_pProgMesh;
-extern Mesh *g_pMesh;
+//extern PMesh *g_pProgMesh;
+//extern Mesh *g_pMesh;
 
 
 extern GLuint *gTexture;
@@ -48,3 +48,7 @@ const int maxLostFrames = 5;
 
 extern ARDrawing drawing;
 extern ARError arerror;
+
+
+extern vector<PMesh* > pmeshList;
+extern vector<string> modelPathList;

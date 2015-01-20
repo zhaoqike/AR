@@ -36,6 +36,8 @@ extern PMesh *g_pProgMesh;
 extern ARPipeline pipeline;
 //#endif
 
+#include "Globals.h"
+
 void ARDrawingContextDrawCallback(void* param) {
 	ARDrawingContext * ctx = static_cast<ARDrawingContext*>(param);
 	if (ctx) {
@@ -109,8 +111,9 @@ void ARDrawingContext::draw() {
 	for (int i = 0; i < matchedKfs.size();i++)
 	{
 		int index = matchedKfs[i];
+		int mIndex=index % modelPathList.size();
 		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[index].center;
-		drawAugmentedScene(center.x, center.y, center.z);
+		drawAugmentedScene(mIndex,center.x, center.y, center.z);
 	}
 	cout << "begin cout center data" << endl;
 	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
@@ -224,7 +227,7 @@ void ARDrawingContext::drawCameraFrame() {
  }
  }*/
 
-void ARDrawingContext::drawAugmentedScene(float x, float y, float z) {
+void ARDrawingContext::drawAugmentedScene(int modelIndex,float x, float y, float z) {
 	// Init augmentation projection
 	Matrix44 projectionMatrix;
 	int w = width;
@@ -261,7 +264,7 @@ void ARDrawingContext::drawAugmentedScene(float x, float y, float z) {
 #ifdef WIN32
 		drawCubeModel();
 #else
-		drawMesh();
+		drawMesh(modelIndex);
 #endif
 	}
 }
@@ -576,7 +579,7 @@ void ARDrawingContext::drawCubeModel() {
 #endif
 }
 
-bool ARDrawingContext::drawMesh() {
+bool ARDrawingContext::drawMesh(int modelIndex) {
 	cout << "display" << endl;
 	/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	 glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -596,12 +599,12 @@ bool ARDrawingContext::drawMesh() {
 	// NOTE: we could use display lists here.  That would speed things
 	// up which the user is rotating the mesh.  However, since speed isn't
 	// a bit issue, I didn't use them.
-	if (g_pProgMesh) {
+	if (pmeshList[modelIndex]) {
 		cout << "going into if branch" << endl;
 		// Make everything grey
 		//glColor3f(128, 128, 128);
 		//cout<<g_pProgMesh->numTris()<<endl;
-		Mesh& m = *g_pProgMesh->_mesh;
+		Mesh& m = *pmeshList[modelIndex]->_mesh;
 		vector<vertex>& vec = m._vlist;
 		if (true) {
 			GLfloat *vert = new GLfloat[vec.size() * 3];
@@ -636,7 +639,7 @@ bool ARDrawingContext::drawMesh() {
 			glNormalPointer(GL_FLOAT, 0, norm);
 			glDisable(GL_CULL_FACE);
 			glDrawElements(GL_TRIANGLES, m._plist.size() * 3, GL_UNSIGNED_SHORT, vertElem);
-			cout << "num triangles: " << g_pProgMesh->numTris() << "  " << m._plist.size() << endl;
+			cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
@@ -685,7 +688,7 @@ bool ARDrawingContext::drawMesh() {
 			glVertexPointer(3, GL_FLOAT, 0, vert);
 			//glNormalPointer(GL_FLOAT,0,norm);
 			glDrawElements(GL_LINES, m._plist.size() * 6, GL_UNSIGNED_SHORT, vertElem);
-			cout << "num triangles: " << g_pProgMesh->numTris() << "  " << m._plist.size() << endl;
+			cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
