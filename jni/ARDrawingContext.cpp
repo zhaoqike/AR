@@ -32,7 +32,7 @@ using namespace std;
 
 //#ifndef WIN32
 extern GLuint *gTexture;
-extern PMesh *g_pProgMesh;
+//extern PMesh *g_pProgMesh;
 extern ARPipeline pipeline;
 //#endif
 
@@ -50,9 +50,9 @@ ARDrawingContext::ARDrawingContext() {
 }
 
 ARDrawingContext::ARDrawingContext(string windowName, Size frameSize,
-	const CameraCalibration& c) :
-	m_isTextureInitialized(false), m_calibration(c), m_windowName(
-	windowName) {
+		const CameraCalibration& c) :
+											m_isTextureInitialized(false), m_calibration(c), m_windowName(
+													windowName) {
 	// Create window with OpenGL support
 	namedWindow(windowName, WINDOW_OPENGL);
 
@@ -65,7 +65,7 @@ ARDrawingContext::ARDrawingContext(string windowName, Size frameSize,
 }
 
 void ARDrawingContext::init(string windowName, Size frameSize,
-	const CameraCalibration& c) {
+		const CameraCalibration& c) {
 	m_isTextureInitialized = false;
 	m_calibration = c;
 	m_windowName = windowName;
@@ -375,57 +375,57 @@ void ARDrawingContext::drawCubeModel() {
 	// 一个正方体有8个顶点,6个面
 #define one 1.0f
 	static GLfloat gVertices[] = {
-		one, one, -one, -one, one, -one,
-		one, one, one,
+			one, one, -one, -one, one, -one,
+			one, one, one,
 
-		-one, one, one,
-		one, -one, one, -one, -one, one,
+			-one, one, one,
+			one, -one, one, -one, -one, one,
 
-		one, -one, -one, -one, -one, -one,
-		one, one, one,
+			one, -one, -one, -one, -one, -one,
+			one, one, one,
 
-		-one, one, one,
-		one, -one, one, -one, -one, one,
+			-one, one, one,
+			one, -one, one, -one, -one, one,
 
-		one, -one, -one, -one, -one, -one,
-		one, one, -one,
+			one, -one, -one, -one, -one, -one,
+			one, one, -one,
 
-		-one, one, -one, -one, one, one, -one, one, -one,
+			-one, one, -one, -one, one, one, -one, one, -one,
 
-		-one, -one, one, -one, -one, -one,
-		one, one, -one,
+			-one, -one, one, -one, -one, -one,
+			one, one, -one,
 
-		one, one, one,
-		one, -one, -one,
-		one, -one, one };
+			one, one, one,
+			one, -one, -one,
+			one, -one, one };
 
 	// 定义纹理坐标
 	// 纹理坐标原点会因不同系统环境而有所不同。
 	// 比如在iOS以及Android上，纹理坐标原点（0, 0）是在左上角
 	// 而在OS X上，纹理坐标的原点是在左下角
 	static GLfloat gTexCoords[] = { 0, one,
-		one, one, 0, 0,
-		one, 0,
+			one, one, 0, 0,
+			one, 0,
 
-		0, one,
-		one, one, 0, 0,
-		one, 0,
+			0, one,
+			one, one, 0, 0,
+			one, 0,
 
-		0, one,
-		one, one, 0, 0,
-		one, 0,
+			0, one,
+			one, one, 0, 0,
+			one, 0,
 
-		0, one,
-		one, one, 0, 0,
-		one, 0,
+			0, one,
+			one, one, 0, 0,
+			one, 0,
 
-		0, one,
-		one, one, 0, 0,
-		one, 0,
+			0, one,
+			one, one, 0, 0,
+			one, 0,
 
-		0, one,
-		one, one, 0, 0,
-		one, 0,
+			0, one,
+			one, one, 0, 0,
+			one, 0,
 
 	};
 
@@ -579,6 +579,14 @@ void ARDrawingContext::drawCubeModel() {
 #endif
 }
 
+int vertSize=15000;
+int normSize=15000;
+int vertElemSize=30000;
+
+GLfloat *vert=new GLfloat[vertSize];
+GLfloat *normal=new GLfloat[normSize];
+GLushort *vertElem=new GLushort[vertElemSize];
+
 bool ARDrawingContext::drawMesh(int modelIndex) {
 	cout << "display" << endl;
 	/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -623,10 +631,21 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			 for(int i=0;i<vec.size();i++){
 			 cout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
 			 }*/
-			for (int i = 0; i < m._plist.size(); i++) {
-				vertElem[i * 3] = m._plist[i]._vert1;
-				vertElem[i * 3 + 1] = m._plist[i]._vert2;
-				vertElem[i * 3 + 2] = m._plist[i]._vert3;
+			vector<int> activeIndex;
+			activeIndex.reserve(m._plist.size());
+			for(int i=0;i<m._plist.size();i++)
+			{
+				if(m._plist[i].isActive()){
+					activeIndex.push_back(i);
+				}
+			}
+			//LOGE("active count: %d", activeIndex.size());
+			for(int i=0;i<activeIndex.size();i++)
+			{
+				int index=activeIndex[i];
+				vertElem[i*3]=m._plist[index]._vert1;
+				vertElem[i*3+1]=m._plist[index]._vert2;
+				vertElem[i*3+2]=m._plist[index]._vert3;
 			}
 			//cout<<"vertElem: "<<endl;
 			/*for(int i=0;i<m._plist.size();i++){
@@ -638,7 +657,7 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			glVertexPointer(3, GL_FLOAT, 0, vert);
 			glNormalPointer(GL_FLOAT, 0, norm);
 			glDisable(GL_CULL_FACE);
-			glDrawElements(GL_TRIANGLES, m._plist.size() * 3, GL_UNSIGNED_SHORT, vertElem);
+			glDrawElements(GL_TRIANGLES, activeIndex.size() * 3, GL_UNSIGNED_SHORT, vertElem);
 			cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
@@ -652,6 +671,9 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			 }*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
+			delete[] vert;
+			delete[] norm;
+			delete[] vertElem;
 		}
 		else {
 			GLfloat *vert = new GLfloat[vec.size() * 3];
@@ -701,6 +723,9 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			 }*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			//glDisableClientState(GL_NORMAL_ARRAY);
+			delete[] vert;
+			delete[] norm;
+			delete[] vertElem;
 		}
 	}
 
@@ -708,4 +733,252 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 
 	glEnable(GL_CULL_FACE);
 	return true;
+}
+
+bool ARDrawingContext::drawMeshwrong(int modelIndex) {
+	cout << "display" << endl;
+	/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	 glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+
+	 // Set lookat point
+	 glLoadIdentity();
+	 glTranslatef(0,0,-5.0f);
+	 glRotatef(xAngle, 1.0F, 0, 0);
+	 glRotatef(yAngle, 0, 1.0F, 0);*/
+	//glScalef(12.2f,12.2f,12.2f);
+
+	glShadeModel(GL_SMOOTH);
+	glDisable(GL_CULL_FACE);
+
+	//glDisable(GL_CULL_FACE);
+	// NOTE: we could use display lists here.  That would speed things
+	// up which the user is rotating the mesh.  However, since speed isn't
+	// a bit issue, I didn't use them.
+	if (pmeshList[modelIndex]) {
+		cout << "going into if branch" << endl;
+		// Make everything grey
+		//glColor3f(128, 128, 128);
+		//cout<<g_pProgMesh->numTris()<<endl;
+		Mesh& m = pmeshList[modelIndex]->_newmesh;
+		vector<vertex>& vec = m._vlist;
+		if (true) {
+			if(vec.size()*3>vertSize)
+			{
+				delete[] vert;
+				vert=new GLfloat[vec.size()*3];
+				vertSize=vec.size()*3;
+			}
+			if(vec.size()*3>normSize)
+			{
+				delete[] normal;
+				normal=new GLfloat[vec.size()*3];
+				normSize=vec.size()*3;
+			}
+			if(m._plist.size()*3>vertElemSize)
+			{
+				delete[] vertElem;
+				vertElem=new GLushort[m._plist.size()*3];
+				vertElemSize=m._plist.size()*3;
+			}
+			for(int i=0;i<vec.size();i++)
+			{
+				vert[i*3]=vec[i]._myVertex.x;
+				vert[i*3+1]=vec[i]._myVertex.y;
+				vert[i*3+2]=vec[i]._myVertex.z;
+
+				normal[i*3]=vec[i]._vertexNormal.x;
+				normal[i*3+1]=vec[i]._vertexNormal.y;
+				normal[i*3+2]=vec[i]._vertexNormal.z;
+			}
+			/*cout<<"vert: "<<endl;
+						for(int i=0;i<vec.size();i++){
+							cout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
+						}*/
+			vector<int> activeIndex;
+			activeIndex.reserve(m._plist.size());
+			for(int i=0;i<m._plist.size();i++)
+			{
+				if(m._plist[i].isActive()){
+					activeIndex.push_back(i);
+				}
+			}
+			//LOGE("active count: %d", activeIndex.size());
+			for(int i=0;i<activeIndex.size();i++)
+			{
+				int index=activeIndex[i];
+				vertElem[i*3]=m._plist[index]._vert1;
+				vertElem[i*3+1]=m._plist[index]._vert2;
+				vertElem[i*3+2]=m._plist[index]._vert3;
+			}
+			//cout<<"vertElem: "<<endl;
+			/*for(int i=0;i<m._plist.size();i++){
+						cout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
+					}*/
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glVertexPointer(3,GL_FLOAT,0,vert);
+			glNormalPointer(GL_FLOAT,0,normal);
+			glEnable(GL_CULL_FACE);
+			//glCullFace(GL_FRONT);
+			glDrawElements(GL_TRIANGLES,m._plist.size()*3,GL_UNSIGNED_SHORT,vertElem);
+			//LOGE("num triangles: %d %d", pmeshList[modelIndex]->numTris(),m._plist.size());
+			/*cout<<"vertices"<<endl;
+							vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
+							for(int i=0;i<v.size();i++)
+							{
+								cout<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
+							}
+							cout<<"triangles"<<endl;
+							for(int i=0;i<g_pProgMesh->numTris()*3;i++){
+								cout<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
+							}*/
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glDisableClientState(GL_NORMAL_ARRAY);
+			glDisable(GL_CULL_FACE);
+		}
+		else {
+			if(vec.size()*3>vertSize)
+			{
+				delete[] vert;
+				vert=new GLfloat[vec.size()*3];
+				vertSize=vec.size()*3;
+			}
+			if(vec.size()*3>normSize)
+			{
+				delete[] normal;
+				normal=new GLfloat[vec.size()*3];
+				normSize=vec.size()*3;
+			}
+			if(m._plist.size()*3>vertElemSize)
+			{
+				delete[] vertElem;
+				vertElem=new GLushort[m._plist.size()*3];
+				vertElemSize=m._plist.size()*3;
+			}
+			for(int i=0;i<vec.size();i++)
+			{
+				vert[i*3]=vec[i]._myVertex.x;
+				vert[i*3+1]=vec[i]._myVertex.y;
+				vert[i*3+2]=vec[i]._myVertex.z;
+
+				normal[i*3]=-vec[i]._vertexNormal.x;
+				normal[i*3+1]=-vec[i]._vertexNormal.y;
+				normal[i*3+2]=-vec[i]._vertexNormal.z;
+			}
+			/*cout<<"vert: "<<endl;
+						for(int i=0;i<vec.size();i++){
+							cout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
+						}*/
+			vector<int> activeIndex;
+			activeIndex.reserve(m._plist.size());
+			for(int i=0;i<m._plist.size();i++)
+			{
+				if(m._plist[i].isActive()){
+					activeIndex.push_back(i);
+				}
+			}
+			//LOGE("active count: %d", activeIndex.size());
+			for(int i=0;i<activeIndex.size();i++)
+			{
+				int index=activeIndex[i];
+				vertElem[i*6]=m._plist[index]._vert1;
+				vertElem[i*6+1]=m._plist[index]._vert2;
+				vertElem[i*6+2]=m._plist[index]._vert3;
+				vertElem[i*6+3]=m._plist[index]._vert1;
+				vertElem[i*6+4]=m._plist[index]._vert2;
+				vertElem[i*6+5]=m._plist[index]._vert3;
+
+			}
+			//cout<<"vertElem: "<<endl;
+			/*for(int i=0;i<m._plist.size();i++){
+									cout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
+								}*/
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			//glEnableClientState(GL_NORMAL_ARRAY);
+			glVertexPointer(3,GL_FLOAT,0,vert);
+			//glNormalPointer(GL_FLOAT,0,norm);
+			glDrawElements(GL_LINES,activeIndex.size()*6,GL_UNSIGNED_SHORT,vertElem);
+			//LOGE("num triangles: %d %d", pmeshList[modelIndex]->numTris(),m._plist.size());
+			/*cout<<"vertices"<<endl;
+										vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
+										for(int i=0;i<v.size();i++)
+										{
+											cout<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
+										}
+										cout<<"triangles"<<endl;
+										for(int i=0;i<g_pProgMesh->numTris()*3;i++){
+											cout<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
+										}*/
+			glDisableClientState(GL_VERTEX_ARRAY);
+			//glDisableClientState(GL_NORMAL_ARRAY);
+		}
+	}
+
+	//glEnable(GL_CULL_FACE);
+
+	glEnable(GL_CULL_FACE);
+	return true;
+}
+
+
+
+
+void incr(PMesh *pMesh)
+{
+	if (pMesh)
+	{
+		bool ret = pMesh->splitVertex();
+		if (!ret){
+			return;
+		}
+	}
+	return;
+}
+void decr(PMesh *pMesh)
+{
+	if (pMesh)
+	{
+		bool ret = pMesh->collapseEdge();
+		if (!ret){
+			return;
+		}
+	}
+	return;
+}
+void incr5(PMesh *pMesh)
+{
+	if (pMesh)
+	{
+		int size = (pMesh->numEdgeCollapses()) / NUM_PAGEUPDN_INTERVALS;
+		if (size == 0) size = 1;
+		bool ret = true;
+		for (int i = 0; ret && i < size; ++i) {
+			ret = pMesh->splitVertex();
+		}
+		if (!ret){
+			return;
+		}
+	}
+	return;
+}
+void decr5(PMesh *pMesh)
+{
+	if (pMesh)
+	{
+		cout << "decr5" << endl;
+		int size = (pMesh->numEdgeCollapses()) / NUM_PAGEUPDN_INTERVALS;
+		if (size == 0) size = 1;
+		bool ret = true;
+		cout << size << endl;
+		for (int i = 0; ret && i < size; ++i) {
+			ret = pMesh->collapseEdge();
+		}
+		if (!ret){
+			return;
+		}
+	}
+	return;
 }

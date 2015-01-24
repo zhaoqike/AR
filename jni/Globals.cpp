@@ -40,3 +40,5 @@ vector<string> modelPathList={
 		"/sdcard/models/PORSCHE.ply",
 		"/sdcard/models/SHUTTLE.ply",
 };
+
+vector<Eye> eyes;

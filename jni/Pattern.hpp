@@ -10,7 +10,16 @@
 #include <opencv2/opencv.hpp>
 using namespace cv;
 
-
+struct Eye
+{
+	Eye(float _x,float _y,float _z);
+	
+	void computeDistance();
+	friend ostream& operator<<(ostream& os, Eye& eye);
+	
+	
+	float x, y, z, distance;
+};
 
 struct KeyFrame
 {

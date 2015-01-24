@@ -938,9 +938,22 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_FindFeatures(JNIEnv*, job
 	usleep(1000*30);
 }
 
+void printEyes()
+{
+	ofstream eyefile;
+	eyefile.open("sdcard/eye.txt");
+	for(int i=0;i<eyes.size();i++)
+	{
+		eyefile<<eyes[i]<<endl;
+	}
+	eyefile.flush();
+	eyefile.close();
+}
+
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_storeError(JNIEnv*, jobject)
 {
 	arerror.printError();
+	printEyes();
 	//pipeline.m_patternDetector.calcWindowArea();
 }
 

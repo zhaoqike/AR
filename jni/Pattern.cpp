@@ -3,10 +3,29 @@
 ////////////////////////////////////////////////////////////////////
 // File includes:
 #include "Pattern.hpp"
+#include "Globals.h"
 
 extern bool isMultiScale;
 extern bool isShowRects;
 
+Eye::Eye(float _x, float _y, float _z)
+{
+	x = _x;
+	y = _y;
+	z = _z;
+	distance = sqrt(x*x + y*y + z*z);
+}
+
+void Eye::computeDistance()
+{
+	distance = sqrt(x*x + y*y + z*z);
+}
+
+ostream& operator << (ostream& os, Eye& eye) //定义运算符“<<”重载函数
+{
+	os << eye.x << "  " << eye.y << "  " << eye.z << "  " << eye.distance;
+	return os;
+}
 
 
 void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibration& calibration)
@@ -34,7 +53,8 @@ void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibr
 		}
 		pose3d.t().data[col] = Tvec(col); // Copy translation component
 	}
-
+	Eye eye(Tvec(0), Tvec(1), Tvec(2));
+	eyes.push_back(eye);
 	// Since solvePnP finds camera location, w.r.t to marker pose, to get marker pose w.r.t to the camera we invert it.
 	pose3d = pose3d.getInverted();
 }

@@ -30,7 +30,7 @@ using namespace cv;
 //extern GLuint *gTexture;
 //GLuint *gTexture = 0;
 
-extern PMesh *g_pProgMesh;
+//extern PMesh *g_pProgMesh;
 
 
 

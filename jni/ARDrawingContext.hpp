@@ -53,6 +53,7 @@ public:
 	void drawCubeModel();
 
 	bool drawMesh(int modelIndex=0);
+	bool drawMeshwrong(int modelIndex);
 
 	int width;
 	int height;

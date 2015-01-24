@@ -46,9 +46,15 @@ const int updateFrameNum = 20;
 
 const int maxLostFrames = 5;
 
+
+const int REDUCE_TRI_PERCENT = 5;
+const int NUM_PAGEUPDN_INTERVALS = 100 / REDUCE_TRI_PERCENT;
+
 extern ARDrawing drawing;
 extern ARError arerror;
 
 
 extern vector<PMesh* > pmeshList;
 extern vector<string> modelPathList;
+
+extern vector<Eye> eyes;
