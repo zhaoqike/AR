@@ -103,7 +103,9 @@ public:
 
 	bool OpticalTracking(Mat& image, PatternTrackingInfo& info);
 	bool warpedTracking(Mat& image, PatternTrackingInfo& info);
+	bool warpedTrackingNew(Mat& image, PatternTrackingInfo& info);
 	bool simpleTracking(Mat& image, PatternTrackingInfo& info);
+	bool simpleTrackingNew(Mat& image, PatternTrackingInfo& info);
 
 	void getKeyPointsAndDescriptors(Mat& image, vector<int> indexes, vector<KeyPoint>& keyPoints, Mat& descriptors);
 
