@@ -56,7 +56,7 @@ public:
 			//Ptr<DescriptorExtractor> extractor = new FREAK(false, false),
 			//Ptr<DescriptorMatcher>   matcher   = new BFMatcher(NORM_HAMMING, true),
 			bool enableRatioTest= false,
-			bool enableWrap=true,
+			bool enableWrap=false,
 			bool enableOpticalFlow=true,
 			bool estimatedHomoFound=false
 	);
@@ -96,14 +96,16 @@ public:
 	 */
 	bool findPattern(Mat& image, PatternTrackingInfo& info);
 	bool needNewPoints();
-	bool matckKeyframesWithPolygon(Mat& homography, vector<int>& indexes);
+	bool matchKeyframesWithPolygon(Mat& homography, vector<int>& indexes);
 	int matchKeyFrames(Mat& homography, vector<int>& indexes, vector<int>& matchIdxes, vector<int>& estiIdxes, string& str);
+	int matchKeyFramesNew(Mat& homography, vector<int>& indexes, vector<int>& matchIdxes, vector<int>& estiIdxes, string& str);
 	MatchState matchKeyFrame(int index, vector<DMatch>& matches);
 	//bool findPatternTwice(Mat& image, PatternTrackingInfo& info);
 
 	bool OpticalTracking(Mat& image, PatternTrackingInfo& info);
 	bool warpedTracking(Mat& image, PatternTrackingInfo& info);
 	bool warpedTrackingNew(Mat& image, PatternTrackingInfo& info);
+	bool warpedTrackingSimple(Mat& image, PatternTrackingInfo& info);
 	bool simpleTracking(Mat& image, PatternTrackingInfo& info);
 	bool simpleTrackingNew(Mat& image, PatternTrackingInfo& info);
 

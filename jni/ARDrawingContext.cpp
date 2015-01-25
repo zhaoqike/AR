@@ -107,13 +107,19 @@ void ARDrawingContext::draw() {
 		drawAugmentedScene(center.x, center.y, center.z);
 	}*/
 
+	
 	vector<int>& matchedKfs = pipeline.m_patternDetector.nowMatchedKeyframes;
 	for (int i = 0; i < matchedKfs.size();i++)
 	{
-		int index = matchedKfs[i];
-		int mIndex=index % modelPathList.size();
-		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[index].center;
-		drawAugmentedScene(mIndex,center.x, center.y, center.z);
+		int kfindex = matchedKfs[i];
+		//if (kfmodels.size() == 0)
+		//{
+		//	return;
+		//}
+		//int mIndex=kfmodels[kfindex].meshIndex;
+		//int mIndex = kfindex%modelPathList.size();
+		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[kfindex].center;
+		drawAugmentedScene(kfindex,center.x, center.y, center.z);
 	}
 	cout << "begin cout center data" << endl;
 	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
@@ -264,6 +270,14 @@ void ARDrawingContext::drawAugmentedScene(int modelIndex,float x, float y, float
 #ifdef WIN32
 		drawCubeModel();
 #else
+		Model& model=kfmodels[modelIndex];
+		if(eyes.size()>0)
+		{
+			float distance=eyes.back().distance;
+			int newEdge = model.getEdgeNum(distance);
+			changeEdgeNum(model, newEdge);
+		}
+
 		drawMesh(modelIndex);
 #endif
 	}
@@ -607,12 +621,12 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 	// NOTE: we could use display lists here.  That would speed things
 	// up which the user is rotating the mesh.  However, since speed isn't
 	// a bit issue, I didn't use them.
-	if (pmeshList[modelIndex]) {
+	if (kfmodels[modelIndex].pmesh) {
 		cout << "going into if branch" << endl;
 		// Make everything grey
 		//glColor3f(128, 128, 128);
 		//cout<<g_pProgMesh->numTris()<<endl;
-		Mesh& m = *pmeshList[modelIndex]->_mesh;
+		Mesh& m = kfmodels[modelIndex].pmesh->_newmesh;
 		vector<vertex>& vec = m._vlist;
 		if (true) {
 			GLfloat *vert = new GLfloat[vec.size() * 3];
@@ -658,7 +672,7 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			glNormalPointer(GL_FLOAT, 0, norm);
 			glDisable(GL_CULL_FACE);
 			glDrawElements(GL_TRIANGLES, activeIndex.size() * 3, GL_UNSIGNED_SHORT, vertElem);
-			cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
+			//cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
@@ -710,7 +724,7 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			glVertexPointer(3, GL_FLOAT, 0, vert);
 			//glNormalPointer(GL_FLOAT,0,norm);
 			glDrawElements(GL_LINES, m._plist.size() * 6, GL_UNSIGNED_SHORT, vertElem);
-			cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
+			//cout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
 			/*cout<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
@@ -755,12 +769,12 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 	// NOTE: we could use display lists here.  That would speed things
 	// up which the user is rotating the mesh.  However, since speed isn't
 	// a bit issue, I didn't use them.
-	if (pmeshList[modelIndex]) {
+	if (kfmodels[modelIndex].pmesh) {
 		cout << "going into if branch" << endl;
 		// Make everything grey
 		//glColor3f(128, 128, 128);
 		//cout<<g_pProgMesh->numTris()<<endl;
-		Mesh& m = pmeshList[modelIndex]->_newmesh;
+		Mesh& m = kfmodels[modelIndex].pmesh->_newmesh;
 		vector<vertex>& vec = m._vlist;
 		if (true) {
 			if(vec.size()*3>vertSize)
@@ -982,3 +996,5 @@ void decr5(PMesh *pMesh)
 	}
 	return;
 }
+
+

@@ -396,7 +396,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_step(JNIEnv * env, job
 	LOGE("surface step end");
 }
 
-PMesh* makeMesh(string path)
+/*PMesh* makeMesh(string path)
 {
 	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
 	char* charPath=path.c_str();
@@ -409,7 +409,7 @@ PMesh* makeMesh(string path)
 
 	PMesh* pmesh = new PMesh(mesh, g_edgemethod );
 	return pmesh;
-}
+}*/
 
 JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_init(JNIEnv * env, jobject obj)
 {
@@ -420,11 +420,12 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_init(JNIEnv * env, job
 
 	//g_pProgMesh = makeMesh("/sdcard/models/cow.ply");
 
-	for(int i=0;i<modelPathList.size();i++)
+	/*for(int i=0;i<modelPathList.size();i++)
 	{
 		PMesh* pmesh=makeMesh(modelPathList[i]);
 		pmeshList.push_back(pmesh);
-	}
+	}*/
+
 
 	/*PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
 	g_pMesh = new Mesh("/sdcard/models/cow.ply");

@@ -19,6 +19,22 @@
 #include <gl/glu.h>
 #endif
 
+PMesh* makeMesh(string path);
+struct Model
+{
+	//int meshIndex;
+	int edgeNum;
+	Model(int index);
+	Model(string path);
+	Model();
+	int meshEdgeNum();
+	int getEdgeNum(float distance);
+	int getActiveNum();
+	PMesh* pmesh;
+};
+
+extern vector<Model> kfmodels;
+
 extern bool isShowRects;
 extern bool isShowPoints;
 extern bool isShowTexts;
@@ -54,7 +70,18 @@ extern ARDrawing drawing;
 extern ARError arerror;
 
 
-extern vector<PMesh* > pmeshList;
+//extern vector<PMesh* > pmeshList;
 extern vector<string> modelPathList;
 
 extern vector<Eye> eyes;
+
+const int oriIndex = 0;
+
+const float MAX_DISTANCE = 2.5;
+const float MIN_DISTANCE = 1.0;
+
+const float MAX_EDGE = 1.0;
+const float MIN_EDGE = 0.4;
+
+
+void changeEdgeNum(Model& model, int newNum);
