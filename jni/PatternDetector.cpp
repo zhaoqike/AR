@@ -2532,6 +2532,15 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	return homographyFound;
 }
 
+bool PatternDetector::correctDistance()
+{
+	if (nowDistance > 0.5f&&nowDistance < 2.5f)
+	{
+		return true;
+	}
+	return false;
+}
+
 bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 {
 	// Convert input image to gray
@@ -2550,170 +2559,17 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
 	cout << m_queryKeypoints.size() << endl;
-	if (!needNewPoints() && enableOpticalFlow){
+	if (!needNewPoints() && enableOpticalFlow&&correctDistance()){
 		homographyFound = OpticalTracking(image, info);
 		
 	}
 	else
 	{
-		if (estimatedHomographyFound && enableWrap&&true)
+		if (estimatedHomographyFound && enableWrap&&correctDistance())
 		{
 			cout << "begin warped tracking" << endl;
 			homographyFound = warpedTrackingNew(image, info);
-			/*//LOGE("homography found");
-			//LOGE("type:%d, rows:%d, cold:%d",m_roughHomography.type(),m_roughHomography.rows,m_roughHomography.cols);
-			// Warp image using found homography
-			double warpStart = timer.getElapsedTimeInMilliSec();
-			warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP);
-			//warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
-			double warpEnd = timer.getElapsedTimeInMilliSec();
-			double warpDuration = warpEnd - warpStart;
-			cout << "warp image: " << warpDuration << endl;
-			cout << "warp size" << m_warpedImg.size() << endl;
-
-			// Get refined matches:
-			vector<KeyPoint> warpedKeypoints;
-			vector<DMatch> warpedMatches;
-
-			// Detect features on warped image
-			double extractStart = timer.getElapsedTimeInMilliSec();
-			Size size = m_warpedImg.size();
-			Rect rect(0, 0, size.width, size.height);
-			KeyFrame kf;
-			makeKeyFrame(m_warpedImg, rect, kf);
-			warpedKeypoints = kf.keypoints;
-			m_queryDescriptors = kf.descriptors;
-			//extractFeatures(m_warpedImg, warpedKeypoints, m_queryDescriptors);
-			double extractEnd = timer.getElapsedTimeInMilliSec();
-			double extractDuration = extractEnd - extractStart;
-			cout << "extract feature: " << extractDuration << endl;
-
-			// Match with pattern
-			double matchStart = timer.getElapsedTimeInMilliSec();
-			cout << "begin get matches" << endl;
-
-			vector<int> indexes;
-			indexes.clear();
-			vector<int> estiIndexes;
-			vector<int> matchIndexes;
-			string str;
-			m_pattern.keyframeIndex = matchKeyFrames(m_estimatedHomography, indexes, estiIndexes, matchIndexes, str);
-
-			if (m_pattern.keyframeIndex == -1)
-			{
-				m_pattern.keyframeIndex = 0;
-			}
-
-			getMatches(m_queryDescriptors, indexes, m_matches);
-			cout << "end get matches: " <<m_matches.size()<< endl;
-			double matchEnd = timer.getElapsedTimeInMilliSec();
-			double matchDuration = matchEnd - matchStart;
-			cout << m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints.size() << endl;
-			cout << m_pattern.keypoints.size() << endl;
-
-			vector<KeyPoint> patternKeyPoints;
-			patternKeyPoints.clear();
-			for (int i = 0; i < indexes.size(); i++)
-			{
-				patternKeyPoints.insert(patternKeyPoints.end(), m_pattern.keyframeList[i].keypoints.begin(), m_pattern.keyframeList[i].keypoints.end());
-			}
-
-
-
-
-
-			// Estimate new refinement homography
-			double homographyStart = timer.getElapsedTimeInMilliSec();
-			homographyFound = refineMatchesWithHomography(
-				warpedKeypoints,
-				patternKeyPoints,
-				homographyReprojectionThreshold,
-				m_matches,
-				m_refinedHomography);
-			double homographyEnd = timer.getElapsedTimeInMilliSec();
-			double homographyDuration = homographyEnd - homographyStart;
-			cout << "homography : " << homographyDuration << endl;
-
-			if(homographyFound){
-			LOGE("refine homography found");
-			}
-			else{
-			LOGE("refine homography not found");
-			}
-
-			// Get a result homography as result of matrix product of refined and rough homographies:
-			if (homographyFound)
-			{
-				Mat mulHomography = m_roughHomography*m_refinedHomography;//don't know why but can't use info.homography = m_roughHomography * m_refinedHomography
-				info.homography = mulHomography;
-
-				m_estimatedHomography = info.homography;
-				m_initialHomography = info.homography;
-
-
-				initial.clear();
-				before.clear();
-				after.clear();
-				patternPoints.clear();
-				vector<Point2f> warpedPoints;
-				vector<Point2f> queryPoints;
-				for (int i = 0; i < m_matches.size(); i++)
-				{
-					warpedPoints.push_back(warpedKeypoints[m_matches[i].queryIdx].pt);
-				}
-
-				perspectiveTransform(warpedPoints, queryPoints, m_roughHomography);
-				for (int i = 0; i < m_matches.size(); i++){
-					//if(isMultiScale){
-					//patternPoints.push_back(m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints[m_matches[i].trainIdx].pt);
-					patternPoints.push_back(patternKeyPoints[m_matches[i].trainIdx].pt);
-					//}else{
-					//	patternPoints.push_back(m_pattern.keypoints[m_matches[i].trainIdx].pt);
-					//}
-					//initial.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-					//before.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-					//after.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
-
-					initial = queryPoints;
-					before = queryPoints;
-					after = queryPoints;
-				}
-				float err = arerror.computeError(*this, m_roughHomography);
-				cout << "end compute error" << endl;
-
-
-				//printMat("info.homography",info.homography);
-				//printMat("rough homography", m_roughHomography);
-				//printMat("refine homography",m_refinedHomography);
-				//printMat("mul homography", mul);
-
-
-				//LOGE("draw rough homography");
-				perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
-				info.draw2dContour(image, CV_RGB(0,200,0));
-
-				// Transform contour with precise homography
-				//LOGE("draw refine homography");
-				perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
-				//#if _DEBUG
-				info.draw2dContour(image, CV_RGB(200, 0, 200));
-				perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
-				m_lostFrameNum = 0;
-				estimatedHomographyFound = true;
-			}
-			else
-			{
-				info.homography = m_roughHomography;
-				m_lostFrameNum++;
-				if (m_lostFrameNum >= maxLostFrames){
-					estimatedHomographyFound = false;
-				}
-			}
-			cout << "warped matches size: " << warpedMatches.size() << endl;
-			cout << "begin handle tracked points outer" << endl;
-			handleTrackedPoints(image, image);
-			m_grayImgPrev = m_grayImg.clone();
-			return homographyFound;*/
+			
 		}
 		else
 		{
@@ -2732,6 +2588,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		//disstream<<
 		string disstring = disstream.str();
 		drawing.drawText(*this, image, disstring, Point(10, 70), Scalar(200, 0, 0));
+		nowDistance = eyes.back().distance;
 	}
 	return homographyFound;
 }

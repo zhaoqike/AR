@@ -193,6 +193,9 @@ public:
 	void makeLayer(const Mat& img, Layer& layer, int lev);
 
 
+	bool correctDistance();
+
+
 
 
 	mutex 				m_firstToSecondMutex;
@@ -221,6 +224,7 @@ public:
 
 	int m_lostFrameNum;
 	int m_opticalFrameNum;
+	float nowDistance;
 
 	friend class Friend;
 	friend class ARError;

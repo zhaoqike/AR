@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	private static final String TAG = "Main Activity";
 	//int numPictures=2;
 	String[] picturePath={
-			//"/sdcard/pp4.jpg",
+			"/sdcard/tsinghua2.PNG",
 			"/sdcard/p4.jpg",
 			"/sdcard/p2.jpg",
 			"/sdcard/p3.jpg",
