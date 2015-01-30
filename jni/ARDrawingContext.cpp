@@ -50,9 +50,8 @@ ARDrawingContext::ARDrawingContext() {
 }
 
 ARDrawingContext::ARDrawingContext(string windowName, Size frameSize,
-		const CameraCalibration& c) :
-											m_isTextureInitialized(false), m_calibration(c), m_windowName(
-													windowName) {
+		const CameraCalibration& c) :m_isTextureInitialized(false), m_calibration(c), m_windowName(windowName) {
+#ifdef WIN32
 	// Create window with OpenGL support
 	namedWindow(windowName, WINDOW_OPENGL);
 
@@ -62,6 +61,7 @@ ARDrawingContext::ARDrawingContext(string windowName, Size frameSize,
 	// Initialize OpenGL draw callback:
 	setOpenGlContext(windowName);
 	setOpenGlDrawCallback(windowName, ARDrawingContextDrawCallback, this);
+#endif
 }
 
 void ARDrawingContext::init(string windowName, Size frameSize,
@@ -95,7 +95,9 @@ void ARDrawingContext::updateBackground(const Mat& frame) {
 }
 
 void ARDrawingContext::updateWindow() {
+#ifdef WIN32
 	cv::updateWindow(m_windowName);
+#endif
 }
 
 void ARDrawingContext::draw() {
@@ -272,9 +274,9 @@ void ARDrawingContext::drawAugmentedScene(int modelIndex,float x, float y, float
 		drawCubeModel();
 #else
 		Model& model=kfmodels[modelIndex];
-		if(eyes.size()>0)
-		{
-			float distance=eyes.back().distance;
+
+		float distance=engine.eye.distance;
+		if(correctDistance(distance)){
 			int newEdge = model.getEdgeNum(distance);
 			changeEdgeNum(model, newEdge);
 		}

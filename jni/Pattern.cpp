@@ -16,6 +16,11 @@ Eye::Eye(float _x, float _y, float _z)
 	distance = sqrt(x*x + y*y + z*z);
 }
 
+Eye::Eye()
+{
+	x = y = z = 0;
+}
+
 void Eye::computeDistance()
 {
 	distance = sqrt(x*x + y*y + z*z);
@@ -55,6 +60,7 @@ void PatternTrackingInfo::computePose(const Pattern& pattern, const CameraCalibr
 	}
 	Eye eye(Tvec(0), Tvec(1), Tvec(2));
 	eyes.push_back(eye);
+	engine.eye = eye;
 	// Since solvePnP finds camera location, w.r.t to marker pose, to get marker pose w.r.t to the camera we invert it.
 	pose3d = pose3d.getInverted();
 }

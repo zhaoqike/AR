@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
+#include "AREngine.h"
 
 using namespace std;
 
@@ -55,6 +56,8 @@ using namespace std;
 extern ARPipeline pipeline;
 extern ARDrawingContext drawingCtx;
 extern CameraCalibration calibration;
+
+extern AREngine engine;
 
 
 extern Mesh *g_pMesh;
@@ -390,7 +393,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_gljni_GLJNILib_step(JNIEnv * env, job
 	LOGE("begin draw camera frame");
 	//drawingCtx.drawCameraFrame();
 	LOGE("begin draw augmented scene");
-	drawingCtx.draw();
+	engine.drawingCtx.draw();
 	LOGE("end draw augmented scene");
 	//drawingCtx.drawCubeModel();
 	LOGE("surface step end");

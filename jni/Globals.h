@@ -1,8 +1,10 @@
+#pragma once
 #include "ARDrawingContext.hpp"
 #include "ARPipeline.hpp"
 #include "Model/pmesh.h"
 #include "ARDrawing.h"
 #include "ARError.h"
+#include "AREngine.h"
 
 
 #ifndef WIN32
@@ -26,6 +28,7 @@ struct Model
 	int edgeNum;
 	Point2f p2d;
 	Point3f p3d;
+	int level = 0;
 	Model(int index);
 	Model(string path);
 	Model();
@@ -86,6 +89,8 @@ const float MIN_DISTANCE = 1.0;
 
 const float MAX_EDGE = 1.0;
 const float MIN_EDGE = 0.4;
+
+extern AREngine engine;
 
 
 void changeEdgeNum(Model& model, int newNum);

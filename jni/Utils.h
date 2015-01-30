@@ -65,4 +65,7 @@ std::string FloatToString ( float Number );
 // Converts a given integer to a string
 std::string IntToString ( int Number );
 
+
+bool correctDistance(float distance);
+
 #endif /* UTILS_H_ */

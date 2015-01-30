@@ -12,6 +12,7 @@ using namespace cv;
 
 struct Eye
 {
+	Eye();
 	Eye(float _x,float _y,float _z);
 	
 	void computeDistance();

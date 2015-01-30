@@ -714,7 +714,6 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 		//init models
 		cout << "init models: " << kfmodels.size() << endl;
 		cout << pattern.keyframeList.size() << endl;
-		//kfmodels.resize(pattern.keyframeList.size());
 		cout << kfmodels.size() << endl;
 		int meshNum = pointList.size();
 		cout << meshNum << endl;
@@ -2553,13 +2552,14 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	return homographyFound;
 }
 
-bool PatternDetector::correctDistance()
+bool PatternDetector::isCorrectDistance()
 {
-	if (nowDistance > 0.5f&&nowDistance < 2.5f)
+	/*if (nowDistance > 0.5f&&nowDistance < 2.5f)
 	{
 		return true;
 	}
-	return false;
+	return false;*/
+	return correctDistance(nowDistance);
 }
 
 bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
@@ -2580,13 +2580,13 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	//LOGE("before get branch cols:%d, rows:%d",info.homography.cols,info.homography.rows);
 	//homographyFound=false;
 	cout << m_queryKeypoints.size() << endl;
-	if (!needNewPoints() && enableOpticalFlow&&correctDistance()){
+	if (!needNewPoints() && enableOpticalFlow&&isCorrectDistance()){
 		homographyFound = OpticalTracking(image, info);
 		
 	}
 	else
 	{
-		if (estimatedHomographyFound && enableWrap&&correctDistance())
+		if (estimatedHomographyFound && enableWrap&&isCorrectDistance())
 		{
 			cout << "begin warped tracking" << endl;
 			homographyFound = warpedTrackingNew(image, info);
@@ -2605,12 +2605,31 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 	if (eyes.size() > 0)
 	{
 
-		disstream << eyes.back().distance;
-		//disstream<<
+		disstream << engine.eye.distance;
 		string disstring = disstream.str();
 		drawing.drawText(*this, image, disstring, Point(10, 70), Scalar(200, 0, 0));
-		nowDistance = eyes.back().distance;
+		//nowDistance = eyes.back().distance;
 	}
+
+	stringstream indexstream;
+	for (int i = 0; i < nowMatchedKeyframes.size(); i++)
+	{
+		indexstream << nowMatchedKeyframes[i] << "  ";
+	}
+	string indexstring = indexstream.str();
+	drawing.drawText(*this, image, indexstring, Point(10, 90), Scalar(200, 0, 0));
+
+
+	//cout now match keyframes
+	cout << "now match keyframes: " << nowMatchedKeyframes.size() << endl;
+	for (int i = 0; i < nowMatchedKeyframes.size(); i++)
+	{
+		cout << nowMatchedKeyframes[i] << "  ";
+	}
+	cout << endl;
+
+
+	//return value
 	return homographyFound;
 }
 

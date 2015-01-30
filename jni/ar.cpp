@@ -19,8 +19,9 @@
 #include "Model/mesh.h"
 #include "MutexImage.h"
 #include "patternFactory.h"
+//#include "AREngine.h"
 //#include "ARError.h"
-//#include "Globals.h"
+#include "Globals.h"
 
 #ifndef LOG_TAG
 #define  LOG_TAG    "libgljni"
@@ -34,6 +35,7 @@ using namespace cv;
 bool isRedirect = false;
 
 Mat gray;
+//AREngine engine;
 
 /*Mat cameraToFirstRgb;
  mutex cameraToFirstLock;
@@ -132,7 +134,7 @@ void initKalmanFilter(KalmanFilter &KF, int nStates, int nMeasurements,int nInpu
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv* env, jobject, jstring path)
 {
 	redirectStdOut();
-	LOGE("begin train pattern");
+	/*LOGE("begin train pattern");
 	cout<<"begin train pattern"<<endl;
 
 
@@ -156,34 +158,25 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 	LOGE("end drawctx init");
 	cout<<"end drawctx init"<<endl;
 
-	//kalman
-	//cout << "begin init kalman" << endl;
-	//initKalmanFilter(KF, nStates, nMeasurements, nInputs, dt);    // init function
-	//measurements.setTo(Scalar(0));
 
 	cout<<"begin load model"<<endl;
-	//load model
-	//PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
-	//g_pMesh = new Mesh("/sdcard/models/apple.ply");
-	//vector<vertex>& vert = g_pMesh->_vlist;
 
-	//if (g_pMesh) g_pMesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
 	cout<<"after normal"<<endl;
 
-
-	//g_pProgMesh = new PMesh(g_pMesh, g_edgemethod );
-	cout<<"end train"<<endl;
+	cout<<"end train"<<endl;*/
+	engine.init();
 
 }
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)
 {
 	Mat& currentFrame = *(Mat*)addrRgba;
-	Mat descriptors;
+	/*Mat descriptors;
 	LOGE("begin track pattern");
 	Timer timer;
 	timer.start();
 	double start = timer.getElapsedTimeInMilliSec();
-	bool shouldQuit = processFrame(currentFrame, pipeline,drawingCtx);
+	bool shouldQuit = processFrame(currentFrame, pipeline,drawingCtx);*/
+	engine.processFrame(currentFrame);
 
 
 

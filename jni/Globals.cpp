@@ -115,7 +115,7 @@ GLuint *gTexture = 0;
 
 ARDrawing drawing;
 ARError arerror;
-
+AREngine engine;
 
 
 

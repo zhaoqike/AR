@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="ARDrawing.cpp" />
     <ClCompile Include="ARDrawingContext.cpp" />
+    <ClCompile Include="AREngine.cpp" />
     <ClCompile Include="ARError.cpp" />
     <ClCompile Include="ARPipeline.cpp" />
     <ClCompile Include="Bj1Info.cpp" />
@@ -89,6 +90,12 @@
     <ClCompile Include="GeometryTypes.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapInfo.cpp" />
+    <ClCompile Include="Model\mesh.cpp" />
+    <ClCompile Include="Model\pmesh.cpp" />
+    <ClCompile Include="Model\triangle.cpp" />
+    <ClCompile Include="Model\vec3.cpp" />
+    <ClCompile Include="Model\vertex.cpp" />
     <ClCompile Include="Pattern.cpp" />
     <ClCompile Include="PatternDetector.cpp" />
     <ClCompile Include="PatternFactory.cpp" />
@@ -98,6 +105,7 @@
   <ItemGroup>
     <ClInclude Include="ARDrawing.h" />
     <ClInclude Include="ARDrawingContext.hpp" />
+    <ClInclude Include="AREngine.h" />
     <ClInclude Include="ARError.h" />
     <ClInclude Include="ARPipeline.hpp" />
     <ClInclude Include="Bj1Info.h" />
@@ -109,6 +117,13 @@
     <ClInclude Include="Friend.h" />
     <ClInclude Include="GeometryTypes.hpp" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="MapInfo.h" />
+    <ClInclude Include="Model\mesh.h" />
+    <ClInclude Include="Model\pmesh.h" />
+    <ClInclude Include="Model\resource.h" />
+    <ClInclude Include="Model\triangle.h" />
+    <ClInclude Include="Model\vec3.h" />
+    <ClInclude Include="Model\vertex.h" />
     <ClInclude Include="Pattern.hpp" />
     <ClInclude Include="PatternDetector.hpp" />
     <ClInclude Include="PatternFactory.h" />

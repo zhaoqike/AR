@@ -38,9 +38,10 @@ using namespace cv;
 //PMesh *g_pProgMesh = NULL;
 
 
-extern ARPipeline pipeline;
-extern ARDrawingContext drawingCtx;
+//extern ARPipeline pipeline;
+//extern ARDrawingContext drawingCtx;
 extern CameraCalibration calibration;
+extern AREngine engine;
 //ARPipeline pipeline;
 //ARDrawingContext drawingCtx;
 
@@ -95,7 +96,22 @@ int main(int argc, const char * argv[])
 	freopen(filename.c_str(),"w",stdout);
 
 
-
+	engine.init();
+	VideoCapture cap;
+	bool opened = cap.open(0);
+	if (!opened)
+	{
+		cout << "camera not open" << endl;
+		return 0;
+		
+	}
+	Mat currentFrame;
+	cap >> currentFrame;
+	while (true)
+	{
+		engine.processFrame(currentFrame);
+		waitKey(5);
+	}
 
 	//Mat patternImage = imread("PyramidPattern.jpg");
 	//Mat testImage = imread("PyramidPatternTest.bmp");
@@ -125,8 +141,8 @@ int main(int argc, const char * argv[])
         return 2;
     }
 	//Mat testImage = imread("PyramidPatternTest.bmp");
-	VideoCapture cap;
-	bool opened=cap.open(0);
+//	VideoCapture cap;
+//	bool opened=cap.open(0);
     if (opened)
     {
         processVideo(patternImage, calibration, cap);

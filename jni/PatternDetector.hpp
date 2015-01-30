@@ -193,7 +193,7 @@ public:
 	void makeLayer(const Mat& img, Layer& layer, int lev);
 
 
-	bool correctDistance();
+	bool isCorrectDistance();
 	Point3f point2dTo3d(Size oriSize, Point2f p2d);
 
 

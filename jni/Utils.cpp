@@ -260,3 +260,12 @@ std::string IntToString ( int Number )
   ss << Number;
   return ss.str();
 }
+
+bool correctDistance(float distance)
+{
+	if (distance > 0.5f&&distance < 2.5f)
+	{
+		return true;
+	}
+	return false;
+}

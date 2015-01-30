@@ -24,6 +24,7 @@ Friend.cpp \
 MutexImage.cpp \
 PatternFactory.cpp \
 Bj1Info.cpp \
+MapInfo.cpp \
 AREngine.cpp \
 Model/mesh.cpp \
 Model/pmesh.cpp \
