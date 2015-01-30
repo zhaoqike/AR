@@ -109,17 +109,18 @@ void ARDrawingContext::draw() {
 
 	
 	vector<int>& matchedKfs = pipeline.m_patternDetector.nowMatchedKeyframes;
-	for (int i = 0; i < matchedKfs.size();i++)
+	for (int i = 0; i < kfmodels.size();i++)
 	{
-		int kfindex = matchedKfs[i];
+		//int kfindex = matchedKfs[i];
 		//if (kfmodels.size() == 0)
 		//{
 		//	return;
 		//}
 		//int mIndex=kfmodels[kfindex].meshIndex;
 		//int mIndex = kfindex%modelPathList.size();
-		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[kfindex].center;
-		drawAugmentedScene(kfindex,center.x, center.y, center.z);
+		//Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[kfindex].center;
+		Point3f& center = kfmodels[i].p3d;
+		drawAugmentedScene(i,center.x, center.y, center.z);
 	}
 	cout << "begin cout center data" << endl;
 	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {

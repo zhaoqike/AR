@@ -31,7 +31,7 @@ class Mesh
 public:
 	// Constructors and Destructors
 	Mesh() {_numVerts = _numTriangles = 0;};
-	Mesh(char* filename); // passed name of mesh file
+	Mesh(const char* filename); // passed name of mesh file
 	~Mesh();
 
 	Mesh(const Mesh&); // copy ctor
@@ -65,7 +65,7 @@ public:
 
 	bool operator==(const Mesh&); // don't allow op== -- too expensive
 	
-	bool loadFromFile(char* filename); // load from PLY file
+	bool loadFromFile(const char* filename); // load from PLY file
 
 	void ChangeStrToLower(char* pszUpper)
 	{

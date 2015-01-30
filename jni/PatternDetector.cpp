@@ -153,6 +153,24 @@ int PatternDetector::findKeyframe()
 {
 	return 0;
 }
+
+
+Point3f PatternDetector::point2dTo3d(Size oriSize, Point2f p2d)
+{
+	// Image dimensions
+	const float w = oriSize.width;
+	const float h = oriSize.height;
+
+	// Normalized dimensions:
+	const float maxSize = (max)(w, h);
+	const float unitW = w / maxSize;
+	const float unitH = h / maxSize;
+
+	float x = -unitW + 2 * unitW*p2d.x / w;
+	float y = -unitH + 2 * unitH*p2d.y / h;
+	float z = 0;
+	return Point3f(x, y, x);
+}
 void PatternDetector::makeKeyFrame(const Mat& rangeImage, Rect& range, Size& oriSize, KeyFrame& keyframe)
 {
 
@@ -214,6 +232,8 @@ void PatternDetector::makeKeyFrame(const Mat& rangeImage, Rect& range, Size& ori
 	keyframe.center.x = (ltw + rtw) / 2;
 	keyframe.center.y = (lth + lbh) / 2;
 	keyframe.center.z = 0;
+
+	keyframe.center = point2dTo3d(oriSize, Point2f((ltx + rtx) / 2, (lty + lby) / 2));
 
 	double scalew = (double)screenWidth / (double)keyframe.frame.cols;
 	double scaleh = (double)screenHeight / (double)keyframe.frame.rows;
@@ -696,13 +716,14 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 		cout << pattern.keyframeList.size() << endl;
 		//kfmodels.resize(pattern.keyframeList.size());
 		cout << kfmodels.size() << endl;
-		int meshNum = modelPathList.size();
+		int meshNum = pointList.size();
 		cout << meshNum << endl;
-		for (int i = 0; i<pattern.keyframeList.size(); i++)
+		for (int i = 0; i<pointList.size(); i++)
 		{
 			int pathIndex=i%modelPathList.size();
 
 			Model model(modelPathList[pathIndex]);
+			model.p3d = point2dTo3d(image.size(), pointList[i]);
 
 			//kfmodels[i].pmesh=makeMesh(modelPathList[ pathIndex]);
 			kfmodels.push_back(model);

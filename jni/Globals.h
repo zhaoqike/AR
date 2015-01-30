@@ -24,6 +24,8 @@ struct Model
 {
 	//int meshIndex;
 	int edgeNum;
+	Point2f p2d;
+	Point3f p3d;
 	Model(int index);
 	Model(string path);
 	Model();
@@ -34,6 +36,7 @@ struct Model
 };
 
 extern vector<Model> kfmodels;
+extern vector<Point2f> pointList;
 
 extern bool isShowRects;
 extern bool isShowPoints;
@@ -71,6 +74,7 @@ extern ARError arerror;
 
 
 //extern vector<PMesh* > pmeshList;
+extern string imagePath;
 extern vector<string> modelPathList;
 
 extern vector<Eye> eyes;

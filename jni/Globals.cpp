@@ -10,11 +10,14 @@ bool isMultiScale = true;
 PMesh* makeMesh(string path)
 {
 	PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
-	char* charPath = path.c_str();
+	const char* charPath = path.c_str();
 	Mesh* mesh = new Mesh(charPath);
 	//vector<vertex>& vert = g_pMesh->_vlist;
 
-	if (mesh) mesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
+	if (mesh)
+	{
+		mesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
+	}
 	cout << "after normal" << endl;
 
 
@@ -113,20 +116,19 @@ GLuint *gTexture = 0;
 ARDrawing drawing;
 ARError arerror;
 
+
+
+
+//models
+string imagePath;
+
+
+vector<Point2f> pointList;
+
+vector<string> modelPathList;
+
 vector<PMesh* > pmeshList;
 
-vector<string> modelPathList={
-		"/sdcard/models/apple.ply",
-		"/sdcard/models/hind.ply",
-		"/sdcard/models/AIRBOAT.ply",
-		"/sdcard/models/big_porsche.ply",
-		"/sdcard/models/CESSNA.ply",
-		"/sdcard/models/cow.ply",
-		"/sdcard/models/FLAMINGO.ply",
-		"/sdcard/models/hind.ply",
-		"/sdcard/models/PORSCHE.ply",
-		"/sdcard/models/SHUTTLE.ply",
-};
 
 vector<Eye> eyes;
 

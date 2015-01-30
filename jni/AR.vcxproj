@@ -80,6 +80,7 @@
     <ClCompile Include="ARDrawingContext.cpp" />
     <ClCompile Include="ARError.cpp" />
     <ClCompile Include="ARPipeline.cpp" />
+    <ClCompile Include="Bj1Info.cpp" />
     <ClCompile Include="CameraCalibration.cpp" />
     <ClCompile Include="cg\myline.cpp" />
     <ClCompile Include="cg\mypoint.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pattern.cpp" />
     <ClCompile Include="PatternDetector.cpp" />
+    <ClCompile Include="PatternFactory.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -98,6 +100,7 @@
     <ClInclude Include="ARDrawingContext.hpp" />
     <ClInclude Include="ARError.h" />
     <ClInclude Include="ARPipeline.hpp" />
+    <ClInclude Include="Bj1Info.h" />
     <ClInclude Include="CameraCalibration.hpp" />
     <ClInclude Include="cg\myline.h" />
     <ClInclude Include="cg\mypoint.h" />
@@ -108,6 +111,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Pattern.hpp" />
     <ClInclude Include="PatternDetector.hpp" />
+    <ClInclude Include="PatternFactory.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

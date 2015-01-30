@@ -18,8 +18,9 @@
 #include "Model/pmesh.h"
 #include "Model/mesh.h"
 #include "MutexImage.h"
+#include "patternFactory.h"
 //#include "ARError.h"
-#include "Globals.h"
+//#include "Globals.h"
 
 #ifndef LOG_TAG
 #define  LOG_TAG    "libgljni"
@@ -133,15 +134,12 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 	redirectStdOut();
 	LOGE("begin train pattern");
 	cout<<"begin train pattern"<<endl;
-	const char* str;
-	str = env->GetStringUTFChars(path, false);
-	if(str == NULL) {
-		return NULL; /* OutOfMemoryError already thrown */
-	}
-	std::cout << str << std::endl;
 
-	Mat patternImage = cv::imread(str);
-	env->ReleaseStringUTFChars(path, str);
+
+	PatternFactory factory;
+	factory.buildPattern(bj1);
+	Mat patternImage = cv::imread(imagePath);
+
 	LOGE("pattern channels: %d",patternImage.channels());cvtColor(patternImage,patternImage,CV_BGR2RGB);
 	if (patternImage.empty())
 	{

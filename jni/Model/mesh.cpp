@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 
-Mesh::Mesh(char* filename)
+Mesh::Mesh(const char* filename)
 {
 	_numVerts = _numTriangles = 0;
 	if (!loadFromFile(filename))
@@ -266,7 +266,7 @@ bool Mesh::readPlyTris(FILE *&inFile)
 
 
 // Load mesh from PLY file
-bool Mesh::loadFromFile(char* filename)
+bool Mesh::loadFromFile(const char* filename)
 {
     FILE* inFile = fopen(filename, "rt");
     if (inFile == NULL)

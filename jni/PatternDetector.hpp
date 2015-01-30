@@ -194,6 +194,7 @@ public:
 
 
 	bool correctDistance();
+	Point3f point2dTo3d(Size oriSize, Point2f p2d);
 
 
 
