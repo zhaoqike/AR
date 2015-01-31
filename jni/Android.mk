@@ -26,6 +26,7 @@ PatternFactory.cpp \
 Bj1Info.cpp \
 MapInfo.cpp \
 AREngine.cpp \
+ARSignal.cpp \
 Model/mesh.cpp \
 Model/pmesh.cpp \
 Model/triangle.cpp \

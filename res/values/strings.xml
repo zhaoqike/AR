@@ -11,5 +11,7 @@
     <string name="show_rects">show rects</string>
     <string name="show_points">show points</string>
     <string name="show_texts">show texts</string>
+    
+    <string name="print_warp">print warp</string>
 
 </resources>

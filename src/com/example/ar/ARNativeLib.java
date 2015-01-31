@@ -43,4 +43,7 @@ public class ARNativeLib {
 	public static native void showRects();
 	public static native void showPoints();
 	public static native void showTexts();
+	
+	
+	public static native void printWarp();
 }

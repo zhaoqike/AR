@@ -256,6 +256,10 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 			break;
 		case R.id.show_texts:
 			ARNativeLib.showTexts();
+			break;
+		case R.id.print_warp:
+			ARNativeLib.printWarp();
+			break;
 		}
 		if (item.getGroupId() == 2)
         {

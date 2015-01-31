@@ -132,6 +132,10 @@ vector<PMesh* > pmeshList;
 
 vector<Eye> eyes;
 
+//vector<Signal> signalList;
+
+bool isPrintWarp;
+
 
 void changeEdgeNum(Model& model, int newNum)
 {

@@ -1522,6 +1522,7 @@ MatchState PatternDetector::matchKeyFrame(int index, vector<DMatch>& matches)
 
 bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 {
+	branch = Opt;
 	cout << "begin optical tracking" << endl;
 	bool homographyFound = false;
 	// 2. track features
@@ -1780,6 +1781,7 @@ bool PatternDetector::warpedTracking(Mat& image, PatternTrackingInfo& info)
 
 bool PatternDetector::warpedTrackingSimple(Mat& image, PatternTrackingInfo& info)
 {
+	branch = Wapsim;
 	bool homographyFound = false;
 	//LOGE("homography found");
 	//LOGE("type:%d, rows:%d, cold:%d",m_roughHomography.type(),m_roughHomography.rows,m_roughHomography.cols);
@@ -1788,6 +1790,7 @@ bool PatternDetector::warpedTrackingSimple(Mat& image, PatternTrackingInfo& info
 	double warpSimpleStart = timer.getElapsedTimeInMilliSec();
 	double warpStart = timer.getElapsedTimeInMilliSec();
 	warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP);
+	processWarpSignal(m_grayImg, m_warpedImg);
 	//warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
 	double warpEnd = timer.getElapsedTimeInMilliSec();
 	double warpDuration = warpEnd - warpStart;
@@ -1975,6 +1978,23 @@ bool PatternDetector::warpedTrackingSimple(Mat& image, PatternTrackingInfo& info
 	return homographyFound;
 }
 
+
+void PatternDetector::processWarpSignal(Mat& ori, Mat& warped)
+{
+	cout << "process warp signal: " << isPrintWarp << endl;
+	if (isPrintWarp)
+	{
+		cout << "begin print warp" << endl;
+		string warpedPath = "/sdcard/";
+		string oriName = warpedPath + "ori.jpg";
+		string warpedName = warpedPath + "warped.jpg";
+		imwrite(oriName, ori);
+		imwrite(warpedName, warped);
+		isPrintWarp = false;
+		cout << "end print warp" << endl;
+	}
+}
+
 bool PatternDetector::warpedTrackingNew(Mat& image, PatternTrackingInfo& info)
 {
 	bool homographyFound = false;
@@ -1987,9 +2007,11 @@ bool PatternDetector::warpedTrackingNew(Mat& image, PatternTrackingInfo& info)
 	// Warp image using found homography
 	if (true)
 	{
+		branch = Wapnew;
 		Timer timer;
 		double warpStart = timer.getElapsedTimeInMilliSec();
 		warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP);
+		processWarpSignal(m_grayImg, m_warpedImg);
 		//warpPerspective(m_grayImg, m_warpedImg, m_roughHomography, m_pattern.size, WARP_INVERSE_MAP | INTER_CUBIC);
 		double warpEnd = timer.getElapsedTimeInMilliSec();
 		double warpDuration = warpEnd - warpStart;
@@ -2358,6 +2380,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 
 bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 {
+	branch = Sim;
 	cout << "begin simple tracking" << endl;
 	bool homographyFound = false;
 	cout << "estimated homography not found" << endl;
@@ -2524,6 +2547,7 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 		vector<int> estiindexes;
 		string str;
 		matchKeyframesWithPolygon(m_roughHomography, indexes);
+		cout << "match with polygon: " << indexes.size() << endl;
 		//matchKeyFrames(m_roughHomography, indexes,matchindexes,estiindexes,str);
 		nowMatchedKeyframes = indexes;
 		//else
@@ -2608,7 +2632,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		disstream << engine.eye.distance;
 		string disstring = disstream.str();
 		drawing.drawText(*this, image, disstring, Point(10, 70), Scalar(200, 0, 0));
-		//nowDistance = eyes.back().distance;
+		nowDistance = engine.eye.distance;
 	}
 
 	stringstream indexstream;
@@ -2622,6 +2646,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 
 	//cout now match keyframes
 	cout << "now match keyframes: " << nowMatchedKeyframes.size() << endl;
+	cout << branch << endl;
 	for (int i = 0; i < nowMatchedKeyframes.size(); i++)
 	{
 		cout << nowMatchedKeyframes[i] << "  ";

@@ -263,7 +263,7 @@ std::string IntToString ( int Number )
 
 bool correctDistance(float distance)
 {
-	if (distance > 0.5f&&distance < 2.5f)
+	if (distance > 0.5f&&distance < 4.5f)
 	{
 		return true;
 	}

@@ -22,6 +22,7 @@
 //#include "AREngine.h"
 //#include "ARError.h"
 #include "Globals.h"
+//#include "Signal.h"
 
 #ifndef LOG_TAG
 #define  LOG_TAG    "libgljni"
@@ -122,6 +123,8 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_storeError(JNIEnv*, jobje
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showRects(JNIEnv*, jobject);
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showPoints(JNIEnv*, jobject);
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showTexts(JNIEnv*, jobject);
+
+JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_printWarp(JNIEnv*, jobject);
 }
 //declare
 void redirectStdOut();
@@ -687,21 +690,27 @@ void readwrite() {
 	cv::imwrite("aaaaa.bmp", image);
 }
 
-void redirectStdOut() {
-	if (isRedirect == true) {
-		return;
-	}
+string timeToString()
+{
 	time_t filetamp;
 	filetamp = time(NULL);
 	stringstream ss;
 	string str;
 	ss << filetamp;
 	ss >> str;
+	return str;
+}
+
+void redirectStdOut() {
+	if (isRedirect == true) {
+		return;
+	}
+	string str=timeToString();
 
 	string filename = "/sdcard/arStdout" + str + ".txt";
 	freopen(filename.c_str(), "a", stdout);
 	freopen(filename.c_str(), "a", stderr);
-	cout<<filetamp<<endl;
+	//cout<<filetamp<<endl;
 	cout<<str<<endl;
 	cout << "this is ar std out" << endl;
 	cerr << "this is ar std err" << endl;
@@ -982,4 +991,13 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showTexts(JNIEnv*, jobjec
 	{
 		isShowTexts=false;
 	}
+}
+
+
+
+JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_printWarp(JNIEnv*, jobject)
+{
+	//Signal.putSignal(printWarp);
+	isPrintWarp=true;
+	cout<<"isPrintWarp: "<<isPrintWarp<<endl;
 }

@@ -35,6 +35,13 @@ struct AlphaState
 	double alpha;
 	int index;
 };
+enum Branch
+{
+	Opt,
+	Wapsim,
+	Wapnew,
+	Sim
+};
 
 class PatternDetector
 {
@@ -56,7 +63,7 @@ public:
 			//Ptr<DescriptorExtractor> extractor = new FREAK(false, false),
 			//Ptr<DescriptorMatcher>   matcher   = new BFMatcher(NORM_HAMMING, true),
 			bool enableRatioTest= false,
-			bool enableWrap=false,
+			bool enableWrap=true,
 			bool enableOpticalFlow=true,
 			bool estimatedHomoFound=false
 	);
@@ -197,6 +204,9 @@ public:
 	Point3f point2dTo3d(Size oriSize, Point2f p2d);
 
 
+	void processWarpSignal(Mat& ori, Mat& warped);
+
+
 
 
 	mutex 				m_firstToSecondMutex;
@@ -226,6 +236,8 @@ public:
 	int m_lostFrameNum;
 	int m_opticalFrameNum;
 	float nowDistance;
+
+	Branch branch;
 
 	friend class Friend;
 	friend class ARError;

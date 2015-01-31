@@ -5,6 +5,7 @@
 #include "ARDrawing.h"
 #include "ARError.h"
 #include "AREngine.h"
+#include "Signal.h"
 
 
 #ifndef WIN32
@@ -91,6 +92,10 @@ const float MAX_EDGE = 1.0;
 const float MIN_EDGE = 0.4;
 
 extern AREngine engine;
+
+//extern vector<Signal> signalList;
+
+extern bool isPrintWarp;
 
 
 void changeEdgeNum(Model& model, int newNum);
