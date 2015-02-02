@@ -1,5 +1,6 @@
 #include "PatternFactory.h"
 #include "Bj1Info.h"
+#include "Zg1Info.h"
 
 
 PatternFactory::PatternFactory()
@@ -13,14 +14,29 @@ PatternFactory::~PatternFactory()
 
 void PatternFactory::buildPattern(Type t)
 {
-	if (t == bj1)
+	switch (t)
 	{
-		Bj1Info bj1Info;
-		imagePath=bj1Info.imagePath;
+	case bj1:
+	{
+				Bj1Info bj1Info;
+				imagePath = bj1Info.imagePath;
 
 
-		pointList=bj1Info.pointList;
+				pointList = bj1Info.pointList;
 
-		modelPathList=bj1Info.modelPathList;
+				modelPathList = bj1Info.modelPathList;
+				break;
+	}
+	case zg1:
+	{
+				Zg1Info zg1Info;
+				imagePath = zg1Info.imagePath;
+
+
+				pointList = zg1Info.pointList;
+
+				modelPathList = zg1Info.modelPathList;
+				break;
+	}
 	}
 }

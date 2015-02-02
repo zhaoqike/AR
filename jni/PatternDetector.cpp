@@ -2216,7 +2216,11 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	vector<int> matchIndexes;
 	string matchstr;
 	cout << "begin match keyframes" << endl;
-	m_pattern.keyframeIndex = matchKeyFrames(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
+	m_pattern.keyframeIndex 0;// = matchKeyFrames(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
+	for (int i = 0; i < m_pattern.keyframeList.size(); i++)
+	{
+		indexes.push_back(i);
+	}
 	cout << "end match keyframes" << endl;
 	cout << m_pattern.keyframeIndex << endl;
 	string str = "index size: " + intToString(indexes.size());
@@ -2381,6 +2385,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 {
 	branch = Sim;
+	TrackerTimer trackerTimer;
 	cout << "begin simple tracking" << endl;
 	bool homographyFound = false;
 	cout << "estimated homography not found" << endl;
@@ -2389,7 +2394,7 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	timer.start();
 	double extractStart = timer.getElapsedTimeInMilliSec();
 	cout << "m_grayImage: " << m_grayImg.cols << "  " << m_grayImg.rows << endl;
-	extractFeatures(m_grayImg, m_queryKeypoints, m_queryDescriptors);
+	extractFeaturesWithTimer(m_grayImg, m_queryKeypoints, m_queryDescriptors, trackerTimer);
 	double extractEnd = timer.getElapsedTimeInMilliSec();
 	double extractDuration = extractEnd - extractStart;
 	cout << "extract: " << extractDuration << endl;
@@ -2404,7 +2409,11 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	vector<int> matchIndexes;
 	string matchstr;
 	cout << "begin match keyframes" << endl;
+	double matchkfStart = timer.getElapsedTimeInMilliSec();
 	m_pattern.keyframeIndex = matchKeyFramesNew(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
+	double matchkfEnd = timer.getElapsedTimeInMilliSec();
+	double matchkfDuration = matchkfEnd - matchkfStart;
+	trackerTimer.matchkf = matchkfDuration;
 	cout << "end match keyframes" << endl;
 	cout << m_pattern.keyframeIndex << endl;
 	string str = "index size: " + intToString(indexes.size());
@@ -2445,7 +2454,11 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	//use origi
 	//indexes.clear();
 	//indexes.push_back(0);
+	double matchptsStart = timer.getElapsedTimeInMilliSec();
 	getMatches(m_queryDescriptors, indexes, m_matches);
+	double matchptsEnd = timer.getElapsedTimeInMilliSec();
+	double matchptsDuration = matchptsEnd - matchptsStart;
+	trackerTimer.matchpt = matchptsDuration;
 	cout << indexes.size() << endl;
 	if (indexes.size() != 0)
 	{
@@ -2491,6 +2504,7 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	//}
 	double homographyEnd = timer.getElapsedTimeInMilliSec();
 	double homographyDuration = homographyEnd - homographyStart;
+	trackerTimer.ransac = homographyDuration;
 	cout << "homography: " << homographyDuration << endl;
 
 
@@ -2558,6 +2572,9 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 		//info.draw2dContour(image, CV_RGB(200,0,0));
 		m_lostFrameNum = 0;
 		estimatedHomographyFound = true;
+
+		//add timer
+		trackTimerList.push_back(trackerTimer);
 	}
 	else
 	{
@@ -2618,7 +2635,14 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		}
 		else
 		{
-			homographyFound = simpleTrackingNew(image, info);
+			if (isPoly)
+			{
+				homographyFound = simpleTrackingNew(image, info);
+			}
+			else
+			{
+				homographyFound = simpleTracking(image, info);
+			}
 			
 		}
 		m_opticalFrameNum = 0;
@@ -2702,6 +2726,49 @@ bool PatternDetector::extractFeatures(const Mat& image, vector<KeyPoint>& keypoi
 	double extractStart = timer.getElapsedTimeInMilliSec();
 	m_extractor->compute(image, keypoints, descriptors);
 	double extractEnd = timer.getElapsedTimeInMilliSec();
+	cout << "descriptor size: " << descriptors.size() << endl;
+	if (keypoints.empty())
+		return false;
+
+	return true;
+}
+
+bool PatternDetector::extractFeaturesWithTimer(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors, TrackerTimer& trackTimer) const
+{
+	assert(!image.empty());
+	//assert(image.channels() == 1);
+
+	Timer timer;
+	timer.start();
+	double detectStart = timer.getElapsedTimeInMilliSec();
+	m_detector->detect(image, keypoints);
+	double detectEnd = timer.getElapsedTimeInMilliSec();
+	double detectDuration = detectEnd - detectStart;
+	cout << "detect time: " << detectDuration << endl;
+	trackTimer.detect = detectDuration;
+
+	cout << "keypoints size: " << keypoints.size() << endl;
+	if (keypoints.empty())
+		return false;
+
+	double retainStart = timer.getElapsedTimeInMilliSec();
+	int num = 200;
+	if (keypoints.size() > num)
+	{
+		KeyPointsFilter filter;
+		filter.retainBest(keypoints, num);
+		//keyframe.keyPoints.resize(num);
+	}
+	double retainEnd = timer.getElapsedTimeInMilliSec();
+	double retainDuration = retainEnd - retainStart;
+	cout << "retain best: " << retainDuration << endl;
+
+
+	double extractStart = timer.getElapsedTimeInMilliSec();
+	m_extractor->compute(image, keypoints, descriptors);
+	double extractEnd = timer.getElapsedTimeInMilliSec();
+	double extractDuration = extractEnd - extractStart;
+	trackTimer.extract = extractDuration;
 	cout << "descriptor size: " << descriptors.size() << endl;
 	if (keypoints.empty())
 		return false;

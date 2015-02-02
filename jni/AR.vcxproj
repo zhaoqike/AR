@@ -82,6 +82,7 @@
     <ClCompile Include="ARError.cpp" />
     <ClCompile Include="ARPipeline.cpp" />
     <ClCompile Include="ARSignal.cpp" />
+    <ClCompile Include="ARTimer.cpp" />
     <ClCompile Include="Bj1Info.cpp" />
     <ClCompile Include="CameraCalibration.cpp" />
     <ClCompile Include="cg\myline.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="GeometryTypes.cpp" />
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="KLTTimer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapInfo.cpp" />
     <ClCompile Include="Model\mesh.cpp" />
@@ -101,7 +103,9 @@
     <ClCompile Include="PatternDetector.cpp" />
     <ClCompile Include="PatternFactory.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TrackerTimer.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Zg1Info.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ARDrawing.h" />
@@ -110,6 +114,7 @@
     <ClInclude Include="ARError.h" />
     <ClInclude Include="ARPipeline.hpp" />
     <ClInclude Include="ARSignal.h" />
+    <ClInclude Include="ARTimer.h" />
     <ClInclude Include="Bj1Info.h" />
     <ClInclude Include="CameraCalibration.hpp" />
     <ClInclude Include="cg\myline.h" />
@@ -119,6 +124,7 @@
     <ClInclude Include="Friend.h" />
     <ClInclude Include="GeometryTypes.hpp" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="KLTTimer.h" />
     <ClInclude Include="MapInfo.h" />
     <ClInclude Include="Model\mesh.h" />
     <ClInclude Include="Model\pmesh.h" />
@@ -130,7 +136,9 @@
     <ClInclude Include="PatternDetector.hpp" />
     <ClInclude Include="PatternFactory.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TrackerTimer.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Zg1Info.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

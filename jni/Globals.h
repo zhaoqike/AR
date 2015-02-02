@@ -6,6 +6,9 @@
 #include "ARError.h"
 #include "AREngine.h"
 #include "Signal.h"
+#include "ARTimer.h"
+#include "TrackerTimer.h"
+#include "KLTTimer.h"
 
 
 #ifndef WIN32
@@ -46,6 +49,7 @@ extern bool isShowRects;
 extern bool isShowPoints;
 extern bool isShowTexts;
 extern bool isMultiScale;
+extern bool isPoly;
 
 
 

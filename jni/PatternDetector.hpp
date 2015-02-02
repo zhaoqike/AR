@@ -14,6 +14,10 @@
 #include <mutex>
 #include "cg/mypolygon.h"
 
+#include "TrackerTimer.h"
+#include "KLTTimer.h"
+
+
 
 
 using namespace std;
@@ -63,8 +67,8 @@ public:
 			//Ptr<DescriptorExtractor> extractor = new FREAK(false, false),
 			//Ptr<DescriptorMatcher>   matcher   = new BFMatcher(NORM_HAMMING, true),
 			bool enableRatioTest= false,
-			bool enableWrap=true,
-			bool enableOpticalFlow=true,
+			bool enableWrap=false,
+			bool enableOpticalFlow=false,
 			bool estimatedHomoFound=false
 	);
 
@@ -132,6 +136,7 @@ public:
 	static bool compareCount(MatchState a, MatchState b);
 
 	bool extractFeatures(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors) const;
+	bool extractFeaturesWithTimer(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors, TrackerTimer& trackTimer) const;
 
 	void getMatches(const Mat& queryDescriptors, vector<DMatch>& matches);
 
@@ -242,6 +247,12 @@ public:
 	friend class Friend;
 	friend class ARError;
 	friend class ARDrawing;
+
+	vector<TrackerTimer> trackTimerList;
+	vector<KLTTimer> kltTimerList;
+
+	vector<float> trackWithPoly;
+	vector<float> trackWithoutPoly;
 
 	//ARDrawing drawing;
 };

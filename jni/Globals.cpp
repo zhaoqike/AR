@@ -5,6 +5,7 @@ bool isShowRects = true;
 bool isShowPoints = true;
 bool isShowTexts = true;
 bool isMultiScale = true;
+bool isPoly=true;
 
 
 PMesh* makeMesh(string path)
