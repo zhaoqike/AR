@@ -19,5 +19,7 @@
     <item android:id="@+id/show_texts" android:title="@string/show_texts"/>
     
     <item android:id="@+id/print_warp" android:title="@string/print_warp"/>
+    
+    <item android:id="@+id/print_time" android:title="@string/print_time"/>
 
 </menu>

@@ -10,6 +10,7 @@ LOCAL_MODULE    := ar
 LOCAL_SRC_FILES := ar.cpp \
 ARDrawingContext.cpp \
 ARPipeline.cpp \
+ARTimer.cpp \
 Cameracalibration.cpp \
 GeometryTypes.cpp \
 Pattern.cpp \
@@ -25,6 +26,9 @@ MutexImage.cpp \
 PatternFactory.cpp \
 Bj1Info.cpp \
 MapInfo.cpp \
+Zg1Info.cpp \
+TrackerTimer.cpp \
+KLTTimer.cpp \
 AREngine.cpp \
 ARSignal.cpp \
 Model/mesh.cpp \

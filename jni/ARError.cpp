@@ -17,7 +17,7 @@ float ARError::point_distance(Point2f& p1, Point2f& p2)
 	return sqrtf(x*x + y*y);
 }
 
-float ARError::computeError(PatternDetector& pd, Mat& homography)
+float ARError::computeError(PatternDetector& pd, Mat& homography,Branch branch)
 {
 	if (homography.rows != 3 || homography.cols != 3)
 	{
@@ -40,8 +40,17 @@ float ARError::computeError(PatternDetector& pd, Mat& homography)
 	err += (point_distance(persPoints[i], after[i]));
 	}*/
 	err /= persPoints.size();
-	errs.push_back(err);
+	Err e;
+	e.err = err;
+	e.branch = branch;
+	//errs.push_back(e);
+	pd.nowError = e;
 	return err;
+}
+
+void ARError::pushError(PatternDetector& pd, Err e)
+{
+	errs.push_back(e);
 }
 
 void ARError::printError()
@@ -52,7 +61,7 @@ void ARError::printError()
 	errfile << errs.size() << endl;
 	for (int i = 0; i < errs.size(); i++)
 	{
-		errfile << errs[i] << endl;
+		errfile << errs[i].branch<<' '<<errs[i].err << endl;
 	}
 	errfile.flush();
 	errfile.close();

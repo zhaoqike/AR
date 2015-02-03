@@ -49,13 +49,23 @@ extern bool isShowRects;
 extern bool isShowPoints;
 extern bool isShowTexts;
 extern bool isMultiScale;
+extern bool isWarp;
 extern bool isPoly;
+extern bool isOpticalFlow;
+extern bool isDrawModel;
+extern bool isPrint;
+
+
+#define concout if(isPrint) cout
 
 
 
 extern ARPipeline pipeline;
 extern ARDrawingContext drawingCtx;
 extern CameraCalibration calibration;
+
+
+
 
 
 
@@ -100,6 +110,7 @@ extern AREngine engine;
 //extern vector<Signal> signalList;
 
 extern bool isPrintWarp;
+extern bool isPrintTime;
 
 
 void changeEdgeNum(Model& model, int newNum);

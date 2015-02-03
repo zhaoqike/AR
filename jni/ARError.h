@@ -11,16 +11,18 @@
 
 using namespace std;
 using namespace cv;
+
 class ARError
 {
 public:
 	ARError();
 	~ARError();
 	float point_distance(Point2f& p1, Point2f& p2);
-	float computeError(PatternDetector& pd, Mat& homography);
+	float computeError(PatternDetector& pd, Mat& homography,Branch branch);
+	void pushError(PatternDetector& pd, Err e);
 	void printError();
 
 
-	vector<float> errs;
+	vector<Err> errs;
 };
 

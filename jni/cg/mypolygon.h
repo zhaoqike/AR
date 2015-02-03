@@ -34,6 +34,7 @@ public:
     void checkconvex(vector<MyPoint>& polygon,vector<bool>& bc);
     bool isconvex();
     double area_of_polygon(vector<MyPoint> polygon);
+	double area_of_polygon1(vector<MyPoint> polygon);
     int intAreaCalc(vector<MyPoint> &vecPoly);
 
     //vector<Line> lineList;

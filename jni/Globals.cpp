@@ -5,7 +5,11 @@ bool isShowRects = true;
 bool isShowPoints = true;
 bool isShowTexts = true;
 bool isMultiScale = true;
-bool isPoly=true;
+bool isWarp = false;
+bool isPoly=false;
+bool isOpticalFlow=false;
+bool isDrawModel = false;
+bool isPrint = true;;
 
 
 PMesh* makeMesh(string path)
@@ -136,6 +140,7 @@ vector<Eye> eyes;
 //vector<Signal> signalList;
 
 bool isPrintWarp;
+bool isPrintTime;
 
 
 void changeEdgeNum(Model& model, int newNum)

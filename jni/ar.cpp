@@ -125,6 +125,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showPoints(JNIEnv*, jobje
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_showTexts(JNIEnv*, jobject);
 
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_printWarp(JNIEnv*, jobject);
+JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_printTime(JNIEnv*, jobject);
 }
 //declare
 void redirectStdOut();
@@ -953,7 +954,7 @@ void printEyes()
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_storeError(JNIEnv*, jobject)
 {
 	arerror.printError();
-	printEyes();
+	//printEyes();
 	//pipeline.m_patternDetector.calcWindowArea();
 }
 
@@ -1000,4 +1001,9 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_printWarp(JNIEnv*, jobjec
 	//Signal.putSignal(printWarp);
 	isPrintWarp=true;
 	cout<<"isPrintWarp: "<<isPrintWarp<<endl;
+}
+
+JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_printTime(JNIEnv*, jobject)
+{
+	isPrintTime=true;
 }

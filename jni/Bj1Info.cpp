@@ -3,7 +3,7 @@
 
 Bj1Info::Bj1Info()
 {
-	imagePath = "/sdcard/ar/bj1/bj1.jpg";
+	imagePath = "/sdcard/ar/bj1/p4.jpg";
 
 	pointList = {
 		Point2f(1341, 812), //tiananmen gugong

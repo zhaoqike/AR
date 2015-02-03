@@ -46,4 +46,6 @@ public class ARNativeLib {
 	
 	
 	public static native void printWarp();
+	
+	public static native void printTime();
 }

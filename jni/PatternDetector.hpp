@@ -20,12 +20,18 @@
 
 
 
+
 using namespace std;
 using namespace cv;
+
+
 
 //class Friend;
 //class ARError;
 //class ARDrawing;
+
+extern bool isWarp;
+extern bool isOpticalFlow;
 
 struct MatchState
 {
@@ -44,8 +50,17 @@ enum Branch
 	Opt,
 	Wapsim,
 	Wapnew,
-	Sim
+	Sim,
+	SimNew
 };
+
+
+struct Err
+{
+	float err;
+	Branch branch;
+};
+
 
 class PatternDetector
 {
@@ -54,23 +69,23 @@ public:
 	 * Initialize a pattern detector with specified feature detector, descriptor extraction and matching algorithm
 	 */
 	PatternDetector
-	(
-			Ptr<FeatureDetector>     detector  = new FastFeatureDetector,
-			Ptr<DescriptorExtractor> extractor = new BriefDescriptorExtractor,
-			Ptr<DescriptorMatcher>   matcher   = new BFMatcher(NORM_HAMMING, true),
+		(
+		Ptr<FeatureDetector>     detector = new FastFeatureDetector,
+		Ptr<DescriptorExtractor> extractor = new BriefDescriptorExtractor,
+		Ptr<DescriptorMatcher>   matcher = new BFMatcher(NORM_HAMMING, true),
 
 
-			//Ptr<DescriptorMatcher>   matcher   = new FlannBasedMatcher(),
+		//Ptr<DescriptorMatcher>   matcher   = new FlannBasedMatcher(),
 
 
-			//Ptr<FeatureDetector>     detector  = new ORB(1000),
-			//Ptr<DescriptorExtractor> extractor = new FREAK(false, false),
-			//Ptr<DescriptorMatcher>   matcher   = new BFMatcher(NORM_HAMMING, true),
-			bool enableRatioTest= false,
-			bool enableWrap=false,
-			bool enableOpticalFlow=false,
-			bool estimatedHomoFound=false
-	);
+		//Ptr<FeatureDetector>     detector  = new ORB(1000),
+		//Ptr<DescriptorExtractor> extractor = new FREAK(false, false),
+		//Ptr<DescriptorMatcher>   matcher   = new BFMatcher(NORM_HAMMING, true),
+		bool enableRatioTest = false,
+		bool enableWrap = isWarp,
+		bool enableOpticalFlow = isOpticalFlow,
+		bool estimatedHomoFound = false
+		);
 
 	int minNum=10;
 	int indexCount = 3;
@@ -210,6 +225,7 @@ public:
 
 
 	void processWarpSignal(Mat& ori, Mat& warped);
+	void processTimeSignal();
 
 
 
@@ -241,6 +257,7 @@ public:
 	int m_lostFrameNum;
 	int m_opticalFrameNum;
 	float nowDistance;
+	Err nowError;
 
 	Branch branch;
 

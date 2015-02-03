@@ -29,6 +29,9 @@
 								</outputEntries>
 							</builder>
 							<tool id="com.android.gcc.compiler.1110172055" name="Android GCC Compiler" superClass="com.android.gcc.compiler">
+								<option id="com.android.gcc.option.includePath.1370931608" superClass="com.android.gcc.option.includePath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;D:\NVPACK\android-ndk-r10\platforms\android-15\arch-arm\usr\include&quot;"/>
+								</option>
 								<inputType id="com.android.gcc.inputType.1381493291" superClass="com.android.gcc.inputType"/>
 							</tool>
 						</toolChain>
@@ -51,4 +54,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.android.AndroidPerProjectProfile"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="refreshScope"/>
 </cproject>

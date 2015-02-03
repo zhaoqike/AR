@@ -13,5 +13,6 @@
     <string name="show_texts">show texts</string>
     
     <string name="print_warp">print warp</string>
+    <string name="print_time">print time</string>
 
 </resources>

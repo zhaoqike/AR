@@ -1099,11 +1099,11 @@ bool PatternDetector::matchKeyframesWithPolygon(Mat& homography, vector<int>& in
 					keyframePointList.push_back(p);
 				}
 				MyPolygon keyframePoly(keyframePointList);
-				if (!keyframePoly.issimple() || !keyframePoly.isconvex())
-				{
-					success = false;
-					break;
-				}
+				//if (!keyframePoly.issimple() || !keyframePoly.isconvex())
+				//{
+				//	success = false;
+				//	break;
+				//}
 				MyPolygon interPoly;
 				bool success = screenPolygon.intersect(screenPolygon, keyframePoly, interPoly);
 				double keyframeArea = keyframePoly.area_of_polygon(keyframePoly.pointList);
@@ -1379,6 +1379,9 @@ int PatternDetector::matchKeyFramesNew(Mat& homography, vector<int>& indexes, ve
 	estiIdxes.clear();
 	if (estimatedHomographyFound)
 	{
+
+		Timer timer;
+		timer.start();
 		cout << "begin calc areas" << endl;
 		MyPoint lt(0, 0), lb(0, screenHeight), rb(screenWidth, screenHeight), rt(screenWidth, 0);
 		vector<MyPoint> screenPointList;
@@ -1387,16 +1390,39 @@ int PatternDetector::matchKeyFramesNew(Mat& homography, vector<int>& indexes, ve
 		screenPointList.push_back(rb);
 		screenPointList.push_back(rt);
 		MyPolygon screenPoly(screenPointList);
-		double screenArea = screenPoly.area_of_polygon(screenPoly.pointList);
+
+		double areas = timer.getElapsedTimeInMilliSec();
+		double screenArea = screenHeight*screenWidth;// screenPoly.area_of_polygon(screenPoly.pointList);
+		double areae = timer.getElapsedTimeInMilliSec();
+		double aread = areae - areas;
+		cout << "screen area time: " << aread << endl;
 		cout << "screea area" << endl;
 		cout << screenArea << endl;
 		vector<AlphaState> alphaList;
 		bool success = true;
-		Timer timer;
-		timer.start();
+		
+		//test
+		vector<MyPoint> patternPointList;
+		PatternTrackingInfo info;
+		info.homography = homography;
+		perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
+		for (int j = 0; j < 4; j++)
+		{
+			MyPoint p(info.points2d[j].x, info.points2d[j].y);
+			patternPointList.push_back(p);
+		}
+		MyPolygon patternPoly(patternPointList);
+		if(!patternPoly.issimple() || !patternPoly.isconvex())
+		{
+			success = false;
+			return 0;
+		}
+
 		double polyStart = timer.getElapsedTimeInMilliSec();
+		cout << "begin calc all" << endl;
 		for (int i = 0; i < m_pattern.keyframeList.size(); i++)
 		{
+			double ls = timer.getElapsedTimeInMilliSec();
 			vector<MyPoint> keyframePointList;
 			PatternTrackingInfo info;
 			info.homography = homography;
@@ -1407,26 +1433,52 @@ int PatternDetector::matchKeyFramesNew(Mat& homography, vector<int>& indexes, ve
 				keyframePointList.push_back(p);
 			}
 			MyPolygon keyframePoly(keyframePointList);
-			if (!keyframePoly.issimple() || !keyframePoly.isconvex())
+			/*if (!keyframePoly.issimple() || !keyframePoly.isconvex())
 			{
 				success = false;
 				break;
-			}
+			}*/
 			MyPolygon interPoly;
+			//double intes = timer.getElapsedTimeInMilliSec();
 			bool success = screenPoly.intersect(screenPoly, keyframePoly, interPoly);
+			//double intee = timer.getElapsedTimeInMilliSec();
+			//double inted = intee - intes;
+			//double l1 = intee - ls;
+			//cout << "inter time: " << inted << endl;
+			//cout << "til l1: " << l1 << endl;
+			//double kareas = timer.getElapsedTimeInMilliSec();
 			double keyframeArea = keyframePoly.area_of_polygon(keyframePoly.pointList);
+			//double keyframeArea1 = keyframePoly.area_of_polygon1(keyframePoly.pointList);
+			//double kareae = timer.getElapsedTimeInMilliSec();
+			//double karead = kareae - kareas;
+			//double l2 = kareae - ls;
+			//cout << "kf area time: " << karead << endl;
+			//cout << "til l2: " << l2 << endl;
+			//cout << "kf area: " << keyframeArea<< endl;
+			//double iareas = timer.getElapsedTimeInMilliSec();
 			double interArea = interPoly.area_of_polygon(interPoly.pointList);
+			//double interArea1 = interPoly.area_of_polygon1(interPoly.pointList);
+			//double iareae = timer.getElapsedTimeInMilliSec();
+			//double iaread = iareae - iareas;
+			//double l3 = iareae - ls;
+			//cout << "inter area time: " << iaread << endl;
+			//cout << "til l3: " << l3 << endl;
+			//cout << "inter area: " << interArea<< endl;
 			double alpha = interArea / screenArea + interArea / keyframeArea;
+			//double alpha1 = interArea1 / screenArea + interArea1 / keyframeArea1;
 			AlphaState as;
 			as.alpha = alpha;
 			as.index = i;
 			alphaList.push_back(as);
-			cout << "keyframe " << i << endl;
-			cout << keyframeArea << endl;
-			cout << "inter area" << endl;
-			cout << interArea << endl;
-			cout << "alpha" << endl;
-			cout << alpha << endl;
+			//cout << "keyframe " << i << endl;
+			//cout << keyframeArea << endl;
+			//cout << "inter area" << endl;
+			//cout << interArea << endl;
+			//cout << "alpha" << endl;
+			//cout << alpha << endl;
+			double le = timer.getElapsedTimeInMilliSec();
+			double ld = le - ls;
+			cout << "loop: " << i << "  " << ld << endl;
 		}
 		double polyEnd = timer.getElapsedTimeInMilliSec();
 		double polyDuration = polyEnd - polyStart;
@@ -1434,47 +1486,55 @@ int PatternDetector::matchKeyFramesNew(Mat& homography, vector<int>& indexes, ve
 
 		if (success)
 		{
-			double estiSortStart = timer.getElapsedTimeInMilliSec();
-			int estiIndex = -1;
-			double max = 0;
-			for (int i = 0; i < alphaList.size(); i++)
-			{
-				if (alphaList[i].alpha>max)
-				{
-					max = alphaList[i].alpha;
-					estiIndex = i;
-				}
-			}
-			cout << "before sort esti" << endl;
-			for (int i = 0; i < alphaList.size(); i++)
-			{
-				cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
-			}
+			//double estiSortStart = timer.getElapsedTimeInMilliSec();
+			//int estiIndex = -1;
+			//double max = 0;
+			//for (int i = 0; i < alphaList.size(); i++)
+			//{
+			//	if (alphaList[i].alpha>max)
+			//	{
+			//		max = alphaList[i].alpha;
+			//		estiIndex = i;
+			//	}
+			//}
+			//cout << "before sort esti" << endl;
+			//for (int i = 0; i < alphaList.size(); i++)
+			//{
+			//	cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
+			//}
+			double sorts = timer.getElapsedTimeInMilliSec();
 			sort(alphaList.begin(), alphaList.end(), compareAlpha);
-			cout << "after sort esti" << endl;
-			for (int i = 0; i < alphaList.size(); i++)
-			{
-				cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
-			}
+			double sorte = timer.getElapsedTimeInMilliSec();
+			double sortd = sorte - sorts;
+			cout << "sort: " << sortd << endl;
+			//cout << "after sort esti" << endl;
+			//for (int i = 0; i < alphaList.size(); i++)
+			//{
+			//	cout << alphaList[i].alpha << "  " << alphaList[i].index << endl;
+			//}
+			double ps = timer.getElapsedTimeInMilliSec();
 			int resultCount = (min)((int)alphaList.size(), indexCount);
 			for (int i = 0; i < resultCount; i++)
 			{
 				indexes.push_back(alphaList[i].index);
 				estiIdxes.push_back(alphaList[i].index);
 			}
-			stringstream ss;
-			for (int i = 0; i < indexes.size(); i++)
-			{
-				ss << indexes[i] << "  ";
-			}
-			str = ss.str();
-			double estiSortEnd = timer.getElapsedTimeInMilliSec();
-			double estiSortDuration = estiSortEnd - estiSortStart;
-			cout << "esti sort duration" << estiSortDuration << endl;
+			double pe = timer.getElapsedTimeInMilliSec();
+			double pd = pe - ps;
+			cout << "push: " << pd << endl;
+			//stringstream ss;
+			//for (int i = 0; i < indexes.size(); i++)
+			//{
+			//	ss << indexes[i] << "  ";
+			//}
+			//str = ss.str();
+			//double estiSortEnd = timer.getElapsedTimeInMilliSec();
+			//double estiSortDuration = estiSortEnd - estiSortStart;
+			//cout << "esti sort duration" << estiSortDuration << endl;
 
 			//copy vector
 			//indexes = estiIdxes;
-			return estiIndex;
+			return 0;// estiIndex;
 		}
 	}
 	//else //上次没找到或者这次没找到都跳转到这里来 使用匹配算法寻找关键帧
@@ -1534,11 +1594,18 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 	int npoints = prevPtsMat.checkVector(2, CV_32F, true);
 	//cout<<npoints<<endl;
 	cout << npoints << endl;
+	Timer timer;
+	KLTTimer kltTimer;
+	timer.start();
+	double kltStart = timer.getElapsedTimeInMilliSec();
 	calcOpticalFlowPyrLK(m_grayImgPrev, m_grayImg, // 2 consecutive images
 		before, // input point position in first image
 		after, // output point postion in the second image
 		status,    // tracking success
 		err);      // tracking error
+	double kltEnd = timer.getElapsedTimeInMilliSec();
+	double kltDuration = kltEnd - kltStart;
+	kltTimer.klt = kltDuration;
 
 	// 2. loop over the tracked points to reject the undesirables
 	int k = 0;
@@ -1564,8 +1631,6 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 	{
 		// Find homography matrix and get inliers mask
 		vector<unsigned char> inliersMask(before.size());
-		Timer timer;
-		timer.start();
 		double findHomographyStart = timer.getElapsedTimeInMilliSec();
 		homography = findHomography(patternPoints,
 			after,
@@ -1575,6 +1640,7 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 
 		double findHomographyEnd = timer.getElapsedTimeInMilliSec();
 		double findHomographyDuration = findHomographyEnd - findHomographyStart;
+		kltTimer.ransac = findHomographyDuration;
 		cout << "find homography duration: " << findHomographyDuration << endl;
 
 		homographyFound = (countNonZero(inliersMask) > 8);
@@ -1611,7 +1677,7 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 		drawing.drawContours(*this, image, info, nowMatchedKeyframes);
 		m_lostFrameNum = 0;
 		estimatedHomographyFound = true;
-		float err = arerror.computeError(*this, homography);
+		float err = arerror.computeError(*this, homography,branch);
 		cout << "err: " << err << endl;
 		// 3. handle the accepted tracked points
 		Scalar scalar(255, 0, 0);
@@ -1622,9 +1688,17 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 		m_initialHomography = info.homography;
 
 		// 4. current points and image become previous ones
+		double storeStart = timer.getElapsedTimeInMilliSec();
 		swap(before, after);
 		swap(m_grayImgPrev, m_grayImg);
+		double storeEnd = timer.getElapsedTimeInMilliSec();
+		double storeDuration = timer.getElapsedTimeInMilliSec();
+		kltTimer.store = storeDuration;
 		perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
+
+
+		//store timer
+		kltTimerList.push_back(kltTimer);
 	}
 	m_opticalFrameNum++;
 	return homographyFound;
@@ -1652,6 +1726,7 @@ bool PatternDetector::warpedTracking(Mat& image, PatternTrackingInfo& info)
 {
 	cout << "begin warped tracking" << endl;
 	bool homographyFound = false;
+	Branch branch = Wapnew;
 	//LOGE("homography found");
 	//LOGE("type:%d, rows:%d, cold:%d",m_roughHomography.type(),m_roughHomography.rows,m_roughHomography.cols);
 	// Warp image using found homography
@@ -1752,6 +1827,9 @@ bool PatternDetector::warpedTracking(Mat& image, PatternTrackingInfo& info)
 		perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 		m_lostFrameNum = 0;
 		estimatedHomographyFound = true;
+
+		float err = arerror.computeError(*this, m_roughHomography, branch);
+		cout << "end compute error" << endl;
 	}
 	else
 	{
@@ -1912,7 +1990,7 @@ bool PatternDetector::warpedTrackingSimple(Mat& image, PatternTrackingInfo& info
 			before = queryPoints;
 			after = queryPoints;
 		}
-		float err = arerror.computeError(*this, m_roughHomography);
+		float err = arerror.computeError(*this, m_roughHomography,branch);
 		cout << "end compute error" << endl;
 
 
@@ -2141,7 +2219,7 @@ bool PatternDetector::warpedTrackingNew(Mat& image, PatternTrackingInfo& info)
 				before = queryPoints;
 				after = queryPoints;
 			}
-			float err = arerror.computeError(*this, m_roughHomography);
+			float err = arerror.computeError(*this, m_roughHomography,branch);
 			cout << "end compute error" << endl;
 
 
@@ -2191,23 +2269,27 @@ bool PatternDetector::warpedTrackingNew(Mat& image, PatternTrackingInfo& info)
 	return homographyFound;
 }
 
+//without poly
 bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 {
 	cout << "begin simple tracking" << endl;
+	Branch branch = Sim;
 	bool homographyFound = false;
+	TrackerTimer trackerTimer;
 	cout << "estimated homography not found" << endl;
 	// Extract feature points from input gray image
 	Timer timer;
 	timer.start();
 	double extractStart = timer.getElapsedTimeInMilliSec();
 	cout << "m_grayImage: " << m_grayImg.cols << "  " << m_grayImg.rows << endl;
-	extractFeatures(m_grayImg, m_queryKeypoints, m_queryDescriptors);
+	extractFeaturesWithTimer(m_grayImg, m_queryKeypoints, m_queryDescriptors,trackerTimer);
 	double extractEnd = timer.getElapsedTimeInMilliSec();
 	double extractDuration = extractEnd - extractStart;
 	cout << "extract: " << extractDuration << endl;
 
 	// Get matches with current pattern
 	double matchStart = timer.getElapsedTimeInMilliSec();
+	double matchptsStart = timer.getElapsedTimeInMilliSec();
 	cout << "begin get matches" << endl;
 
 	vector<int> indexes;
@@ -2216,7 +2298,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	vector<int> matchIndexes;
 	string matchstr;
 	cout << "begin match keyframes" << endl;
-	m_pattern.keyframeIndex 0;// = matchKeyFrames(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
+	m_pattern.keyframeIndex = 0;// = matchKeyFrames(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
 	for (int i = 0; i < m_pattern.keyframeList.size(); i++)
 	{
 		indexes.push_back(i);
@@ -2261,7 +2343,11 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	//use origi
 	//indexes.clear();
 	//indexes.push_back(0);
+	
 	getMatches(m_queryDescriptors, indexes, m_matches);
+	double matchptsEnd = timer.getElapsedTimeInMilliSec();
+	double matchptsDuration = matchptsEnd - matchptsStart;
+	trackerTimer.matchpt = matchptsDuration;
 	cout << indexes.size() << endl;
 	if (indexes.size() != 0)
 	{
@@ -2274,7 +2360,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	double matchDuration = matchEnd - matchStart;
 	//cout<<m_pattern.keyframeList[m_pattern.keyframeIndex].keypoints.size()<<endl;
 	//cout<<m_pattern.keypoints.size()<<endl;
-
+	double homographyStart = timer.getElapsedTimeInMilliSec();
 	vector<KeyPoint> patternKeyPoints;
 	patternKeyPoints.clear();
 	for (int i = 0; i < indexes.size(); i++)
@@ -2283,7 +2369,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	}
 
 	// Find homography transformation and detect good matches
-	double homographyStart = timer.getElapsedTimeInMilliSec();
+	
 	//if(isMultiScale){
 	homographyFound = refineMatchesWithHomography(
 		m_queryKeypoints,
@@ -2307,6 +2393,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	//}
 	double homographyEnd = timer.getElapsedTimeInMilliSec();
 	double homographyDuration = homographyEnd - homographyStart;
+	trackerTimer.ransac = homographyDuration;
 	cout << "homography: " << homographyDuration << endl;
 
 
@@ -2335,7 +2422,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 			before.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 			after.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 		}
-		float err = arerror.computeError(*this, m_roughHomography);
+		float err = arerror.computeError(*this, m_roughHomography,branch);
 		cout << "end compute error" << endl;
 		//if(isMultiScale)
 		{
@@ -2364,6 +2451,9 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 		//info.draw2dContour(image, CV_RGB(200,0,0));
 		m_lostFrameNum = 0;
 		estimatedHomographyFound = true;
+
+		//add timer
+		trackTimerList.push_back(trackerTimer);
 	}
 	else
 	{
@@ -2382,9 +2472,10 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	return homographyFound;
 }
 
+//with poly
 bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 {
-	branch = Sim;
+	branch = SimNew;
 	TrackerTimer trackerTimer;
 	cout << "begin simple tracking" << endl;
 	bool homographyFound = false;
@@ -2410,11 +2501,18 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	string matchstr;
 	cout << "begin match keyframes" << endl;
 	double matchkfStart = timer.getElapsedTimeInMilliSec();
+	//if (nowMatchedKeyframes.size() == 0)
+	//{
+	//	for (int i = 0; i < m_pattern.keyframeList.size(); i++)
+	//	{
+	//		nowMatchedKeyframes.push_back(i);
+	//	}
+	//}
 	m_pattern.keyframeIndex = matchKeyFramesNew(m_estimatedHomography, indexes, matchIndexes, estiIndexes, matchstr);
 	double matchkfEnd = timer.getElapsedTimeInMilliSec();
 	double matchkfDuration = matchkfEnd - matchkfStart;
 	trackerTimer.matchkf = matchkfDuration;
-	cout << "end match keyframes" << endl;
+	cout << "end match keyframes: "<<trackerTimer.matchkf << endl;
 	cout << m_pattern.keyframeIndex << endl;
 	string str = "index size: " + intToString(indexes.size());
 	putText(image, matchstr, Point(10, 50), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
@@ -2460,10 +2558,10 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	double matchptsDuration = matchptsEnd - matchptsStart;
 	trackerTimer.matchpt = matchptsDuration;
 	cout << indexes.size() << endl;
-	if (indexes.size() != 0)
-	{
-		nowMatchedKeyframes = indexes;
-	}
+	//if (indexes.size() != 0)
+	//{
+	//	nowMatchedKeyframes = indexes;
+	//}
 	cout << m_queryDescriptors.size() << "  " << m_pattern.keyframeList[indexes[0]].descriptors.size() << endl;
 	cout << "before homo size: " << m_matches.size() << endl;
 	cout << "end get matches: " << m_matches.size() << endl;
@@ -2533,7 +2631,7 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 			before.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 			after.push_back(m_queryKeypoints[m_matches[i].queryIdx].pt);
 		}
-		float err = arerror.computeError(*this, m_roughHomography);
+		float err = arerror.computeError(*this, m_roughHomography,branch);
 		cout << "end compute error" << endl;
 		//if(isMultiScale)
 		{
@@ -2560,10 +2658,10 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 		vector<int> matchindexes;
 		vector<int> estiindexes;
 		string str;
-		matchKeyframesWithPolygon(m_roughHomography, indexes);
+		//matchKeyframesWithPolygon(m_roughHomography, indexes);
 		cout << "match with polygon: " << indexes.size() << endl;
 		//matchKeyFrames(m_roughHomography, indexes,matchindexes,estiindexes,str);
-		nowMatchedKeyframes = indexes;
+		//nowMatchedKeyframes = indexes;
 		//else
 		//{
 		//	perspectiveTransform(m_pattern.points2d, info.points2d, m_roughHomography);
@@ -2625,7 +2723,7 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		homographyFound = OpticalTracking(image, info);
 		
 	}
-	else
+	else///if not success goto this
 	{
 		if (estimatedHomographyFound && enableWrap&&isCorrectDistance())
 		{
@@ -2637,16 +2735,29 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		{
 			if (isPoly)
 			{
+				Timer timer;
+				double trackWithPolyStart=timer.getElapsedTimeInMilliSec();
 				homographyFound = simpleTrackingNew(image, info);
+				double trackWithPolyEnd = timer.getElapsedTimeInMilliSec();
+				double trackWithPolyDuration = trackWithPolyEnd - trackWithPolyStart;
+				trackWithPoly.push_back(trackWithPolyDuration);
 			}
 			else
 			{
+				Timer timer;
+				double trackWithoutPolyStart = timer.getElapsedTimeInMilliSec();
 				homographyFound = simpleTracking(image, info);
+				double trackWithoutPolyEnd = timer.getElapsedTimeInMilliSec();
+				double trackWithoutPolyDuration = trackWithoutPolyEnd - trackWithoutPolyStart;
+				trackWithoutPoly.push_back(trackWithoutPolyDuration);
 			}
 			
 		}
 		m_opticalFrameNum = 0;
 	}
+
+	//push error
+	arerror.pushError(*this,nowError);
 
 	cout << "end find pattern homography found: " << homographyFound << endl;
 	stringstream disstream;
@@ -2676,6 +2787,10 @@ bool PatternDetector::findPattern(Mat& image, PatternTrackingInfo& info)
 		cout << nowMatchedKeyframes[i] << "  ";
 	}
 	cout << endl;
+
+
+	//process time signal
+	processTimeSignal();
 
 
 	//return value
@@ -2908,31 +3023,43 @@ void PatternDetector::getMatches(const Mat& queryDescriptors, vector<int>& index
 	{
 		//if(isMultiScale)
 		{
-			if (indexes.size() == 0)//match failed,push all keyframes into indexes to implement a full match
-			{
-				int size = m_pattern.keyframeList.size();
-				for (int i = 0; i < size; i++)
-				{
-					indexes.push_back(i);
-				}
-			}
-			cout << "begin calc rows" << endl;
-			/*int cols = m_pattern.descriptors.cols;
-			int type = m_pattern.descriptors.type();
-			int rows = 0;
-			for (int i = 0; i < indexes.size(); i++)
-			{
-			rows += m_pattern.keyframeList[i].descriptors.rows;
-			}*/
+			//Timer timer;
+			//timer.start();
+			//double sizes = timer.getElapsedTimeInMilliSec();
+			//if (indexes.size() == 0)//match failed,push all keyframes into indexes to implement a full match
+			//{
+			//	int size = m_pattern.keyframeList.size();
+			//	for (int i = 0; i < size; i++)
+			//	{
+			//		indexes.push_back(i);
+			//	}
+			//}
+			//cout << "begin calc rows" << endl;
+			//int cols = m_pattern.descriptors.cols;
+			//int type = m_pattern.descriptors.type();
+			//int rows = 0;
+			//for (int i = 0; i < indexes.size(); i++)
+			//{
+			//	rows += m_pattern.keyframeList[i].descriptors.rows;
+			//}
+			//double sizee = timer.getElapsedTimeInMilliSec();
+			//double sized = sizee - sizes;
+			//cout << "compute size: " << sized << endl;
 			cout << "begin combine descriptors" << endl;
 			Mat descriptors;
 			for (int i = 0; i < indexes.size(); i++)
 			{
+				//Timer timer;
+				//timer.start();
+				//double pushs = timer.getElapsedTimeInMilliSec();
 				cout << m_pattern.keyframeList.size() << "  " << indexes[i] << endl;
-				Mat& kfDescriptors = m_pattern.keyframeList[indexes[i]].descriptors;
+				Mat kfDescriptors = m_pattern.keyframeList[indexes[i]].descriptors;
 				cout << "keyframe: " << i << endl;
 				cout << kfDescriptors.size() << endl;
 				descriptors.push_back(kfDescriptors);
+				//double pushe = timer.getElapsedTimeInMilliSec();
+				//double pushd = pushe - pushs;
+				//cout << "push: " << i << pushd << endl;
 			}
 			cout << "end combine descriptors" << endl;
 			cout << descriptors.size() << endl;
@@ -3034,5 +3161,56 @@ void PatternDetector::handleTrackedPoints(Mat &frame, Mat &output, Scalar scalar
 	}
 
 
+}
+
+
+void PatternDetector::processTimeSignal()
+{
+	if (isPrintTime == false)
+	{
+		return;
+	}
+
+	fstream twptimefile;
+	twptimefile.open("sdcard/twp.txt", ios::out);
+	for (int i = 0; i < kltTimerList.size(); i++)
+	{
+		twptimefile << trackWithPoly[i] << endl;
+	}
+	twptimefile.flush();
+	twptimefile.close();
+
+
+	fstream twoptimefile;
+	twoptimefile.open("sdcard/twop.txt", ios::out);
+	for (int i = 0; i < kltTimerList.size(); i++)
+	{
+		twoptimefile << trackWithoutPoly[i] << endl;
+	}
+	twoptimefile.flush();
+	twoptimefile.close();
+
+
+	fstream klttimefile;
+	klttimefile.open("sdcard/ktf.txt", ios::out);
+	for (int i = 0; i < kltTimerList.size(); i++)
+	{
+		klttimefile << kltTimerList[i] << endl;
+	}
+	klttimefile.flush();
+	klttimefile.close();
+
+
+	fstream tracktimefile;
+	tracktimefile.open("/sdcard/ttf.txt", ios::out);
+	for (int i = 0; i < trackTimerList.size(); i++)
+	{
+		tracktimefile << trackTimerList[i] << endl;
+	}
+	tracktimefile.flush();
+	tracktimefile.close();
+
+
+	isPrintTime = false;
 }
 

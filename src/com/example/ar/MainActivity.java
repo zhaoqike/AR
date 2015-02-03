@@ -260,6 +260,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 		case R.id.print_warp:
 			ARNativeLib.printWarp();
 			break;
+		case R.id.print_time:
+			ARNativeLib.printTime();
 		}
 		if (item.getGroupId() == 2)
         {
