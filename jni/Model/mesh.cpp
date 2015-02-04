@@ -1,6 +1,6 @@
 
 #include "mesh.h"
-
+#include "../DebugPrint.h"
 
 #if defined (_MSC_VER) && (_MSC_VER >= 1020)
 #pragma warning(disable:4710) // function not inlined
@@ -65,7 +65,7 @@ bool Mesh::readNumPlyVerts(FILE *&inFile, int& nVerts)
 		fscanf(inFile, "%s", tempStr);
 		if (feof(inFile))
 		{
-			cout<<"Reached End of File and string \"element vertex\" not found!\n"<<endl;
+			conprint<<"Reached End of File and string \"element vertex\" not found!\n"<<endl;
 			return false;
 		}
 
@@ -87,7 +87,7 @@ bool Mesh::readNumPlyVerts(FILE *&inFile, int& nVerts)
 	fscanf(inFile, "%d", &nVerts); 
 	if (feof(inFile))
 	{
-		cout<<"Reached End of File before \"element face\" found!\n"<<endl;
+		conprint<<"Reached End of File before \"element face\" found!\n"<<endl;
 		return false;
 	}
 	return true;
@@ -104,7 +104,7 @@ bool Mesh::readNumPlyTris(FILE *&inFile, int& nTris)
 		fscanf(inFile, "%s", tempStr);
 		if (feof(inFile))
 		{
-			cout<<"Reached End of File and string \"element face\" not found!\n"<<endl;
+			conprint<<"Reached End of File and string \"element face\" not found!\n"<<endl;
 			return false;
 		}
 
@@ -126,7 +126,7 @@ bool Mesh::readNumPlyTris(FILE *&inFile, int& nTris)
 	fscanf(inFile, "%d", &nTris);
 	if (feof(inFile))
 	{
-		cout<<"Reached End of File before list of vertices found!\n"<<endl;
+		conprint<<"Reached End of File before list of vertices found!\n"<<endl;
 		return false;
 	}
 	return true;
@@ -143,7 +143,7 @@ bool Mesh::readPlyHeader(FILE *&inFile)
 		fscanf(inFile, "%s", tempStr);
 		if (feof(inFile))
 		{
-			cout<<"Reached End of File and the string \"ply\" NOT FOUND!!\n"<<endl;
+			conprint<<"Reached End of File and the string \"ply\" NOT FOUND!!\n"<<endl;
 			return false;
 		}
 		ChangeStrToLower(tempStr); // change tempStr to lower case 
@@ -167,7 +167,7 @@ bool Mesh::readPlyHeader(FILE *&inFile)
 		fscanf(inFile, "%s", tempStr);
 		if (feof(inFile))
 		{
-			cout<<"Reached End of File and string \"end_header\" not found!\n"<<endl;
+			conprint<<"Reached End of File and string \"end_header\" not found!\n"<<endl;
 			return false;
 		}
 
@@ -203,7 +203,7 @@ bool Mesh::readPlyVerts(FILE *&inFile)
 		_vlist.push_back(v); // push_back puts a *copy* of the element at the end of the list
 		if (feof(inFile))
 		{
-			cout<<"Reached End of File before all vertices found!\n"<<endl;
+			conprint<<"Reached End of File before all vertices found!\n"<<endl;
 			return false;
 		}
 
@@ -225,7 +225,7 @@ bool Mesh::readPlyTris(FILE *&inFile)
 		fscanf(inFile, "%d", &nVerts);
 		if (3 != nVerts)
 		{
-			cout<<"Error:  Ply file contains polygons which are not triangles!\n"<<endl;
+			conprint<<"Error:  Ply file contains polygons which are not triangles!\n"<<endl;
 			return false;
 		}
 		fscanf(inFile, "%d", &v1);   // get value for vertex A
@@ -255,7 +255,7 @@ bool Mesh::readPlyTris(FILE *&inFile)
 
 		if (feof(inFile))
 		{
-			cout<<"Reached End of File before all faces found!\n"<<endl;
+			conprint<<"Reached End of File before all faces found!\n"<<endl;
 			return false;
 		}
 		// read until end of line
@@ -273,7 +273,7 @@ bool Mesh::loadFromFile(const char* filename)
     {
         char pszError[_MAX_FNAME + 1];
 		sprintf(pszError, "%s does not exist!\n", filename);
-        cout<<pszError<<endl;
+        conprint<<pszError<<endl;
 		return false;
     }
 
@@ -338,20 +338,20 @@ void Mesh::calcVertNormals()
 // Used for debugging
 void Mesh::dump()
 {
-	std::cout << "*** Mesh Dump ***" << std::endl;
-	std::cout << "# of vertices: " << _numVerts << std::endl;
-	std::cout << "# of triangles: " << _numTriangles << std::endl;
+	conprint << "*** Mesh Dump ***" << std::endl;
+	conprint << "# of vertices: " << _numVerts << std::endl;
+	conprint << "# of triangles: " << _numTriangles << std::endl;
 	for (unsigned i = 0; i < _vlist.size(); ++i)
 	{
-		std::cout << "\tVertex " << i << ": " << _vlist[i] << std::endl;
+		conprint << "\tVertex " << i << ": " << _vlist[i] << std::endl;
 	}
-	std::cout << std::endl;
+	conprint << std::endl;
 	for (unsigned i = 0; i < _plist.size(); ++i)
 	{
-		std::cout << "\tTriangle " << i << ": " << _plist[i] << std::endl;
+		conprint << "\tTriangle " << i << ": " << _plist[i] << std::endl;
 	}
-	std::cout << "*** End of Mesh Dump ***" << std::endl;
-	std::cout << std::endl;
+	conprint << "*** End of Mesh Dump ***" << std::endl;
+	conprint << std::endl;
 }
 
 // Get min, max values of all verts
@@ -388,9 +388,9 @@ void Mesh::Normalize(float size)
 	if (dimv.x >= dimv.y && dimv.x >= dimv.z) Scale = 2.0f/dimv.x;
 	else if (dimv.y >= dimv.x && dimv.y >= dimv.z) Scale = 2.0f/dimv.y;
 	else Scale = 2.0f/dimv.z;
-	cout<<"scale: "<<Scale<<endl;
+	conprint<<"scale: "<<Scale<<endl;
 	Scale*=size;
-	cout<<"scale size  "<<Scale<<"  "<<size<<endl;
+	conprint<<"scale size  "<<Scale<<"  "<<size<<endl;
 
 	Vec3 transv = minv + maxv;
 
@@ -405,7 +405,7 @@ void Mesh::Normalize(float size)
 
 void Mesh::print()
 {
-	cout<<"mesh : "<<endl;
-	cout<<_numVerts <<"  "<< _numTriangles<<endl;
+	conprint<<"mesh : "<<endl;
+	conprint<<_numVerts <<"  "<< _numTriangles<<endl;
 }
 

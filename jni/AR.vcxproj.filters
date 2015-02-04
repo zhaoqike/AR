@@ -200,5 +200,8 @@
     <ClInclude Include="KLTTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DebugPrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

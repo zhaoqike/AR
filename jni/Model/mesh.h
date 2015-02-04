@@ -52,7 +52,7 @@ public:
 
 	void calcOneVertNormal(unsigned vert); // recalc normal for one vertex
 
-	void dump(); // print mesh state to cout
+	void dump(); // print mesh state to conprint
 
 	void print();
 

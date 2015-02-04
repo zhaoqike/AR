@@ -1,5 +1,5 @@
 #include "ARError.h"
-
+#include "DebugPrint.h"
 
 ARError::ARError()
 {
@@ -27,7 +27,7 @@ float ARError::computeError(PatternDetector& pd, Mat& homography,Branch branch)
 	perspectiveTransform(pd.patternPoints, persPoints, homography);
 	if (persPoints.size() != pd.after.size())
 	{
-		cout << "compute error size not match";
+		conprint << "compute error size not match";
 		return 0;
 	}
 	float err = 0;

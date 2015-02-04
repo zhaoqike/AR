@@ -3,6 +3,7 @@
 // File includes:
 #include "ARPipeline.hpp"
 #include "Timer.h"
+#include "DebugPrint.h"
 
 ARPipeline::ARPipeline() {
 
@@ -15,9 +16,9 @@ ARPipeline::ARPipeline(const Mat& patternImage, const CameraCalibration& calibra
 
 void ARPipeline::init(const Mat& patternImage, const CameraCalibration& calibration) {
 	m_calibration = calibration;
-	cout << "begin build pattern from image" << endl;
+	conprint << "begin build pattern from image" << endl;
 	m_patternDetector.buildPatternFromImage(patternImage, m_pattern);
-	cout << "end build pattern from image" << endl;
+	conprint << "end build pattern from image" << endl;
 	m_patternDetector.train(m_pattern);
 }
 
@@ -36,7 +37,7 @@ bool ARPipeline::processFrame(Mat& inputFrame) {
 	bool patternFound = m_patternDetector.findPattern(inputFrame, m_patternInfo);
 	double findPatternEnd = timer.getElapsedTimeInMilliSec();
 	double findPatternDuration = findPatternEnd - findPatternStart;
-	cout << "find pattern uses : " << findPatternDuration << endl;
+	conprint << "find pattern uses : " << findPatternDuration << endl;
 
 	if (patternFound) {
 		m_patternInfo.computePose(m_pattern, m_calibration);

@@ -330,24 +330,24 @@ void MyPolygon::checkconvex(vector<MyPoint>& polygon,vector<bool>& bc)
 }
 
 /// 返回多边形面积(signed)；输入顶点按逆时针排列时，返回正值；否则返回负值
-double MyPolygon::area_of_polygon1(vector<MyPoint> polygon)
+double MyPolygon::area_of_polygon(vector<MyPoint> polygon)
 {
-    //cout<<"begin calc area"<<endl;
+    //conprint<<"begin calc area"<<endl;
     int vcount=polygon.size();
     int i;
     double s;
     if (vcount<3)
         return 0;
     s=polygon[0].y*(polygon[vcount-1].x-polygon[1].x);
-    //cout<<s<<endl;
+    //conconprint<<s<<endl;
     for (i=1;i<vcount;i++)
     {
         double incre=polygon[i].y*(polygon[(i-1)].x-polygon[(i+1)%vcount].x);
         s+=incre;
-        cout<<incre<<"  "<<s<<endl;
+        //conconprint<<incre<<"  "<<s<<endl;
     }
-    //cout<<"finally area1"<<endl;
-    //cout<<abs(s/2)<<endl;
+    //conconprint<<"finally area1"<<endl;
+    //conconprint<<abs(s/2)<<endl;
     return abs(s/2);
 }
 
@@ -362,7 +362,7 @@ double area_of_triangle(MyPoint p1, MyPoint p2, MyPoint p3)
 }
 
 // 返回多边形面积(signed)；输入顶点按逆时针排列时，返回正值；否则返回负值
-double MyPolygon::area_of_polygon(vector<MyPoint> polygon)
+double MyPolygon::area_of_polygon1(vector<MyPoint> polygon)
 {
 	if (polygon.size() < 3)
 	{
@@ -378,7 +378,7 @@ double MyPolygon::area_of_polygon(vector<MyPoint> polygon)
 
 int MyPolygon::intAreaCalc(vector<MyPoint> &vecPoly)
 {
-    //cout<<"begin area"<<endl;
+    //conprint<<"begin area"<<endl;
     int iCycle,iCount,iArea;
     iCycle=0;
     iArea=0;
@@ -387,10 +387,9 @@ int MyPolygon::intAreaCalc(vector<MyPoint> &vecPoly)
     for(iCycle=0;iCycle<iCount;iCycle++)
     {
         iArea=iArea+(vecPoly[iCycle].x*vecPoly[(iCycle+1) % iCount].y-vecPoly[(iCycle+1) % iCount].x*vecPoly[iCycle].y);
-        cout<<iArea<<endl;
     }
-    //cout<<"finally area2"<<endl;
-    //cout<<abs(0.5*iArea)<<endl;
+    //conconprint<<"finally area2"<<endl;
+    //conconprint<<abs(0.5*iArea)<<endl;
     return abs(0.5*iArea);
 }
 
@@ -400,14 +399,14 @@ bool MyPolygon::isconvex()
     int orisize,aftersize;
     vector<MyPoint> afterPoint;
     Graham_scan(pointList,afterPoint,pointList.size(),aftersize);
-    //cout<<"ori1"<<endl;
-    //cout<<area_of_polygon(pointList)<<endl;
-    //cout<<"after1"<<endl;
-    //cout<<area_of_polygon(afterPoint)<<endl;
-    //cout<<"ori2"<<endl;
-    //cout<<intAreaCalc(pointList)<<endl;
-    //cout<<"after2"<<endl;
-    //cout<<intAreaCalc(afterPoint)<<endl;
+    //conprint<<"ori1"<<endl;
+    //conprint<<area_of_polygon(pointList)<<endl;
+    //conprint<<"after1"<<endl;
+    //conprint<<area_of_polygon(afterPoint)<<endl;
+    //conprint<<"ori2"<<endl;
+    //conprint<<intAreaCalc(pointList)<<endl;
+    //conprint<<"after2"<<endl;
+    //conprint<<intAreaCalc(afterPoint)<<endl;
     if(pointList.size()==afterPoint.size())
     {
         return true;

@@ -9,6 +9,7 @@
 #include "ARTimer.h"
 #include "TrackerTimer.h"
 #include "KLTTimer.h"
+#include "DebugPrint.h"
 
 
 #ifndef WIN32
@@ -54,9 +55,11 @@ extern bool isPoly;
 extern bool isOpticalFlow;
 extern bool isDrawModel;
 extern bool isPrint;
+extern bool isLod;
 
+//extern bool isPrint;
+//#define conprint if(isPrint) cout
 
-#define concout if(isPrint) cout
 
 
 

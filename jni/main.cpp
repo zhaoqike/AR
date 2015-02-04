@@ -81,7 +81,7 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
 
 int main(int argc, const char * argv[])
 {
-    cout<<"hello"<<endl;
+    conprint<<"hello"<<endl;
 
 
 	time_t filetamp;
@@ -101,7 +101,7 @@ int main(int argc, const char * argv[])
 	bool opened = cap.open(0);
 	if (!opened)
 	{
-		cout << "camera not open" << endl;
+		conprint << "camera not open" << endl;
 		return 0;
 		
 	}
@@ -120,14 +120,14 @@ int main(int argc, const char * argv[])
 	//	//imshow("win1", patternImage);
 	//	//imshow("win2", testImage);
 	//	//waitKey(0);
-	//	cout << "==================================================================================main begin process" << endl;
+	//	conprint << "==================================================================================main begin process" << endl;
 	//	processSingleImage(patternImage, calibration, testImage);
 	//}
 	//return 0;
     /*if (argc < 2)
     {
-        cout << "Input image not specified" << endl;
-        cout << "Usage: markerless_ar_demo <pattern image> [filepath to recorded video or image]" << endl;
+        conprint << "Input image not specified" << endl;
+        conprint << "Usage: markerless_ar_demo <pattern image> [filepath to recorded video or image]" << endl;
         return 1;
     }*/
 
@@ -135,7 +135,7 @@ int main(int argc, const char * argv[])
     Mat patternImage = imread("book.jpg");
     if (patternImage.empty())
     {
-        cout << "Input image cannot be read" << endl;
+        conprint << "Input image cannot be read" << endl;
 		cerr << "Input image cannot be read" << endl;
 		getchar();
         return 2;
@@ -194,7 +194,7 @@ void processVideo(Mat& patternImage, CameraCalibration& calibration, VideoCaptur
     // Check the capture succeeded:
     if (currentFrame.empty())
     {
-        cout << "Cannot open video capture device" << endl;
+        conprint << "Cannot open video capture device" << endl;
         return;
     }
 
@@ -215,7 +215,7 @@ void processVideo(Mat& patternImage, CameraCalibration& calibration, VideoCaptur
 		double d=t.getElapsedTimeInMilliSec();
 		double cvd = (double)cvGetTickCount();
         capture >> currentFrame;
-		cout<<"frame"<<endl;
+		conprint<<"frame"<<endl;
 		//char key = (char)waitKey(1);
         if (currentFrame.empty())
         {
@@ -226,8 +226,8 @@ void processVideo(Mat& patternImage, CameraCalibration& calibration, VideoCaptur
 		double cvd1 = (double)cvGetTickCount();
         shouldQuit = processFrame(currentFrame, pipeline, drawingCtx);
 		double d2=t.getElapsedTimeInMilliSec();
-		cout<<d1-d<<"  "<<d2-d1<<"frame "<<1000.0/(d2-d)<<endl;
-		cout<<"run time "<< (cvd1-cvd)/(cvGetTickFrequency()*1000)<<endl ;
+		conprint<<d1-d<<"  "<<d2-d1<<"frame "<<1000.0/(d2-d)<<endl;
+		conprint<<"run time "<< (cvd1-cvd)/(cvGetTickFrequency()*1000)<<endl ;
     } while (!shouldQuit);
 }
 
@@ -256,7 +256,7 @@ void processSingleImage(Mat& patternImage, CameraCalibration& calibration, Mat& 
 bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
 {
     // Clone image used for background (we will draw overlay on it)
-	cout<<"begin clone"<<endl;
+	conprint<<"begin clone"<<endl;
     Mat img = cameraFrame.clone();
     // Draw information:
     
@@ -264,10 +264,10 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
     putText(img, "RANSAC threshold: " + ToString(pipeline.m_patternDetector.homographyReprojectionThreshold) + "( Use'-'/'+' to adjust)", Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0,200,0));
 
     // Set a new camera frame:
-	/*cout << "win1" << endl;
+	/*conprint << "win1" << endl;
 	imshow("win", img);
 	waitKey(0);*/
-    cout<<"begin update background"<<endl;
+    conprint<<"begin update background"<<endl;
     drawingCtx.updateBackground(img);
 	//imshow("image",img);
 	//waitKey(0);
@@ -281,8 +281,8 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
 
     // Request redraw of the window:
     drawingCtx.updateWindow();
-	cout << "end update window" << endl;
-	/*cout << "win3" << endl;
+	conprint << "end update window" << endl;
+	/*conprint << "win3" << endl;
 	imshow("win3", drawingCtx.m_backgroundImage);
 	waitKey(0);*/
 
@@ -303,7 +303,7 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
     else if (keyCode == 'h')
     {
         //pipeline.m_patternDetector.enableHomographyRefinement = !pipeline.m_patternDetector.enableHomographyRefinement;
-		cout<<"change refinement"<<endl;
+		conprint<<"change refinement"<<endl;
     }
     else if (keyCode == 27 || keyCode == 'q')
     {
@@ -316,7 +316,7 @@ bool processFrame(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& draw
 /*bool processFramefuck(Mat& cameraFrame, ARPipeline& pipeline, ARDrawingContext& drawingCtx)
 {
 	// Clone image used for background (we will draw overlay on it)
-	cout << "begin clone" << endl;
+	conprint << "begin clone" << endl;
 	Mat img = cameraFrame.clone();
 
 	drawingCtx.updateBackground(img);

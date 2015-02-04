@@ -39,10 +39,14 @@ extern ARPipeline pipeline;
 #include "Globals.h"
 
 void ARDrawingContextDrawCallback(void* param) {
+	conprint << "begin draw callback" << endl;
 	ARDrawingContext * ctx = static_cast<ARDrawingContext*>(param);
 	if (ctx) {
+		conprint << "begin draw outer" << endl;
 		ctx->draw();
+		conprint << "end draw outer" << endl;
 	}
+	conprint << "end draw callback" << endl;
 }
 
 ARDrawingContext::ARDrawingContext() {
@@ -90,7 +94,7 @@ void ARDrawingContext::updateBackground(const Mat& frame) {
 	frame.copyTo(m_backgroundImage);
 	width = frame.cols;
 	height = frame.rows;
-	concout << "update background" << endl;
+	conprint << "update background" << endl;
 
 }
 
@@ -128,20 +132,20 @@ void ARDrawingContext::draw() {
 		Point3f& center = kfmodels[i].p3d;
 		drawAugmentedScene(i,center.x, center.y, center.z);
 	}
-	concout << "begin concout center data" << endl;
+	conprint << "begin conprint center data" << endl;
 	for (int i = 0; i < pipeline.m_patternDetector.m_pattern.keyframeList.size(); i++) {
 		Point3f & center = pipeline.m_patternDetector.m_pattern.keyframeList[i].center;
-		concout << "center " << i << " : " << center.x << "  " << center.y << "  " << center.z << endl;
+		conprint << "center " << i << " : " << center.x << "  " << center.y << "  " << center.z << endl;
 	}
-	concout << "end concout center data" << endl;
+	conprint << "end conprint center data" << endl;
 	//drawAugmentedScene();                               // Draw AR
 	glFlush();
-	concout << "end draw" << endl;
+	conprint << "end draw" << endl;
 }
 
 void ARDrawingContext::drawCameraFrame() {
 	if (m_backgroundImage.cols == 0 || m_backgroundImage.rows == 0) {
-		concout << "background image is null" << endl;
+		conprint << "background image is null" << endl;
 		return;
 	}
 	// Initialize texture for background image
@@ -153,12 +157,12 @@ void ARDrawingContext::drawCameraFrame() {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		m_isTextureInitialized = true;
-		concout << "init draw" << endl;
+		conprint << "init draw" << endl;
 	}
 
 	int w = m_backgroundImage.cols;
 	int h = m_backgroundImage.rows;
-	concout << "width: " << w << " height: " << h << " channel: " << m_backgroundImage.channels() << endl;
+	conprint << "width: " << w << " height: " << h << " channel: " << m_backgroundImage.channels() << endl;
 	cvtColor(m_backgroundImage, m_backgroundImage, CV_BGR2RGB);
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
@@ -211,26 +215,26 @@ void ARDrawingContext::drawCameraFrame() {
 
  glMatrixMode(GL_PROJECTION);
  glLoadMatrixf(projectionMatrix.data);
- concout<<"projectionMatrix: "<<endl;
+ conprint<<"projectionMatrix: "<<endl;
  for(int i=0;i<16;i++){
- concout<<projectionMatrix.data[i]<<"  ";
+ conprint<<projectionMatrix.data[i]<<"  ";
  }
- concout<<endl;
+ conprint<<endl;
 
  glMatrixMode(GL_MODELVIEW);
  glLoadIdentity();
- concout<<"is pattern present: "<<isPatternPresent<<endl;
+ conprint<<"is pattern present: "<<isPatternPresent<<endl;
  if (isPatternPresent)
  {
- concout<<"pattern is present"<<endl;
+ conprint<<"pattern is present"<<endl;
  // Set the pattern transformation
  Matrix44 glMatrix = patternPose.getMat44();
- concout<<"glMatrix: "<<endl;
+ conprint<<"glMatrix: "<<endl;
  for(int i=0;i<16;i++)
  {
- concout<<glMatrix.data[i]<<"  ";
+ conprint<<glMatrix.data[i]<<"  ";
  }
- concout<<endl;
+ conprint<<endl;
  glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMatrix.data[0]));
  //glScalef(0.2f, 0.2f, 0.2f);
  // Render model
@@ -249,24 +253,24 @@ void ARDrawingContext::drawAugmentedScene(int modelIndex,float x, float y, float
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(projectionMatrix.data);
-	concout << "projectionMatrix: " << endl;
+	conprint << "projectionMatrix: " << endl;
 	for (int i = 0; i < 16; i++) {
-		concout << projectionMatrix.data[i] << "  ";
+		conprint << projectionMatrix.data[i] << "  ";
 	}
-	concout << endl;
+	conprint << endl;
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	concout << "is pattern present: " << isPatternPresent << endl;
+	conprint << "is pattern present: " << isPatternPresent << endl;
 	if (isPatternPresent) {
-		concout << "pattern is present" << endl;
+		conprint << "pattern is present" << endl;
 		// Set the pattern transformation
 		Matrix44 glMatrix = patternPose.getMat44();
-		concout << "glMatrix: " << endl;
+		conprint << "glMatrix: " << endl;
 		for (int i = 0; i < 16; i++) {
-			concout << glMatrix.data[i] << "  ";
+			conprint << glMatrix.data[i] << "  ";
 		}
-		concout << endl;
+		conprint << endl;
 		glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMatrix.data[0]));
 		glTranslatef(-x, -y, z);
 #ifndef WIN32
@@ -280,7 +284,7 @@ void ARDrawingContext::drawAugmentedScene(int modelIndex,float x, float y, float
 		Model& model=kfmodels[modelIndex];
 
 		float distance=engine.eye.distance;
-		if(correctDistance(distance)){
+		if(correctDistance(distance)&&isLod){
 			int newEdge = model.getEdgeNum(distance);
 			changeEdgeNum(model, newEdge);
 		}
@@ -383,7 +387,7 @@ void ARDrawingContext::drawCubeModel() {
 #ifndef WIN32
 	glScalef(0.25, 0.25, 0.25);
 	//glTranslatef(0,0, 1);
-	concout << "begin draw cube model" << endl;
+	conprint << "begin draw cube model" << endl;
 	//初始化纹理数组
 
 	// 定义π
@@ -471,17 +475,17 @@ void ARDrawingContext::drawCubeModel() {
 	glEnable (GL_TEXTURE_2D);
 
 	// 选择纹理
-	concout << "begin bind texture" << endl;
+	conprint << "begin bind texture" << endl;
 	glBindTexture(GL_TEXTURE_2D, gTexture[0]);
 
 	// 绘制正方体的六个面
 	glVertexPointer(3, GL_FLOAT, 0, gVertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, gTexCoords);
-	concout << "begin draw array" << endl;
+	conprint << "begin draw array" << endl;
 	for (int i = 0; i < 6; i++) {
 		glDrawArrays(GL_TRIANGLE_STRIP, i * 4, 4);
 	}
-	concout << "end draw array" << endl;
+	conprint << "end draw array" << endl;
 
 	// 关闭顶点数组
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -489,7 +493,7 @@ void ARDrawingContext::drawCubeModel() {
 	//glDisableClientState(GL_OLOR_ARRAY);
 
 	//gAngle += 5.f;
-	concout << "angle: " << endl;
+	conprint << "angle: " << endl;
 
 #else
 	static const GLfloat LightAmbient[] = { 0.25f, 0.25f, 0.25f, 1.0f }; // Ambient Light Values
@@ -609,7 +613,7 @@ GLfloat *normal=new GLfloat[normSize];
 GLushort *vertElem=new GLushort[vertElemSize];
 
 bool ARDrawingContext::drawMesh(int modelIndex) {
-	concout << "display" << endl;
+	conprint << "display" << endl;
 	/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	 glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -629,10 +633,10 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 	// up which the user is rotating the mesh.  However, since speed isn't
 	// a bit issue, I didn't use them.
 	if (kfmodels[modelIndex].pmesh) {
-		concout << "going into if branch" << endl;
+		conprint << "going into if branch" << endl;
 		// Make everything grey
 		//glColor3f(128, 128, 128);
-		//concout<<g_pProgMesh->numTris()<<endl;
+		//conprint<<g_pProgMesh->numTris()<<endl;
 		Mesh& m = kfmodels[modelIndex].pmesh->_newmesh;
 		vector<vertex>& vec = m._vlist;
 		if (true) {
@@ -648,9 +652,9 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 				norm[i * 3 + 1] = vec[i]._vertexNormal.y;
 				norm[i * 3 + 2] = vec[i]._vertexNormal.z;
 			}
-			/*concout<<"vert: "<<endl;
+			/*conprint<<"vert: "<<endl;
 			 for(int i=0;i<vec.size();i++){
-			 concout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
+			 conprint<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
 			 }*/
 			vector<int> activeIndex;
 			activeIndex.reserve(m._plist.size());
@@ -668,9 +672,9 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 				vertElem[i*3+1]=m._plist[index]._vert2;
 				vertElem[i*3+2]=m._plist[index]._vert3;
 			}
-			//concout<<"vertElem: "<<endl;
+			//conprint<<"vertElem: "<<endl;
 			/*for(int i=0;i<m._plist.size();i++){
-			 concout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
+			 conprint<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
 			 }*/
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -679,16 +683,16 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			glNormalPointer(GL_FLOAT, 0, norm);
 			glDisable(GL_CULL_FACE);
 			glDrawElements(GL_TRIANGLES, activeIndex.size() * 3, GL_UNSIGNED_SHORT, vertElem);
-			//concout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
-			/*concout<<"vertices"<<endl;
+			//conprint << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
+			/*conprint<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
 			 {
-			 concout<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
+			 conprint<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
 			 }
-			 concout<<"triangles"<<endl;
+			 conprint<<"triangles"<<endl;
 			 for(int i=0;i<g_pProgMesh->numTris()*3;i++){
-			 concout<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
+			 conprint<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
 			 }*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
@@ -709,9 +713,9 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 				norm[i * 3 + 1] = -vec[i]._vertexNormal.y;
 				norm[i * 3 + 2] = -vec[i]._vertexNormal.z;
 			}
-			/*concout<<"vert: "<<endl;
+			/*conprint<<"vert: "<<endl;
 			 for(int i=0;i<vec.size();i++){
-			 concout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
+			 conprint<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
 			 }*/
 			for (int i = 0; i < m._plist.size(); i++) {
 				vertElem[i * 6] = m._plist[i]._vert1;
@@ -721,9 +725,9 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 				vertElem[i * 6 + 4] = m._plist[i]._vert2;
 				vertElem[i * 6 + 5] = m._plist[i]._vert3;
 			}
-			//concout<<"vertElem: "<<endl;
+			//conprint<<"vertElem: "<<endl;
 			/*for(int i=0;i<m._plist.size();i++){
-			 concout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
+			 conprint<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
 			 }*/
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -731,16 +735,16 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 			glVertexPointer(3, GL_FLOAT, 0, vert);
 			//glNormalPointer(GL_FLOAT,0,norm);
 			glDrawElements(GL_LINES, m._plist.size() * 6, GL_UNSIGNED_SHORT, vertElem);
-			//concout << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
-			/*concout<<"vertices"<<endl;
+			//conprint << "num triangles: " << pmeshList[modelIndex]->numTris() << "  " << m._plist.size() << endl;
+			/*conprint<<"vertices"<<endl;
 			 vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 			 for(int i=0;i<v.size();i++)
 			 {
-			 concout<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
+			 conprint<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
 			 }
-			 concout<<"triangles"<<endl;
+			 conprint<<"triangles"<<endl;
 			 for(int i=0;i<g_pProgMesh->numTris()*3;i++){
-			 concout<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
+			 conprint<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
 			 }*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			//glDisableClientState(GL_NORMAL_ARRAY);
@@ -757,7 +761,7 @@ bool ARDrawingContext::drawMesh(int modelIndex) {
 }
 
 bool ARDrawingContext::drawMeshwrong(int modelIndex) {
-	concout << "display" << endl;
+	conprint << "display" << endl;
 	/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	 glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -777,10 +781,10 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 	// up which the user is rotating the mesh.  However, since speed isn't
 	// a bit issue, I didn't use them.
 	if (kfmodels[modelIndex].pmesh) {
-		concout << "going into if branch" << endl;
+		conprint << "going into if branch" << endl;
 		// Make everything grey
 		//glColor3f(128, 128, 128);
-		//concout<<g_pProgMesh->numTris()<<endl;
+		//conprint<<g_pProgMesh->numTris()<<endl;
 		Mesh& m = kfmodels[modelIndex].pmesh->_newmesh;
 		vector<vertex>& vec = m._vlist;
 		if (true) {
@@ -812,9 +816,9 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 				normal[i*3+1]=vec[i]._vertexNormal.y;
 				normal[i*3+2]=vec[i]._vertexNormal.z;
 			}
-			/*concout<<"vert: "<<endl;
+			/*conprint<<"vert: "<<endl;
 						for(int i=0;i<vec.size();i++){
-							concout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
+							conprint<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
 						}*/
 			vector<int> activeIndex;
 			activeIndex.reserve(m._plist.size());
@@ -832,9 +836,9 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 				vertElem[i*3+1]=m._plist[index]._vert2;
 				vertElem[i*3+2]=m._plist[index]._vert3;
 			}
-			//concout<<"vertElem: "<<endl;
+			//conprint<<"vertElem: "<<endl;
 			/*for(int i=0;i<m._plist.size();i++){
-						concout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
+						conprint<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
 					}*/
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -845,15 +849,15 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 			//glCullFace(GL_FRONT);
 			glDrawElements(GL_TRIANGLES,m._plist.size()*3,GL_UNSIGNED_SHORT,vertElem);
 			//LOGE("num triangles: %d %d", pmeshList[modelIndex]->numTris(),m._plist.size());
-			/*concout<<"vertices"<<endl;
+			/*conprint<<"vertices"<<endl;
 							vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 							for(int i=0;i<v.size();i++)
 							{
-								concout<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
+								conprint<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
 							}
-							concout<<"triangles"<<endl;
+							conprint<<"triangles"<<endl;
 							for(int i=0;i<g_pProgMesh->numTris()*3;i++){
-								concout<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
+								conprint<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
 							}*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
@@ -888,9 +892,9 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 				normal[i*3+1]=-vec[i]._vertexNormal.y;
 				normal[i*3+2]=-vec[i]._vertexNormal.z;
 			}
-			/*concout<<"vert: "<<endl;
+			/*conprint<<"vert: "<<endl;
 						for(int i=0;i<vec.size();i++){
-							concout<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
+							conprint<<vert[i*3]<<"  "<<vert[i*3+1]<<"  "<<vert[i*3+2]<<"  "<<norm[i*3]<<"  "<<norm[i*3+1]<<"  "<<norm[i*3+2]<<endl;
 						}*/
 			vector<int> activeIndex;
 			activeIndex.reserve(m._plist.size());
@@ -912,9 +916,9 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 				vertElem[i*6+5]=m._plist[index]._vert3;
 
 			}
-			//concout<<"vertElem: "<<endl;
+			//conprint<<"vertElem: "<<endl;
 			/*for(int i=0;i<m._plist.size();i++){
-									concout<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
+									conprint<<vertElem[i*3]<<"  "<<vertElem[i*3+1]<<"  "<<vertElem[i*3+2]<<endl;
 								}*/
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -923,15 +927,15 @@ bool ARDrawingContext::drawMeshwrong(int modelIndex) {
 			//glNormalPointer(GL_FLOAT,0,norm);
 			glDrawElements(GL_LINES,activeIndex.size()*6,GL_UNSIGNED_SHORT,vertElem);
 			//LOGE("num triangles: %d %d", pmeshList[modelIndex]->numTris(),m._plist.size());
-			/*concout<<"vertices"<<endl;
+			/*conprint<<"vertices"<<endl;
 										vector<vertex>& v=g_pProgMesh->_mesh->_vlist;
 										for(int i=0;i<v.size();i++)
 										{
-											concout<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
+											conprint<<v[i]._v[0]<<"  "<<v[i]._v[1]<<"  "<<v[i]._v[2]<<endl;
 										}
-										concout<<"triangles"<<endl;
+										conprint<<"triangles"<<endl;
 										for(int i=0;i<g_pProgMesh->numTris()*3;i++){
-											concout<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
+											conprint<<vertices[i*3]<<vertices[i*3+1]<<vertices[i*3+2]<<endl;
 										}*/
 			glDisableClientState(GL_VERTEX_ARRAY);
 			//glDisableClientState(GL_NORMAL_ARRAY);
@@ -989,11 +993,11 @@ void decr5(PMesh *pMesh)
 {
 	if (pMesh)
 	{
-		concout << "decr5" << endl;
+		conprint << "decr5" << endl;
 		int size = (pMesh->numEdgeCollapses()) / NUM_PAGEUPDN_INTERVALS;
 		if (size == 0) size = 1;
 		bool ret = true;
-		concout << size << endl;
+		conprint << size << endl;
 		for (int i = 0; ret && i < size; ++i) {
 			ret = pMesh->collapseEdge();
 		}

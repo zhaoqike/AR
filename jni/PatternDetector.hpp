@@ -236,7 +236,7 @@ public:
 	Mat					m_secondStageImg;
 
 	Mat                   m_warpedImg;
-	Mat                   m_roughHomography;
+	Mat                   m_lastHomography;
 	Mat                   m_refinedHomography;
 
 	Mat 				m_estimatedHomography;
@@ -270,6 +270,7 @@ public:
 
 	vector<float> trackWithPoly;
 	vector<float> trackWithoutPoly;
+	vector<float> trackWithOpt;
 
 	//ARDrawing drawing;
 };

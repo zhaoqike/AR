@@ -15,7 +15,7 @@ AREngine::~AREngine()
 
 void AREngine::init()
 {
-	cout << "begin train pattern" << endl;
+	conprint << "begin train pattern" << endl;
 
 
 	PatternFactory factory;
@@ -24,33 +24,33 @@ void AREngine::init()
 
 	if (patternImage.empty())
 	{
-		std::cout << "Input image cannot be read" << std::endl;
+		conprint << "Input image cannot be read" << std::endl;
 		return;
 	}
 	cv::Size frameSize(640, 480);
-	cout << "begin pipeline init" << endl;
+	conprint << "begin pipeline init" << endl;
 	pipeline.init(patternImage, calibration);
-	cout << "begin drawctx init" << endl;
+	conprint << "begin drawctx init" << endl;
 	drawingCtx.init("Markerless AR", frameSize, calibration);
-	cout << "end drawctx init" << endl;
+	conprint << "end drawctx init" << endl;
 
 	//kalman
-	//cout << "begin init kalman" << endl;
+	//conprint << "begin init kalman" << endl;
 	//initKalmanFilter(KF, nStates, nMeasurements, nInputs, dt);    // init function
 	//measurements.setTo(Scalar(0));
 
-	cout << "begin load model" << endl;
+	conprint << "begin load model" << endl;
 	//load model
 	//PMesh::EdgeCost g_edgemethod = PMesh::QUADRICTRI;
 	//g_pMesh = new Mesh("/sdcard/models/apple.ply");
 	//vector<vertex>& vert = g_pMesh->_vlist;
 
 	//if (g_pMesh) g_pMesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
-	cout << "after normal" << endl;
+	conprint << "after normal" << endl;
 
 
 	//g_pProgMesh = new PMesh(g_pMesh, g_edgemethod );
-	cout << "end train" << endl;
+	conprint << "end train" << endl;
 }
 
 
@@ -64,7 +64,7 @@ bool AREngine::processFrame(Mat& cameraFrame)
 	//cv::Mat img = cameraFrame.clone();
 	double cloneEnd = timer.getElapsedTimeInMilliSec();
 	double cloneDuration = cloneEnd - cloneStart;
-	cout << "clone image: " << cloneDuration << endl;
+	conprint << "clone image: " << cloneDuration << endl;
 
 	// Draw information:
 
@@ -78,7 +78,7 @@ bool AREngine::processFrame(Mat& cameraFrame)
 	drawingCtx.height = cameraFrame.rows;
 	double updateEnd = timer.getElapsedTimeInMilliSec();
 	double updateDuration = updateEnd - updateStart;
-	cout << "update background: " << updateDuration << endl;
+	conprint << "update background: " << updateDuration << endl;
 
 
 	// Find a pattern and update it's detection status:
@@ -86,7 +86,7 @@ bool AREngine::processFrame(Mat& cameraFrame)
 	drawingCtx.isPatternPresent = pipeline.processFrame(cameraFrame);
 	double pipeEnd = timer.getElapsedTimeInMilliSec();
 	double pipeDuration = pipeEnd - pipeStart;
-	cout << "pipeline process frame: " << pipeDuration << endl;
+	conprint << "pipeline process frame: " << pipeDuration << endl;
 
 
 	// Update a pattern pose:

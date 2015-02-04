@@ -20,6 +20,7 @@
 #include "vertex.h"
 #include "triangle.h"
 #include "mesh.h"
+#include "../DebugPrint.h"
 using namespace std;
 
 
@@ -39,21 +40,21 @@ struct EdgeCollapse
 	// Used for debugging
 	void dumpEdgeCollapse()
 	{
-		std::cout << "**** Edge Collapse Dump ****" << std::endl;
+		conprint << "**** Edge Collapse Dump ****" << std::endl;
 
-		std::cout << "\tFrom Vert# " << _vfrom << " to Vert# " << _vto << std::endl;
-		cout << "\tTris removed:";
+		conprint << "\tFrom Vert# " << _vfrom << " to Vert# " << _vto << std::endl;
+		conprint << "\tTris removed:";
 		set<int>::iterator pos;
 		for (pos = _trisRemoved.begin(); pos != _trisRemoved.end(); ++pos) 
 		{
-			std::cout << " " << *pos;
+			conprint << " " << *pos;
 		}
-		cout << std::endl << "\tTris affected:";
+		conprint << std::endl << "\tTris affected:";
 		for (pos = _trisAffected.begin(); pos != _trisAffected.end(); ++pos) 
 		{
-			std::cout << " " << *pos;
+			conprint << " " << *pos;
 		}
-		std::cout  << std::endl << "**** End of Edge Collapse Dump ****" << std::endl;
+		conprint  << std::endl << "**** End of Edge Collapse Dump ****" << std::endl;
 	}
 };
 

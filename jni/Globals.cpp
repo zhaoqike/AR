@@ -6,10 +6,11 @@ bool isShowPoints = true;
 bool isShowTexts = true;
 bool isMultiScale = true;
 bool isWarp = false;
-bool isPoly=false;
-bool isOpticalFlow=false;
-bool isDrawModel = false;
-bool isPrint = true;;
+bool isPoly=true;
+bool isOpticalFlow=true;
+bool isDrawModel = true;
+bool isPrint = false;
+bool isLod = false;
 
 
 PMesh* makeMesh(string path)
@@ -23,8 +24,8 @@ PMesh* makeMesh(string path)
 	{
 		mesh->Normalize(0.2f);// center mesh around the origin & shrink to fit
 	}
-	cout << "after normal" << endl;
-
+	conprint << "after normal" << endl;
+	conprint << "  " << endl;
 
 	PMesh* pmesh = new PMesh(mesh, g_edgemethod);
 	return pmesh;
@@ -80,8 +81,8 @@ int Model::getActiveNum()
 
 int Model::getEdgeNum(float distance)
 {
-	cout << "calc edge from distance" << endl;
-	cout << distance;
+	conprint << "calc edge from distance" << endl;
+	conprint << distance;
 	if (distance <= MIN_DISTANCE)
 	{
 		return (float)MIN_EDGE*(float)meshEdgeNum();
@@ -92,9 +93,9 @@ int Model::getEdgeNum(float distance)
 	}
 	else{
 		float persent = (distance - MIN_DISTANCE)*(MAX_EDGE - MIN_EDGE) / (MAX_DISTANCE - MIN_DISTANCE) + MIN_EDGE;
-		cout << persent << endl;
+		conprint << persent << endl;
 		int edge = (float)meshEdgeNum()*persent;
-		cout << edge << endl;
+		conprint << edge << endl;
 		return edge;
 	}
 }
@@ -178,10 +179,10 @@ void changeEdgeNum(Model& model, int newNum)
 			ret = pMesh->splitVertex();
 		}
 	}
-	cout << "change edge num: " << endl;
-	cout << oldNum << "  " << newNum << endl;
+	conprint << "change edge num: " << endl;
+	conprint << oldNum << "  " << newNum << endl;
 	int n = model.getActiveNum();
-	cout << n << endl;
+	conprint << n << endl;
 	model.edgeNum = newNum;
 }
 

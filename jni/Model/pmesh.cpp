@@ -36,21 +36,21 @@ PMesh::PMesh(Mesh* mesh, EdgeCost ec)
 // Used for debugging
 void dumpset(vertexPtrSet& ms)
 {
-	std::cout << "+++ Dumping set of vertices +++" << std::endl;
+	conprint << "+++ Dumping set of vertices +++" << std::endl;
 
 	vertexPtrSet::iterator iter;
 	int i = 0;
 	for (iter = ms.begin(); iter != ms.end(); ++iter)
 	{
-		std::cout << "\tvertex " << i++ << " in set: ";
+		conprint << "\tvertex " << i++ << " in set: ";
 		const vertexPtr v = *iter;
-		std::cout << v._index;
+		conprint << v._index;
 		const vertex& vtx = v._meshptr->getVertex(v._index);
-		std::cout << " cost: " << vtx.getCost();
-		std::cout << " min edge vert: " << vtx.minCostEdgeVert();
-		std::cout << std::endl;
+		conprint << " cost: " << vtx.getCost();
+		conprint << " min edge vert: " << vtx.minCostEdgeVert();
+		conprint << std::endl;
 	}
-	std::cout << "+++ End of dumping set of vertices +++ "<< std::endl;
+	conprint << "+++ End of dumping set of vertices +++ "<< std::endl;
 }
 
 #ifdef PRINT_DEBUG_INFO
@@ -165,10 +165,10 @@ void PMesh::calcEdgeCollapseCosts(vertexPtrSet &vertSet, vector<vertexPtrSet::it
 
 #ifdef PRINT_DEBUG_INFO
 	int count=0; // for debug
-	std::cout << "---- Initial State ----" << std::endl;
+	conprint << "---- Initial State ----" << std::endl;
 	mesh.dump();
 	dumpset(vertSet);
-	std::cout << "---- End Initial State ----" << std::endl;
+	conprint << "---- End Initial State ----" << std::endl;
 #endif 
 }
 
@@ -410,12 +410,12 @@ void PMesh::removeVertIfNecessary(vertex &vert, vertexPtrSet &vertSet,
 			affectedQuadricVerts.insert(vert.getIndex());
 		}
 #ifdef PRINT_DEBUG_INFO
-		std::cout << "\tvert affected: " << vert.getIndex() << std::endl;
+		conprint << "\tvert affected: " << vert.getIndex() << std::endl;
 #endif
 	}
 	else {
 #ifdef PRINT_DEBUG_INFO
-		std::cout << "\tvert removed: " << vert.getIndex() << std::endl;
+		conprint << "\tvert removed: " << vert.getIndex() << std::endl;
 #endif
 		mesh.getVertex(vert.getIndex()).setActive(false);
 	}
@@ -507,7 +507,7 @@ void PMesh::buildEdgeCollapseList(Mesh &mesh, const EdgeCost &cost,
 		}
 
 #ifdef PRINT_DEBUG_INFO
-		std::cout << "from: " << ec._vfrom << " to: " << ec._vto << std::endl;
+		conprint << "from: " << ec._vfrom << " to: " << ec._vto << std::endl;
 #endif
 
 		vertex& to = mesh.getVertex(ec._vto);
@@ -536,7 +536,7 @@ void PMesh::buildEdgeCollapseList(Mesh &mesh, const EdgeCost &cost,
 		recalcQuadricCollapseCosts(affectedQuadricVerts, mesh, cost);
 
 #ifdef PRINT_DEBUG_INFO
-		std::cout << "---- Collapse # "<< count++ << " ----" << std::endl;
+		conprint << "---- Collapse # "<< count++ << " ----" << std::endl;
 		mesh.dump();
 		ec.dumpEdgeCollapse();
 		dumpset(vertSet);
@@ -1124,6 +1124,6 @@ char* PMesh::getEdgeCostDesc()
 
 void PMesh::print()
 {
-	cout << "pmesh : " << endl;
-	cout << _edgeCollList.size() << endl;
+	conprint << "pmesh : " << endl;
+	conprint << _edgeCollList.size() << endl;
 }

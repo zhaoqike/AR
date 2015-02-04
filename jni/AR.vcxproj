@@ -121,6 +121,7 @@
     <ClInclude Include="cg\mypoint.h" />
     <ClInclude Include="cg\mypolygon.h" />
     <ClInclude Include="DebugHelpers.hpp" />
+    <ClInclude Include="DebugPrint.h" />
     <ClInclude Include="Friend.h" />
     <ClInclude Include="GeometryTypes.hpp" />
     <ClInclude Include="Globals.h" />
