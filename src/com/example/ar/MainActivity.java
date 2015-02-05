@@ -1,5 +1,6 @@
 package com.example.ar;
 
+import java.io.File;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -10,6 +11,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.core.Mat;
+
 
 
 
@@ -262,6 +264,10 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 			break;
 		case R.id.print_time:
 			ARNativeLib.printTime();
+			break;
+		case R.id.screen_shot:
+			shoot();
+			break;
 		}
 		if (item.getGroupId() == 2)
         {
@@ -273,7 +279,14 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	}
 
 	
-
+	public void shoot()
+	{
+		String indexString=String.valueOf(ScreenShot.index);
+		String filename="sdcard/screenshot/pic"+indexString+".png";
+		File file=new File(filename);
+		ScreenShot.index++;
+		ScreenShot.shoot(this, file);
+	}
 
 
 	@Override
