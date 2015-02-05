@@ -2403,7 +2403,7 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 		indexes.push_back(i);
 	}
 	//one is here one is num = 1000
-	getMatches(m_queryDescriptors, indexes, m_matches);
+	//getMatches(m_queryDescriptors, indexes, m_matches);
 	conprint << "end match keyframes" << endl;
 	conprint << m_pattern.keyframeIndex << endl;
 	string str = "index size: " + intToString(indexes.size());

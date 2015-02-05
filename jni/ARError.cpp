@@ -61,7 +61,7 @@ void ARError::printError()
 	errfile << errs.size() << endl;
 	for (int i = 0; i < errs.size(); i++)
 	{
-		errfile << errs[i].branch<<' '<<errs[i].err << endl;
+		errfile << errs[i].branch<<','<<errs[i].err << endl;
 	}
 	errfile.flush();
 	errfile.close();
