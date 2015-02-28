@@ -53,6 +53,8 @@ void ARError::pushError(PatternDetector& pd, Err e)
 	errs.push_back(e);
 }
 
+
+
 void ARError::printError()
 {
 	fstream errfile;

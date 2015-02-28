@@ -173,6 +173,10 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 }
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)
 {
+	double nowglbtime=gtimer.getElapsedTimeInMilliSec();
+	double glbduration=nowglbtime-lastglbtime;
+	lastglbtime=nowglbtime;
+	frames.push_back(1.0/glbduration);
 	Mat& currentFrame = *(Mat*)addrRgba;
 	/*Mat descriptors;
 	LOGE("begin track pattern");
@@ -733,26 +737,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_sendFrameToNative(JNIEnv*
 		const KeyPoint& kp = v[i];
 		circle(mRgb, Point(kp.pt.x, kp.pt.y), 10, Scalar(255,0,0,255));
 	}
-	/*Mat& mGr  = *(Mat*)addrGray;
- Mat& mRgb = *(Mat*)addrRgba;
- Sobel(mRgb,mRgb,mRgb.depth(),1,1);
- //Mat dst;
- //Laplacian(mRgb,dst,mRgb.depth());
- //mRgb=dst.clone();
- return;
- rgblock.lock();
- rgb=mRgb.clone();
- //gray=mGr.clone();
- obtainNewFrame=true;
- rgblock.unlock();
 
- processRgbLock.lock();
- if(processNewFrame==true)
- {
- mRgb=processRgb.clone();
- processNewFrame=false;
- }
- processRgbLock.unlock();*/
 }
 
 void processFrameFirstStageCycle() {
@@ -760,19 +745,6 @@ void processFrameFirstStageCycle() {
 		LOGE("process frame first stage cycle");
 		Mat firstStageFrame;
 
-		/*while(cameraToFirstReady==false)
- {
- //LOGE("not obtain new frame");
- //cameraToFirstLock.unlock();
- usleep(2*1000);
- continue;
- }
- cameraToFirstLock.lock();
- LOGE("finally obtain new frame first");
- firstStageFrame=cameraToFirstRgb.clone();
- cameraToFirstReady=false;
-
- cameraToFirstLock.unlock();*/
 		cameraToFirst.output(firstStageFrame);
 
 		//Mat& dst;
@@ -781,20 +753,6 @@ void processFrameFirstStageCycle() {
 
 		firstToSecond.input(firstStageFrame);
 
-		//cvtColor(dst,dst,CV_GRAY2RGB);
-		/*while(firstToSecondReady==true)
- {
- //LOGE("not obtain new frame");
- //cameraToFirstLock.unlock();
- usleep(2*1000);
- continue;
- }
- firstToSecondLock.lock();
- firstToSecondRgb=firstStageFrame.clone();
- firstToSecondReady=true;
- firstToSecondLock.unlock();
- LOGE("begin sleep first");*/
-		//sleep(20);
 	}
 }
 
@@ -804,19 +762,6 @@ void processFrameSecondStageCycle() {
 		Mat secondStageFrame;
 		Mat secondStageDescriptors;
 
-		/*while(firstToSecondReady==false)
- {
- //LOGE("not obtain new frame");
- //firstToSecondLock.unlock();
- usleep(2*1000);
- continue;
- }
- firstToSecondLock.lock();
- LOGE("finally obtain new frame second");
- secondStageFrame=firstToSecondRgb.clone();
- firstToSecondReady=false;
-
- firstToSecondLock.unlock();*/
 
 		firstToSecond.output(secondStageFrame);
 
@@ -827,20 +772,6 @@ void processFrameSecondStageCycle() {
 
 		secondToThird.input(secondStageDescriptors);
 
-		//cvtColor(dst,dst,CV_GRAY2RGB);
-		/*while(secondToRenderReady==true)
- {
- //LOGE("not obtain new frame");
- //cameraToFirstLock.unlock();
- usleep(2*1000);
- continue;
- }
- secondToRenderLock.lock();
- secondToRenderRgb=secondStageFrame.clone();
- secondToRenderReady=true;
- secondToRenderLock.unlock();
- LOGE("begin sleep second");*/
-		//sleep(20);
 	}
 }
 
@@ -851,8 +782,6 @@ void processFrameThirdStageCycle() {
 		Mat thirdStageDescriptors;
 
 		secondToThird.output(thirdStageDescriptors);
-		//usleep(200*1000);
-		//Mat& dst;
 		LOGE("begin edge detection third");
 		Timer timer;
 		timer.start();
@@ -866,7 +795,6 @@ void processFrameThirdStageCycle() {
 
 	}
 
-	//}
 }
 
 void cycleProcess() {
@@ -879,33 +807,7 @@ void cycleProcess() {
 	while (true) {
 
 		LOGE("edge detection");
-		//cameraToFirstReady=false;
-		/*Mat currentFrame;
- rgblock.lock();
- if(obtainNewFrame==false)
- {
- LOGE("not obtain new frame");
- rgblock.unlock();
- usleep(10*1000);
- continue;
- }
- currentFrame=rgb.clone();
- obtainNewFrame=false;
 
- rgblock.unlock();
-
- //Mat& dst;
- LOGE("begin edge detection");
- bool shouldQuit = processFrameFirstStage(currentFrame, pipeline, drawingCtx);
- shouldQuit=processFrameSecondStage(currentFrame, pipeline, drawingCtx);
- //cvtColor(dst,dst,CV_GRAY2RGB);
-
- processRgbLock.lock();
- processRgb=currentFrame.clone();
- processNewFrame=true;
- processRgbLock.unlock();
- LOGE("begin sleep");
- //sleep(20);*/
 	}
 }
 
@@ -913,29 +815,11 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_cycleProcessNative(JNIEnv
 {
 	cycleProcess();
 
-	/*while(true)
- {
- LOGE("edge detection native");
- usleep(30*1000);
- }*/
 }
 
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_FindFeatures(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)
 {
-	/*Mat& mGr  = *(Mat*)addrGray;
- Mat& mRgb = *(Mat*)addrRgba;
- vector<KeyPoint> v;
 
- FastFeatureDetector detector(50);
- detector.detect(mGr, v);
- for( unsigned int i = 0; i < v.size(); i++ )
- {
- const KeyPoint& kp = v[i];
- circle(mRgb, Point(kp.pt.x, kp.pt.y), 10, Scalar(255,0,0,255));
- }*/
-	//redirectStdOut();
-	//map1.findfeature((long long)addrGray,(long long)addrRgba);
-	//map1.test();
 	usleep(1000*30);
 }
 
@@ -951,9 +835,23 @@ void printEyes()
 	eyefile.close();
 }
 
+void printFrames()
+{
+	ofstream framefile;
+	framefile.open("sdcard/frames.txt");
+	framefile<<frames.size()<<endl;
+	for(int i=0;i<frames.size();i++)
+	{
+		framefile<<frames[i]<<endl;
+	}
+	framefile.flush();
+	framefile.close();
+}
+
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_storeError(JNIEnv*, jobject)
 {
 	arerror.printError();
+	printFrames();
 	//printEyes();
 	//pipeline.m_patternDetector.calcWindowArea();
 }

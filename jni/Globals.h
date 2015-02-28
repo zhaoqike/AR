@@ -10,6 +10,7 @@
 #include "TrackerTimer.h"
 #include "KLTTimer.h"
 #include "DebugPrint.h"
+#include "Timer.h"
 
 
 #ifndef WIN32
@@ -61,7 +62,10 @@ extern bool isLod;
 //#define conprint if(isPrint) cout
 
 
+extern Timer gtimer;
+extern double lastglbtime;
 
+extern vector<double> frames;
 
 extern ARPipeline pipeline;
 extern ARDrawingContext drawingCtx;

@@ -100,6 +100,15 @@ int Model::getEdgeNum(float distance)
 	}
 }
 
+//global timer to compute frame rate
+Timer gtimer;
+
+//global last frame time
+double lastglbtime = 0;
+
+
+//store frame rate
+vector<double> frames;
 
 vector<Model> kfmodels;
 
@@ -141,6 +150,8 @@ vector<Eye> eyes;
 //vector<Signal> signalList;
 
 bool isPrintWarp;
+
+//print all time need to write artical
 bool isPrintTime;
 
 

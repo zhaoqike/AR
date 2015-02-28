@@ -219,12 +219,14 @@ public:
 	vector<Rect> getRectOfLayer(const Mat& img, int lev);
 	void makeLayer(const Mat& img, Layer& layer, int lev);
 
-
+	//error detection
 	bool isCorrectDistance();
 	Point3f point2dTo3d(Size oriSize, Point2f p2d);
 
 
 	void processWarpSignal(Mat& ori, Mat& warped);
+
+	//if isPrintTime signal is true print all time info
 	void processTimeSignal();
 
 
