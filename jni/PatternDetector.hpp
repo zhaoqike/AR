@@ -250,6 +250,8 @@ public:
 	Ptr<DescriptorExtractor> m_extractor;
 	Ptr<DescriptorMatcher>   m_matcher;
 
+
+
 	vector<float> errs;
 	vector<int> nowMatchedKeyframes;
 

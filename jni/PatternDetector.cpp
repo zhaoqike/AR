@@ -306,7 +306,7 @@ int PatternDetector::getLayerNum(int width, int height)
 			{
 				level = ceil(dlevel);
 			}
-			layerNum = 2 * level;
+			layerNum = 2 * level+1;
 		}
 	}
 	else
@@ -316,7 +316,7 @@ int PatternDetector::getLayerNum(int width, int height)
 	conprint << "layerNum: " << layerNum << endl;
 	if (layerNum > indexCount)
 	{
-		indexCount = layerNum;
+		//indexCount = layerNum;
 	}
 	return layerNum;
 }
@@ -446,6 +446,7 @@ vector<Rect> PatternDetector::getRectOfLayer(const Mat& img, int level)
 			}
 		}
 	}
+	cout<<"rect list size " <<rectList.size()<<endl;
 	return rectList;
 }
 
@@ -462,6 +463,7 @@ void PatternDetector::makeLayer(const Mat& img, Layer& layer, int lev)
 void PatternDetector::makeKeyFrameList(const Mat& img, Layer& layer, int lev)
 {
 	conprint << "=====================================" << endl;
+	layer.keyframeList.clear();
 	int level = lev;
 	conprint << "layer: " << lev << " start" << endl;
 	Size oriSize = img.size();
@@ -621,10 +623,12 @@ void PatternDetector::makeKeyFrameList(const Mat& img, vector<KeyFrame>& keyFram
 void PatternDetector::makeLayerList(const Mat& image, vector<Layer>& layerList, int layers)
 {
 	layerList.resize(layers);
+	cout<<"layer num: "<<layers<<endl;
 	for (int i = 0; i < layerList.size(); i++)
 	{
 		conprint << "make layer list start: " << i << endl;
 		makeKeyFrameList(image, layerList[i], i);
+		cout<<layerList[i].keyframeList.size()<<endl;
 		conprint << "make layer list end: " << i << endl;
 	}
 }
@@ -648,6 +652,7 @@ void draw2dContourWithoutPerpective(Mat& image, vector<Point2f>& points2d, Scala
 
 void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 {
+	cout<<"build"<<endl;
 	//if(isMultiScale)
 	{
 		bool useNewScale = true;
@@ -662,6 +667,8 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 
 			//to put all keyframes in a vector
 			pattern.keyframeList.clear();
+			cout<<"after clear"<<endl;
+			cout<<pattern.keyframeList.size()<<endl;
 			for (int i = 0; i < pattern.layerList.size(); i++)
 			{
 				Layer& layer = pattern.layerList[i];
@@ -670,6 +677,8 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 					pattern.keyframeList.push_back(layer.keyframeList[j]);
 				}
 			}
+			cout<<"after wwwclear"<<endl;
+			cout<<pattern.keyframeList.size()<<endl;
 			if (isMultiScale == false)
 			{
 				conprint << "keyframe list size: " << pattern.keyframeList.size() << endl;
@@ -689,6 +698,8 @@ void PatternDetector::buildPatternFromImage(const Mat& image, Pattern& pattern)
 				conprint << "layer: " << i << " has " << pattern.layerList[i].keyframeList.size() << " keyframes";
 			}
 			conprint << "all keyframe num is: " << pattern.keyframeList.size() << endl;
+			cout<<"num: "<<endl;
+			cout<<pattern.keyframeList.size()<<endl;
 
 
 			for (int i = 0; i < pattern.layerList.size(); i++)
@@ -1589,6 +1600,7 @@ int PatternDetector::matchKeyFramesNew(Mat& homography, vector<int>& indexes, ve
 			//}
 			double ps = timer.getElapsedTimeInMilliSec();
 			int resultCount = (min)((int)alphaList.size(), indexCount);
+			cout<<resultCount<<"  "<<alphaList.size()<<"  "<<indexCount<<endl;
 			for (int i = 0; i < resultCount; i++)
 			{
 				indexes.push_back(alphaList[i].index);
@@ -1597,6 +1609,7 @@ int PatternDetector::matchKeyFramesNew(Mat& homography, vector<int>& indexes, ve
 			double pe = timer.getElapsedTimeInMilliSec();
 			double pd = pe - ps;
 			conprint << "push: " << pd << endl;
+			cout<<"fuck: "<<resultCount<<"  "<<indexes.size()<<endl;
 			//stringstream ss;
 			//for (int i = 0; i < indexes.size(); i++)
 			//{
@@ -1780,7 +1793,7 @@ bool PatternDetector::OpticalTracking(Mat& image, PatternTrackingInfo& info)
 		swap(before, after);
 		swap(m_grayImgPrev, m_grayImg);
 		double storeEnd = timer.getElapsedTimeInMilliSec();
-		double storeDuration = timer.getElapsedTimeInMilliSec();
+		double storeDuration = storeEnd - storeStart;
 		kltTimer.store = storeDuration;
 		perspectiveTransform(m_pattern.points2d, info.points2d, info.homography);
 
@@ -2402,8 +2415,10 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	{
 		indexes.push_back(i);
 	}
-	//one is here one is num = 1000
-	//getMatches(m_queryDescriptors, indexes, m_matches);
+	//one is here one is num = 1000 important
+	getMatches(m_queryDescriptors, indexes, m_matches);
+	getMatches(m_queryDescriptors, indexes, m_matches);
+	getMatches(m_queryDescriptors, indexes, m_matches);
 	conprint << "end match keyframes" << endl;
 	conprint << m_pattern.keyframeIndex << endl;
 	string str = "index size: " + intToString(indexes.size());
@@ -2440,10 +2455,8 @@ bool PatternDetector::simpleTracking(Mat& image, PatternTrackingInfo& info)
 	{
 		conprint << estiIndexes[i] << endl;
 	}
-	//getMatches(m_queryDescriptors, m_pattern.keyframeIndex,m_matches);
-	//use origi
-	//indexes.clear();
-	//indexes.push_back(0);
+
+
 	
 	getMatches(m_queryDescriptors, indexes, m_matches);
 	double matchptsEnd = timer.getElapsedTimeInMilliSec();
@@ -2618,6 +2631,13 @@ bool PatternDetector::simpleTrackingNew(Mat& image, PatternTrackingInfo& info)
 	conprint << "end match keyframes: "<<trackerTimer.matchkf << endl;
 	conprint << m_pattern.keyframeIndex << endl;
 	string str = "index size: " + intToString(indexes.size());
+	cout<<"index size"<<endl;
+	cout<<indexes.size()<<endl;
+	for(int i=0;i<indexes.size();i++)
+	{
+		cout<<indexes[i]<<" ";
+	}
+	cout<<endl;
 	putText(image, matchstr, Point(10, 50), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 200, 0));
 	if (indexes.size() == 0)
 	{

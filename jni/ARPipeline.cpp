@@ -16,9 +16,9 @@ ARPipeline::ARPipeline(const Mat& patternImage, const CameraCalibration& calibra
 
 void ARPipeline::init(const Mat& patternImage, const CameraCalibration& calibration) {
 	m_calibration = calibration;
-	conprint << "begin build pattern from image" << endl;
+	cout << "begin build pattern from image" << endl;
 	m_patternDetector.buildPatternFromImage(patternImage, m_pattern);
-	conprint << "end build pattern from image" << endl;
+	cout << "end build pattern from image" << endl;
 	m_patternDetector.train(m_pattern);
 }
 

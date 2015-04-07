@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
                 {
                     Log.i(TAG, "OpenCV loaded successfully");
                     System.loadLibrary("ar");
-                    mCameraView.enableFpsMeter();
+                    //mCameraView.enableFpsMeter();
                     mCameraView.enableView();
                     //mCameraView.setOnTouchListener( MainActivity.this );
                     Log.e(TAG,"train pattern start");

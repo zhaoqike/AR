@@ -2,12 +2,12 @@
 
 
 bool isShowRects = true;
-bool isShowPoints = true;
-bool isShowTexts = true;
+bool isShowPoints = false;
+bool isShowTexts = false;
 bool isMultiScale = true;
 bool isWarp = false;
 bool isPoly=true;
-bool isOpticalFlow=true;
+bool isOpticalFlow=false;
 bool isDrawModel = true;
 bool isPrint = false;
 bool isLod = false;

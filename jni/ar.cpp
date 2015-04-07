@@ -176,7 +176,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv
 	double nowglbtime=gtimer.getElapsedTimeInMilliSec();
 	double glbduration=nowglbtime-lastglbtime;
 	lastglbtime=nowglbtime;
-	frames.push_back(1.0/glbduration);
+	frames.push_back(1000.0/glbduration);
 	Mat& currentFrame = *(Mat*)addrRgba;
 	/*Mat descriptors;
 	LOGE("begin track pattern");

@@ -12,6 +12,8 @@
 using namespace std;
 using namespace cv;
 
+extern vector<double> frames;
+
 class ARError
 {
 public:
@@ -21,6 +23,7 @@ public:
 	float computeError(PatternDetector& pd, Mat& homography,Branch branch);
 	void pushError(PatternDetector& pd, Err e);
 	void printError();
+	void printFrames();
 
 
 	vector<Err> errs;

@@ -47,6 +47,7 @@ void ARDrawing::drawContours(PatternDetector& pd, Mat& image, PatternTrackingInf
 		//info.draw2dContour(image, CV_RGB(200, 0, 0));
 		draw2dContour(pd, image, info, pd.m_pattern.keyframeList[indexes[i]].points2d, pd.m_lastHomography, CV_RGB(200, 0, 0));
 	}
+	cout<<indexes.size()<<endl;
 
 
 	perspectiveTransform(pd.m_pattern.points2d, info.points2d, pd.m_lastHomography);

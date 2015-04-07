@@ -68,3 +68,17 @@ void ARError::printError()
 	errfile.flush();
 	errfile.close();
 }
+
+void ARError::printFrames()
+{
+	fstream framefile;
+	framefile.open("sdcard/frames.txt", ios::out);
+	framefile << "frame rate: " << endl;
+	framefile << frames.size() << endl;
+	for (int i = 0; i < frames.size(); i++)
+	{
+		framefile << frames[i] << endl;
+	}
+	framefile.flush();
+	framefile.close();
+}
