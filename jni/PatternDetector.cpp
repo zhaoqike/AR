@@ -108,6 +108,7 @@ PatternDetector::PatternDetector(Ptr<FeatureDetector> detector,
 {
 	errs.reserve(10000);
 	screenPolygon = makeScreenPoly();
+	
 }
 
 
@@ -115,6 +116,12 @@ void PatternDetector::train(const Pattern& pattern)
 {
 	// Store the pattern object
 	m_pattern = pattern;
+
+
+	conprint << "before read merge " << mergeImage.cols << " " << mergeImage.rows << endl;
+	mergeImage = imread("/sdcard/p1.jpg");
+	conprint << "after read merge " << mergeImage.cols << " " << mergeImage.rows << endl;
+
 
 	// API of DescriptorMatcher is somewhat tricky
 	// First we clear old train data:
@@ -3369,4 +3376,53 @@ void PatternDetector::processTimeSignal()
 
 	isPrintTime = false;
 }
+
+
+void PatternDetector::mergeToImage(Mat& image, PatternTrackingInfo& info)
+{
+	
+	if (isMerge == false || mergeImage.cols == 0 || mergeImage.rows == 0)
+	{
+		conprint << "merge not execute" << endl;
+		conprint << mergeImage.cols << "  " << mergeImage.rows << endl;
+		return;
+	}
+	Mat& src = mergeImage;
+	Mat dst;
+	Point2f srcTri[4],dstTri[4];
+	srcTri[0].x = 0;
+	srcTri[0].y = 0;
+	srcTri[1].x = mergeImage.cols - 1;  //缩小一个像素  
+	srcTri[1].y = 0;
+	srcTri[2].x = mergeImage.cols - 1;  //bot right  0;
+	srcTri[2].y = mergeImage.rows - 1;
+	srcTri[3].x = 0;
+	srcTri[3].y = mergeImage.rows - 1;
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		dstTri[i] = info.points2d[i];
+	}
+
+
+	Mat warp = cv::getPerspectiveTransform(srcTri, dstTri); 
+	Size size(screenWidth,screenHeight);
+
+	cv::warpPerspective(mergeImage, dst, warp, size);  //对图像做仿射变换  
+	cvtColor(dst, dst, CV_BGR2RGBA);
+
+
+	//merge
+	double alpha = 0.5;
+	double beta = 1 - alpha;
+	Mat& src1 = image;
+	Mat& src2 = dst;
+	Mat merge;
+	cout << "begin add weight" << endl;
+	cout << src1.size() << src1.channels() << endl;
+	cout << src2.size() << src2.channels() << endl;
+	addWeighted(src1, alpha, src2, beta, 0.0, image);
+}
+
 

@@ -57,6 +57,7 @@ extern bool isOpticalFlow;
 extern bool isDrawModel;
 extern bool isPrint;
 extern bool isLod;
+extern bool isMerge;
 
 //extern bool isPrint;
 //#define conprint if(isPrint) cout

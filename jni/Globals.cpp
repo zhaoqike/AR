@@ -6,11 +6,12 @@ bool isShowPoints = false;
 bool isShowTexts = false;
 bool isMultiScale = true;
 bool isWarp = false;
-bool isPoly=true;
-bool isOpticalFlow=false;
+bool isPoly = true;
+bool isOpticalFlow=true;
 bool isDrawModel = true;
-bool isPrint = false;
+bool isPrint = true;
 bool isLod = false;
+bool isMerge = true;
 
 
 PMesh* makeMesh(string path)

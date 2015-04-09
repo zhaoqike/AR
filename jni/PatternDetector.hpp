@@ -232,6 +232,13 @@ public:
 
 
 
+
+	///merge image
+	void mergeToImage(Mat& image, PatternTrackingInfo& info);
+
+
+
+
 	mutex 				m_firstToSecondMutex;
 	Mat 				m_firstToSecondImg;
 	Mat 				m_firstStageImg;
@@ -275,6 +282,10 @@ public:
 	vector<float> trackWithPoly;
 	vector<float> trackWithoutPoly;
 	vector<float> trackWithOpt;
+
+
+
+	Mat mergeImage;
 
 	//ARDrawing drawing;
 };
