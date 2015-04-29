@@ -234,6 +234,7 @@ public:
 
 
 	///merge image
+	void mergeTwoImage(Mat& src, Mat& dst);
 	void mergeToImage(Mat& image, PatternTrackingInfo& info);
 
 

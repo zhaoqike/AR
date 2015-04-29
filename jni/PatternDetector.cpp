@@ -119,7 +119,7 @@ void PatternDetector::train(const Pattern& pattern)
 
 
 	conprint << "before read merge " << mergeImage.cols << " " << mergeImage.rows << endl;
-	mergeImage = imread("/sdcard/p1.jpg");
+	mergeImage = imread("/sdcard/ar/bj1/girlm.jpg");
 	conprint << "after read merge " << mergeImage.cols << " " << mergeImage.rows << endl;
 
 
@@ -3377,6 +3377,26 @@ void PatternDetector::processTimeSignal()
 	isPrintTime = false;
 }
 
+void PatternDetector::mergeTwoImage(Mat& screen, Mat& merge)
+{
+	for (int i = 0; i < screen.cols; i++)
+	{
+		for (int j = 0; j < screen.rows; j++)
+		{
+			Vec4b& v1 = screen.at<Vec4b>(j, i);
+			Vec4b& v2 = merge.at<Vec4b>(j, i);
+			if ((v2.val[0] == 0 && v2.val[1] == 0 && v2.val[2] == 0)||(v2.val[0] >= 240 && v2.val[1] >= 240 && v2.val[2] >= 240))
+			{
+
+			}
+			else
+			{
+				v1 = v2;
+			}
+		}
+	}
+}
+
 
 void PatternDetector::mergeToImage(Mat& image, PatternTrackingInfo& info)
 {
@@ -3414,15 +3434,16 @@ void PatternDetector::mergeToImage(Mat& image, PatternTrackingInfo& info)
 
 
 	//merge
-	double alpha = 0.5;
-	double beta = 1 - alpha;
+	double alpha = 0.8;
+	double beta = 0.5;
 	Mat& src1 = image;
 	Mat& src2 = dst;
 	Mat merge;
 	cout << "begin add weight" << endl;
 	cout << src1.size() << src1.channels() << endl;
 	cout << src2.size() << src2.channels() << endl;
-	addWeighted(src1, alpha, src2, beta, 0.0, image);
+	//addWeighted(src1, alpha, src2, beta, 0.0, image);
+	mergeTwoImage(image, src2);
 }
 
 

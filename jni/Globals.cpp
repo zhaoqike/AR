@@ -1,14 +1,14 @@
 #include "Globals.h"
 
 
-bool isShowRects = true;
+bool isShowRects = false;
 bool isShowPoints = false;
 bool isShowTexts = false;
 bool isMultiScale = true;
 bool isWarp = false;
-bool isPoly = true;
+bool isPoly = false;
 bool isOpticalFlow=true;
-bool isDrawModel = true;
+bool isDrawModel = false;
 bool isPrint = true;
 bool isLod = false;
 bool isMerge = true;
