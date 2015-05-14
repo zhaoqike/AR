@@ -26,9 +26,11 @@ import org.opencv.core.Mat;
 
 
 
+
 import com.example.ar.gljni.GLJNIActivity;
 import com.example.ar.gljni.GLJNIView;
 
+import android.R.bool;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -235,7 +237,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		switch(item.getItemId())
+		/*switch(item.getItemId())
 		{
 		case R.id.switch_picture:
 			pictureIndex++;
@@ -274,7 +276,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
             int id = item.getItemId();
             pictureIndex=id;
             ARNativeLib.trainPatternNative(picturePath[pictureIndex]);
-        }
+        }*/
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -314,6 +316,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 		Log.i(TAG, "called frame start");
 		mRgba = inputFrame.rgba();
 		mGray = inputFrame.gray();
+		boolean success = false;
 		/*try {
 			Thread.sleep(20);
 		} catch (InterruptedException e) {
@@ -325,9 +328,11 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
         	ARNativeLib.trackPatternMultiThreadNative(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr());
         }
         else{
-        	ARNativeLib.trackPatternNative(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr());
+        	success = ARNativeLib.trackPatternNative(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr());
         }
-		glSurfaceView.requestRender();
+        if(success){
+        	glSurfaceView.requestRender();
+        }
         Log.e(TAG, "on camera frame");
         return mRgba;
         

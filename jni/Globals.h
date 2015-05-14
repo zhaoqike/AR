@@ -58,6 +58,7 @@ extern bool isDrawModel;
 extern bool isPrint;
 extern bool isLod;
 extern bool isMerge;
+extern bool isPS;
 
 //extern bool isPrint;
 //#define conprint if(isPrint) cout
@@ -101,6 +102,7 @@ extern ARError arerror;
 
 //extern vector<PMesh* > pmeshList;
 extern string imagePath;
+extern string blendImagePath;
 extern vector<string> modelPathList;
 
 extern vector<Eye> eyes;

@@ -102,6 +102,7 @@
     <ClCompile Include="Pattern.cpp" />
     <ClCompile Include="PatternDetector.cpp" />
     <ClCompile Include="PatternFactory.cpp" />
+    <ClCompile Include="Ps.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TrackerTimer.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Pattern.hpp" />
     <ClInclude Include="PatternDetector.hpp" />
     <ClInclude Include="PatternFactory.h" />
+    <ClInclude Include="Ps.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TrackerTimer.h" />
     <ClInclude Include="Utils.h" />

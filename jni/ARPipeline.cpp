@@ -42,10 +42,11 @@ bool ARPipeline::processFrame(Mat& inputFrame) {
 	conprint << "find pattern uses : " << findPatternDuration << endl;
 
 	if (patternFound) {
-		if (isMerge)
-		{
-			m_patternDetector.mergeToImage(inputFrame, m_patternInfo);
-		}
+		//if (isMerge)
+		//{
+		m_patternDetector.mergeToImage(inputFrame, m_patternInfo);
+		//}
+		//m_patternDetector.compositeAndPs(inputFrame, m_patternInfo);
 		m_patternInfo.computePose(m_pattern, m_calibration);
 	}
 

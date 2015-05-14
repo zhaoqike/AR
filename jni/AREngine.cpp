@@ -100,5 +100,5 @@ bool AREngine::processFrame(Mat& cameraFrame)
 	bool shouldQuit = false;
 
 
-	return shouldQuit;
+	return drawingCtx.isPatternPresent;
 }

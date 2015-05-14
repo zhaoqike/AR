@@ -286,9 +286,17 @@ public:
 
 
 
-	Mat mergeImage;
+	//Mat mergeImage;
+	Mat blendImage;
 
 	//ARDrawing drawing;
+
+
+	void compositeAndPs(Mat& image, PatternTrackingInfo& info);
+	void compositeImage(Mat& pattern, Mat& merge);
+	Point computePositionInImage();
+	void PSImage(Mat& pattern);
+	void transformToImage(Mat& screen, Mat& pattern, PatternTrackingInfo& info);
 };
 
 #endif

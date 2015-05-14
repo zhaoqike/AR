@@ -20,7 +20,7 @@ void PatternFactory::buildPattern(Type t)
 	{
 				Bj1Info bj1Info;
 				imagePath = bj1Info.imagePath;
-
+				blendImagePath = bj1Info.blendImagePath;
 
 				pointList = bj1Info.pointList;
 
@@ -31,7 +31,7 @@ void PatternFactory::buildPattern(Type t)
 	{
 				Zg1Info zg1Info;
 				imagePath = zg1Info.imagePath;
-
+				blendImagePath = zg1Info.blendImagePath;
 
 				pointList = zg1Info.pointList;
 

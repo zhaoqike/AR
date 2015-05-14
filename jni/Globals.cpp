@@ -8,10 +8,11 @@ bool isMultiScale = true;
 bool isWarp = false;
 bool isPoly = false;
 bool isOpticalFlow=true;
-bool isDrawModel = false;
+bool isDrawModel = true;
 bool isPrint = true;
 bool isLod = false;
 bool isMerge = true;
+bool isPS = false;
 
 
 PMesh* makeMesh(string path)
@@ -137,6 +138,7 @@ AREngine engine;
 
 //models
 string imagePath;
+string blendImagePath;
 
 
 vector<Point2f> pointList;

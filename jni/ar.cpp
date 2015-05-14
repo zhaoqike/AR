@@ -92,7 +92,7 @@ bool good_measurement = false;
 
 extern "C" {
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv*, jobject, jstring path);
-JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba);
+JNIEXPORT bool JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba);
 JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternMultiThreadNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba);
 
 //preprocess
@@ -171,7 +171,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trainPatternNative(JNIEnv
 	engine.init();
 
 }
-JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)
+JNIEXPORT bool JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)
 {
 	double nowglbtime=gtimer.getElapsedTimeInMilliSec();
 	double glbduration=nowglbtime-lastglbtime;
@@ -184,7 +184,7 @@ JNIEXPORT void JNICALL Java_com_example_ar_ARNativeLib_trackPatternNative(JNIEnv
 	timer.start();
 	double start = timer.getElapsedTimeInMilliSec();
 	bool shouldQuit = processFrame(currentFrame, pipeline,drawingCtx);*/
-	engine.processFrame(currentFrame);
+	bool success = engine.processFrame(currentFrame);
 
 
 

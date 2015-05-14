@@ -16,6 +16,7 @@ public:
 
 
 	string imagePath;
+	string blendImagePath;
 
 	vector<Point2f> pointList;
 

@@ -31,6 +31,7 @@ TrackerTimer.cpp \
 KLTTimer.cpp \
 AREngine.cpp \
 ARSignal.cpp \
+Ps.cpp \
 Model/mesh.cpp \
 Model/pmesh.cpp \
 Model/triangle.cpp \

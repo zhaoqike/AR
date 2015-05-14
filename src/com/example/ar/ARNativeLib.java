@@ -7,7 +7,7 @@ public class ARNativeLib {
     }
 	
 	public static native void trainPatternNative(String path);
-	public static native void trackPatternNative(long matAddrGr, long matAddrRgba);
+	public static native boolean trackPatternNative(long matAddrGr, long matAddrRgba);
 	public static native void trackPatternMultiThreadNative(long matAddrGr, long matAddrRgba);
 	
 	

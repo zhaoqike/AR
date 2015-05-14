@@ -4,6 +4,7 @@
 Zg1Info::Zg1Info()
 {
 	imagePath = "/sdcard/ar/zg1/zg1.jpg";
+	blendImagePath = "/sdcard/ar/zg1/zg1.jpg";
 
 	pointList = {
 		Point2f(1341, 812), //tiananmen gugong

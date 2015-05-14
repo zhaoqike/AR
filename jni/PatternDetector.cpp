@@ -17,6 +17,7 @@
 #include "Timer.h"
 
 #include "Globals.h"
+#include "Ps.h"
 
 
 
@@ -118,9 +119,10 @@ void PatternDetector::train(const Pattern& pattern)
 	m_pattern = pattern;
 
 
-	conprint << "before read merge " << mergeImage.cols << " " << mergeImage.rows << endl;
-	mergeImage = imread("/sdcard/ar/bj1/girlm.jpg");
-	conprint << "after read merge " << mergeImage.cols << " " << mergeImage.rows << endl;
+	conprint << "before read merge " << blendImage.cols << " " << blendImage.rows << endl;
+	//mergeImage = imread("/sdcard/ar/bj1/girlm.jpg");
+	blendImage = imread(blendImagePath);
+	conprint << "after read merge " << blendImage.cols << " " << blendImage.rows << endl;
 
 
 	// API of DescriptorMatcher is somewhat tricky
@@ -3401,23 +3403,23 @@ void PatternDetector::mergeTwoImage(Mat& screen, Mat& merge)
 void PatternDetector::mergeToImage(Mat& image, PatternTrackingInfo& info)
 {
 	
-	if (isMerge == false || mergeImage.cols == 0 || mergeImage.rows == 0)
+	if (isMerge == false || blendImage.cols == 0 || blendImage.rows == 0)
 	{
 		conprint << "merge not execute" << endl;
-		conprint << mergeImage.cols << "  " << mergeImage.rows << endl;
+		conprint << blendImage.cols << "  " << blendImage.rows << endl;
 		return;
 	}
-	Mat& src = mergeImage;
+	Mat& src = blendImage;
 	Mat dst;
 	Point2f srcTri[4],dstTri[4];
 	srcTri[0].x = 0;
 	srcTri[0].y = 0;
-	srcTri[1].x = mergeImage.cols - 1;  //缩小一个像素  
+	srcTri[1].x = blendImage.cols - 1;  //缩小一个像素  
 	srcTri[1].y = 0;
-	srcTri[2].x = mergeImage.cols - 1;  //bot right  0;
-	srcTri[2].y = mergeImage.rows - 1;
+	srcTri[2].x = blendImage.cols - 1;  //bot right  0;
+	srcTri[2].y = blendImage.rows - 1;
 	srcTri[3].x = 0;
-	srcTri[3].y = mergeImage.rows - 1;
+	srcTri[3].y = blendImage.rows - 1;
 
 
 	for (int i = 0; i < 4; i++)
@@ -3429,7 +3431,7 @@ void PatternDetector::mergeToImage(Mat& image, PatternTrackingInfo& info)
 	Mat warp = cv::getPerspectiveTransform(srcTri, dstTri); 
 	Size size(screenWidth,screenHeight);
 
-	cv::warpPerspective(mergeImage, dst, warp, size);  //对图像做仿射变换  
+	cv::warpPerspective(blendImage, dst, warp, size, BORDER_CONSTANT);  //对图像做仿射变换  
 	cvtColor(dst, dst, CV_BGR2RGBA);
 
 
@@ -3444,6 +3446,109 @@ void PatternDetector::mergeToImage(Mat& image, PatternTrackingInfo& info)
 	cout << src2.size() << src2.channels() << endl;
 	//addWeighted(src1, alpha, src2, beta, 0.0, image);
 	mergeTwoImage(image, src2);
+	if (isPS)
+	{
+		PSImage(image);
+	}
 }
 
+void PatternDetector::compositeAndPs(Mat& image, PatternTrackingInfo& info)
+{
+	if (!isMerge && !isPS)
+	{
+		return;
+	}
+	Mat patternImage = m_pattern.frame.clone();
+	//m_pattern.frame.copyTo(patternImage);
+	if (isMerge)
+	{
+		compositeImage(patternImage, blendImage);
+	}
+	if (isPS)
+	{
+		PSImage(patternImage);
+	}
+	transformToImage(image,patternImage, info);
+}
+
+void PatternDetector::compositeImage(Mat& pattern, Mat& merge)
+{
+	for (int i = 0; i < pattern.cols; i++)
+	{
+		for (int j = 0; j < pattern.rows; j++)
+		{
+			Vec4b& v1 = pattern.at<Vec4b>(j, i);
+			Vec4b& v2 = merge.at<Vec4b>(j, i);
+			if ((v2.val[0] == 0 && v2.val[1] == 0 && v2.val[2] == 0) || (v2.val[0] >= 240 && v2.val[1] >= 240 && v2.val[2] >= 240))
+			{
+
+			}
+			else
+			{
+				v1 = v2;
+			}
+		}
+	}
+}
+
+Point PatternDetector::computePositionInImage()
+{
+	return Point(screenWidth / 2, screenHeight / 2);
+}
+
+void PatternDetector::PSImage(Mat& pattern)
+{
+	Ps ps;
+	Point center = computePositionInImage();
+	Mat dst;
+	ps.rotateImage(pattern, dst, center);
+	pattern = dst;
+}
+
+void PatternDetector::transformToImage(Mat& screen, Mat& pattern, PatternTrackingInfo& info)
+{
+	if (isMerge == false || pattern.cols == 0 || pattern.rows == 0)
+	{
+		conprint << "merge not execute" << endl;
+		conprint << pattern.cols << "  " << pattern.rows << endl;
+		return;
+	}
+	Mat& src = pattern;
+	Mat dst;
+	Point2f srcTri[4], dstTri[4];
+	srcTri[0].x = 0;
+	srcTri[0].y = 0;
+	srcTri[1].x = pattern.cols - 1;  //缩小一个像素  
+	srcTri[1].y = 0;
+	srcTri[2].x = pattern.cols - 1;  //bot right  0;
+	srcTri[2].y = pattern.rows - 1;
+	srcTri[3].x = 0;
+	srcTri[3].y = pattern.rows - 1;
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		dstTri[i] = info.points2d[i];
+	}
+
+
+	Mat warp = cv::getPerspectiveTransform(srcTri, dstTri);
+	Size size(screenWidth, screenHeight);
+
+	cv::warpPerspective(pattern, dst, warp, size);  //对图像做仿射变换  
+	cvtColor(dst, dst, CV_BGR2RGBA);
+
+
+	//merge
+	double alpha = 0.8;
+	double beta = 0.5;
+	Mat& src1 = screen;
+	Mat& src2 = dst;
+	Mat merge;
+	cout << "begin add weight" << endl;
+	cout << src1.size() << src1.channels() << endl;
+	cout << src2.size() << src2.channels() << endl;
+	//addWeighted(src1, alpha, src2, beta, 0.0, image);
+	mergeTwoImage(screen, src2);
+}
 
